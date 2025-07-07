@@ -278,7 +278,7 @@ void handle_get_cell_volt(CommandHandler *handler) {
 void handle_get_chg_info(CommandHandler *handler){
     sprintf(handler->response_buffer,
     ">{\"type\":0,\"state_type\":1,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
-    (int) _bmsData._charge_current_limit, (int) _bmsData._chargeMOS);
+    (int) _bmsData._charge_current_limit, (int) LATB4_bit);
 }
 void handle_get_chg_cur_lim(CommandHandler *handler) {
     sprintf(handler->response_buffer, "CHG_CUR_LIM=3000\r\n");
@@ -529,14 +529,36 @@ void handle_set_update_status(CommandHandler *handler){
 }
 
 void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
+    // int current_limit, enable;
+    // if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
+    //     JSON_GetInt(dataParser, "enable", &enable)) {
+    //     _bmsData._charge_current_limit = current_limit;
+    //     if (enable == 0)
+    //         Immediate_PushCommand(0xDA, _defaultSetPayload, 0x00);
+    //     else if (enable == 1)
+    //         Immediate_PushCommand(0xDA, _defaultSetPayload, 0x01);
+    //     else {
+    //         sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+    //         return;
+    //     }
+    //     sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
+    // } else {
+    //     sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+    // }
     int current_limit, enable;
     if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
         JSON_GetInt(dataParser, "enable", &enable)) {
         _bmsData._charge_current_limit = current_limit;
         if (enable == 0)
-            Immediate_PushCommand(0xDA, _defaultSetPayload, 0x00);
+            {
+                LATB4_bit = 0;
+                LATA8_bit = 0;
+            }
         else if (enable == 1)
-            Immediate_PushCommand(0xDA, _defaultSetPayload, 0x01);
+            {
+                LATB4_bit = 1;
+                LATA8_bit = 1;
+            }
         else {
             sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
             return;
@@ -545,6 +567,7 @@ void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char
     } else {
         sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
     }
+
 }
 
 
