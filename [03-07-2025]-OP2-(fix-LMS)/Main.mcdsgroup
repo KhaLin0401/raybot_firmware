@@ -1,0 +1,6 @@
+[PROJECTS]
+Count=2
+Project0=..\RAY_ROBOT\VER1.mcpds
+Project1=Main.mcpds
+[ActiveProject]
+Index=1
