@@ -142,13 +142,12 @@ main
 						strncpy
 					handle_charge_config
 						JSON_GetInt
-						Immediate_PushCommand
-							memcpy
-							DebugUART_Send_Text
 						sprintf
 					handle_discharge_config
 						JSON_GetInt
 						Immediate_PushCommand
+							memcpy
+							DebugUART_Send_Text
 						sprintf
 					handle_lifter_config
 						JSON_GetInt
@@ -198,6 +197,8 @@ main
 					DebugUART_Send_Text
 					_Long2Float
 					_Div_FP
+					_Float2Longint
+					_AddSub_FP
 				Immediate_IsEmpty
 				Immediate_PopCommand
 					memset

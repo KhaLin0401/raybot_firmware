@@ -81,11 +81,11 @@ __Lifter_Init:
 	MOV	#0, W0
 	MOV	#16608, W1
 	MOV.D	W0, [W2]
-;Lifter.c,33 :: 		pLifter->_minPosition = 27;
+;Lifter.c,33 :: 		pLifter->_minPosition = 25;
 	MOV	#50, W0
 	ADD	W10, W0, W2
 	MOV	#0, W0
-	MOV	#16856, W1
+	MOV	#16840, W1
 	MOV.D	W0, [W2]
 ;Lifter.c,34 :: 		pLifter->_maxPosition = 235;
 	MOV	#54, W0

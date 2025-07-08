@@ -1,5 +1,5 @@
-#line 1 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 1 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 
 
@@ -67,7 +67,7 @@ char * strpbrk(char * s1, char * s2);
 char * strrchr(char *ptr, char chr);
 char * strstr(char * s1, char * s2);
 char * strtok(char * s1, char * s2);
-#line 13 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 13 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 typedef struct {
 
  float _sumVoltage;
@@ -76,7 +76,7 @@ typedef struct {
 
 
  float _maxCellVoltage;
- float _cellVoltages[3];
+ float _cellVoltages[4];
 
  float _minCellVoltage;
 
@@ -170,11 +170,11 @@ void BMS_SendCommandImmediate(uint8_t _commandID, uint8_t * _payload, uint8_t _v
 
 
 void BMS_PushCommand(uint8_t _commandID, uint8_t * _payload);
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/robot_system.h"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/robot_system.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 10 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
+#line 10 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
 typedef struct {
 
  char _rx_stack[ 15 ][ 180 ];
@@ -195,20 +195,20 @@ extern _UART2_Object _uart2;
 
 
 void _UART2_Init(void);
-#line 34 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
+#line 34 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
 void _UART2_SendPush(const char *text);
 
 
 int _UART2_SendBlocking(const char *text);
-#line 41 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
+#line 41 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
 uint8_t _UART2_SendProcess(void);
-#line 46 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
+#line 46 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
 uint8_t _UART2_Rx_GetCommand(char *out_cmd);
-#line 51 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
+#line 51 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
 void _UART2_Rx_Receive_ISR(void);
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/schedule_task.h"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/schedule_task.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 12 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/schedule_task.h"
+#line 12 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/schedule_task.h"
 extern uint8_t _task_uart;
 extern uint8_t _task_update_system;
 extern uint8_t _task_update_motor;
@@ -223,9 +223,9 @@ void _F_update_system_status(void);
 void _F_update_to_server(void);
 void _F_respond_to_server(void);
 void Respond_Init();
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 10 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
+#line 10 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
 typedef enum {
  SENSOR_GP2Y0A21YK0F,
  SENSOR_GP2Y0A02YK0F
@@ -253,15 +253,15 @@ uint16_t DistanceSensor_GetValue(DistanceSensor *sensor);
 
 
 float DistanceSensor_GetDistanceCM(DistanceSensor *sensor);
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/command_handler.h"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/command_handler.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 1 "d:/mikroc pro for dspic/include/string.h"
 #line 1 "d:/mikroc pro for dspic/include/stdio.h"
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/robot_system.h"
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motorcontrol.h"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/robot_system.h"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motorcontrol.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 27 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motorcontrol.h"
+#line 27 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motorcontrol.h"
 typedef struct {
  uint16_t speed;
  uint16_t target_speed;
@@ -302,7 +302,7 @@ void MotorControl_SafeEnable(MotorControl *motor, uint8_t enable);
 
 
 void update_motor(void* self);
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/json_parser.h"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/json_parser.h"
 #line 1 "d:/mikroc pro for dspic/include/stddef.h"
 
 
@@ -311,23 +311,23 @@ typedef int ptrdiff_t;
 typedef unsigned int size_t;
 typedef unsigned int wchar_t;
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 7 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/json_parser.h"
+#line 7 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/json_parser.h"
 typedef struct {
  const char *json;
 } JSON_Parser;
 
 
 void JSON_Init(JSON_Parser *parser, const char *json);
-#line 16 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/json_parser.h"
+#line 16 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/json_parser.h"
 int JSON_GetInt(JSON_Parser *parser, const char *key, int *value);
 
 
 int JSON_ContainsKey(JSON_Parser *parser, const char *key);
-#line 24 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/json_parser.h"
+#line 24 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/json_parser.h"
 int JSON_GetString(JSON_Parser *parser, const char *key, char *out, size_t out_size);
-#line 30 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/json_parser.h"
+#line 30 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/json_parser.h"
 int JSON_GetObject(JSON_Parser *parser, const char *key, char *out, size_t out_size);
-#line 30 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/command_handler.h"
+#line 30 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/command_handler.h"
 typedef struct {
  char command_name[32];
  int command_value;
@@ -347,7 +347,7 @@ void CommandHandler_Respond(CommandHandler *handler);
 void handle_unknown_command(CommandHandler *handler);
 void CommandHandler_ParseJSON(CommandHandler *handler, const char *cmd);
 static void strip_newline(char *str);
-#line 55 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/command_handler.h"
+#line 55 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/command_handler.h"
 void handle_get_bat_info(CommandHandler *handler);
 void handle_get_bat_current(CommandHandler *handler);
 void handle_get_bat_fault(CommandHandler *handler);
@@ -446,8 +446,8 @@ void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char
 void handle_motorDC_config(CommandHandler *handler, JSON_Parser *dataParser, char *id);
 void handle_ping_command(CommandHandler *handler, JSON_Parser *dataParser, char *id);
 void handle_get_box_status(CommandHandler *handler);
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-#line 53 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 53 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 typedef enum {
  MOTOR_DIRECTION_FORWARD = 0,
  MOTOR_DIRECTION_REVERSE = 1
@@ -457,7 +457,7 @@ typedef enum {
  MOTOR_STATUS_DISABLED = 0,
  MOTOR_STATUS_ENABLED = 1
 } MotorStatus;
-#line 80 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 80 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 typedef struct _MotorDC {
 
  float _kp;
@@ -494,55 +494,55 @@ typedef struct _MotorDC {
 } _MotorDC;
 
 extern _MotorDC motorDC;
-#line 134 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 134 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_Init(_MotorDC *motor, float kp, float ki, float kd, float targetSpeed);
-#line 142 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 142 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_SetTargetSpeed(_MotorDC *motor, float targetSpeed);
-#line 151 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 151 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_SetDirection(_MotorDC *motor, MotorDirection direction);
-#line 159 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 159 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_Enable(_MotorDC *motor);
-#line 167 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 167 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_Disable(_MotorDC *motor);
-#line 176 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 176 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_Disable_Emergency(_MotorDC *motor);
 
 MotorStatus _MotorDC_GetStatus(_MotorDC *motor);
-#line 186 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 186 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_SetAccelerationLimit(_MotorDC *motor, float accLimit);
-#line 194 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 194 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_SetDecelerationLimit(_MotorDC *motor, float decLimit);
-#line 202 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 202 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_SetSafeDistance(_MotorDC *motor, float safeDistance);
-#line 210 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 210 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_SetMaxDuty(_MotorDC *motor, unsigned int maxDuty);
-#line 215 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 215 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_Set_Idle(_MotorDC *motor);
-#line 222 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 222 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_UpdatePID(_MotorDC *motor);
-#line 227 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 227 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 void _MotorDC_Update(_MotorDC *motor);
-#line 236 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 236 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 float _MotorDC_GetTargetSpeed(_MotorDC *motor);
-#line 241 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 241 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 float _MotorDC_GetCurrentSpeed(_MotorDC *motor);
-#line 246 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 246 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 float _MotorDC_GetAccelerationLimit(_MotorDC *motor);
-#line 251 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 251 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 float _MotorDC_GetDecelerationLimit(_MotorDC *motor);
-#line 256 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 256 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 float _MotorDC_GetSafeDistance(_MotorDC *motor);
-#line 261 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 261 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 unsigned int _MotorDC_GetMaxDuty(_MotorDC *motor);
-#line 266 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 266 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 MotorDirection _MotorDC_GetDirection(_MotorDC *motor);
-#line 271 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 271 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 float _MotorDC_GetOutput(_MotorDC *motor);
-#line 276 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 276 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 float _MotorDC_GetDistanceSensorValue(_MotorDC *motor);
-#line 286 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
+#line 286 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/motordc.h"
 char* _MotorDC_GetInfo(_MotorDC *motor);
-#line 29 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/robot_system.h"
+#line 29 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/robot_system.h"
 extern char DEVICE_ID[16];
 extern char DEVICE_SERIAL[16];
 extern char ROBOT_MODEL[16];
@@ -561,7 +561,7 @@ void update_all_sensors();
 
 void DebugUART_Init();
 void DebugUART_Send_Text(const char *text);
-#line 7 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 7 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
 BMSData _bmsData;
 
 
@@ -603,7 +603,7 @@ volatile uint8_t _immediateQueueHead = 0;
 volatile uint8_t _immediateQueueTail = 0;
 
 void Immediate_PushCommand(uint8_t _commandID, uint8_t * _payload, uint8_t _value) {
-#line 54 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 54 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
  int _next = (_immediateQueueHead + 1) %  10 ;
 
  if (_next != _immediateQueueTail) {
@@ -622,7 +622,7 @@ uint8_t Immediate_IsEmpty(void) {
 }
 
 ImmediateCommand Immediate_PopCommand(void) {
-#line 79 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 79 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
  ImmediateCommand _cmd;
  char debug_cmd[30];
  memset(&_cmd, 0, sizeof(ImmediateCommand));
@@ -795,10 +795,11 @@ static void _processReceivedResponsePacket(void) {
  uint8_t _temp[ 13 ];
  char _dbgStr[150];
  uint8_t _discard;
- uint8_t i = 0;
+ uint8_t i,j = 0;
  uint16_t raw_value = 0;
  int16_t raw_signed = 0;
  uint8_t checksum = 0;
+ char failCodeArr[] = "";
 
 
  if (RX_PeekBytes(_temp,  13 ) ==  13 ) {
@@ -839,14 +840,14 @@ static void _processReceivedResponsePacket(void) {
  raw_value = (((uint16_t)_temp[4]) << 8) | _temp[5];
  _bmsData._sumVoltage = raw_value / 10.0;
 
- raw_signed = (((uint16_t)_temp[6]) << 8) | _temp[7];
+ raw_signed = ((((uint16_t)(_temp[8]) << 8) | (uint16_t)_temp[9]) - 30000) / 10.0f;
  _bmsData._sumCurrent = raw_signed / 10.0;
 
 
- _bmsData._cellCount = _temp[10];
+ _bmsData._cellCount = 4;
 
  raw_value = (((uint16_t)_temp[10]) << 8) | _temp[11];
- _bmsData._sumSOC = raw_value / 10.0;
+ _bmsData._sumSOC = raw_value / 10.0f;
 
 
 
@@ -873,22 +874,14 @@ static void _processReceivedResponsePacket(void) {
  break;
  }
  case 0x92: {
-
-
-
- raw_value = (((uint16_t)_temp[4]) << 8) | _temp[5];
- _bmsData._highVoltageProtection = raw_value / 10.0;
-
- raw_value = (((uint16_t)_temp[6]) << 8) | _temp[7];
- _bmsData._lowVoltageProtection = raw_value / 10.0;
-
- sprintf(_dbgStr, "High Voltage Protection: %.1f V, Low Voltage Protection: %.1f V\r\n",
- _bmsData._highVoltageProtection, _bmsData._lowVoltageProtection);
+#line 341 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+ raw_value = (uint16_t) ((((_temp[4]) - 40) + (( _temp[6]) - 40)) /2);
+ _bmsData._temperature = raw_value;
 
  break;
  }
  case 0x93: {
-#line 360 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 363 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
  _bmsData._chargeMOS = _temp[6];
  _bmsData._dischargeMOS = _temp[7];
 
@@ -916,12 +909,19 @@ static void _processReceivedResponsePacket(void) {
 
 
 
- _bmsData._chargeMOS = _temp[4];
- _bmsData._dischargeMOS = _temp[7];
 
- sprintf(_dbgStr, "Charge MOS: %s, Discharge MOS: %s\r\n",
- _bmsData._chargeMOS ? "ON" : "OFF",
- _bmsData._dischargeMOS ? "ON" : "OFF");
+
+ for (j = 0; j < 3; j++){
+ _bmsData._cellVoltages[j] = (_temp[5 + j * 2] << 8) | _temp[6 + j * 2];
+ }
+
+ _bmsData._cellVoltages[3] = (_bmsData._cellVoltages[0]
+ + _bmsData._cellVoltages[1] + _bmsData._cellVoltages[2]) / 3;
+
+
+
+
+
 
  break;
  }
@@ -1029,7 +1029,7 @@ static void _updateMinMaxCellVoltage(void) {
 
 
 void BMS_SendCommandImmediate(uint8_t _commandID, uint8_t * _payload, uint8_t _value) {
-#line 513 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 523 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
  ImmediateCommand _imCmd;
  Immediate_PushCommand(_commandID, _payload, _value);
 

@@ -19,21 +19,21 @@ uint8_t _task_update_BMS;
  * @brief Kh?i t?o Timer2 v?i tick ~1ms.
  */
 void _F_timer1_init(void) {
-    // C?u hình Timer1:
-    //  - T1CON = 0x8030: b?t Timer1, thi?t l?p prescaler 1:256 (v?i giá tr? prescaler h?p l?: 1, 8, 64, 256)
-    //  - PR1 = 6200: thi?t l?p chu k?, tick kho?ng 1ms (theo cách tính d?a trên Fosc)
+    // C?u hï¿½nh Timer1:
+    //  - T1CON = 0x8030: b?t Timer1, thi?t l?p prescaler 1:256 (v?i giï¿½ tr? prescaler h?p l?: 1, 8, 64, 256)
+    //  - PR1 = 6200: thi?t l?p chu k?, tick kho?ng 1ms (theo cï¿½ch tï¿½nh d?a trï¿½n Fosc)
     T1CON = 0x8030;
     PR1 = 6200;
     TMR1 = 0;
 
-    // Cài d?t m?c uu tiên ng?t cho Timer1 (ví d?: 5)
+    // Cï¿½i d?t m?c uu tiï¿½n ng?t cho Timer1 (vï¿½ d?: 5)
     IPC0bits.T1IP = 5;
-    IFS0bits.T1IF = 0;  // Xóa c? ng?t Timer1
-    IEC0bits.T1IE = 1;  // Cho phép ng?t Timer1
+    IFS0bits.T1IF = 0;  // Xï¿½a c? ng?t Timer1
+    IEC0bits.T1IE = 1;  // Cho phï¿½p ng?t Timer1
 }
 
 /**
- * @brief Ng?t Timer1 (ISR): G?i hàm task_scheduler_clock() cho m?i tick (~1ms).
+ * @brief Ng?t Timer1 (ISR): G?i hï¿½m task_scheduler_clock() cho m?i tick (~1ms).
  */
 void __attribute__() iv IVT_ADDR_T1INTERRUPT ics ICS_AUTO {
     task_scheduler_clock();
@@ -125,8 +125,8 @@ void _SC_update_motor(void) {
         // G?i h?m Update c?a motorDC d? c?p nh?t PID v? PWM
         _Lifter_Get_Run_Mode(&lifter);
         if (Lms_isPressed() && lifter.run_mode == LIFTER_RUN_UP){
-          _Lifter_Disable(&lifter);         // D?ng motor nâng h?       // C?p nh?t motor ph?
-          LATA4_bit = 1;                    // Buzzer kêu c?nh báo
+          _Lifter_Disable(&lifter);         // D?ng motor nï¿½ng h?       // C?p nh?t motor ph?
+          LATA4_bit = 1;                    // Buzzer kï¿½u c?nh bï¿½o
         }
         else
         {
@@ -139,7 +139,7 @@ void _SC_update_motor(void) {
                 LATA4_bit = 1;
             }*/
         }
-        //motorDC.Update(&motorDC);  // N?u công t?c hành trình b? kích ho?c xu?ng du?i m?c min
+        //motorDC.Update(&motorDC);  // N?u cï¿½ng t?c hï¿½nh trï¿½nh b? kï¿½ch ho?c xu?ng du?i m?c min
         if (lifter._currentPosition <= 25 || Lms_isPressed()){
             _MotorDC_UpdatePID(&motorDC);
         }

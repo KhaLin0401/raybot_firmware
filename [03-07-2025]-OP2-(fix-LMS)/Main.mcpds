@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=Lifter.c
+Value=BMS.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -55,7 +55,9 @@ File16=uart2.h
 File17=Box.c
 File18=Box.h
 File19=distance_sensor.h
-Count=20
+File20=BMS.c
+File21=BMS.h
+Count=22
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -109,11 +111,9 @@ Count=3
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries
+107=C_String
 348=PS2
-351=PWM
-377=Software_UART
 591=Sprintl
 760=Time
-776=UART
 800=Additional Libraries
-Count=10
+Count=7

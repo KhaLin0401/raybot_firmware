@@ -30,7 +30,7 @@ void _Lifter_Init(_Lifter *pLifter, float kp, float ki, float kd, float targetPo
   pLifter->_decelerationLimit = 7.0;
 
   /* Thi?t l?p gi?i h?n v? trí */
-  pLifter->_minPosition = 27;
+  pLifter->_minPosition = 25;
   pLifter->_maxPosition = 235;
 
   /* Kh?i t?o PWM3 và PWM4 */
