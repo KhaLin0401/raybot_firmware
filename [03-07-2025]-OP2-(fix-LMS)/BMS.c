@@ -248,10 +248,11 @@ static void _processReceivedResponsePacket(void) {
     uint8_t _temp[_EXPECTED_PACKET_SIZE];
     char _dbgStr[150];
     uint8_t _discard;
-    uint8_t i = 0;
+    uint8_t i,j = 0;
     uint16_t raw_value = 0;
     int16_t raw_signed = 0;
     uint8_t checksum = 0;
+    char failCodeArr[] = "";
 
     // N?u trong RX buffer c? d? 13 byte, th?c hi?n Peek
     if (RX_PeekBytes(_temp, _EXPECTED_PACKET_SIZE) == _EXPECTED_PACKET_SIZE) {
@@ -292,14 +293,14 @@ static void _processReceivedResponsePacket(void) {
                         raw_value = (((uint16_t)_temp[4]) << 8) | _temp[5];
                         _bmsData._sumVoltage = raw_value / 10.0;
 
-                        raw_signed = (((uint16_t)_temp[6]) << 8) | _temp[7];
+                        raw_signed = ((((uint16_t)(_temp[8]) << 8) | (uint16_t)_temp[9]) - 30000) / 10.0f;
                         _bmsData._sumCurrent = raw_signed / 10.0;
 
                         // Luu s? lu?ng cell
-                        _bmsData._cellCount = _temp[10];
+                        _bmsData._cellCount = 4;
 
                         raw_value = (((uint16_t)_temp[10]) << 8) | _temp[11];
-                        _bmsData._sumSOC = raw_value / 10.0;
+                        _bmsData._sumSOC = raw_value / 10.0f;
 
 //                        sprintf(_dbgStr, "Sum Voltage: %.2f V, Sum Current: %.2f A, Cell Count: %d, Sum SOC: %.2f %%\r\n",
 //                                _bmsData._sumVoltage, _bmsData._sumCurrent, _bmsData._cellCount, _bmsData._sumSOC);
@@ -329,14 +330,16 @@ static void _processReceivedResponsePacket(void) {
                         // G?i 0x92: Th?ng tin ngu?ng b?o v?
                         // Bytes 4-5: ?i?n ?p b?o v? cao
                         // Bytes 6-7: ?i?n ?p b?o v? th?p
-                        raw_value = (((uint16_t)_temp[4]) << 8) | _temp[5];
-                        _bmsData._highVoltageProtection = raw_value / 10.0;
+                        // raw_value = (((uint16_t)_temp[4]) << 8) | _temp[5];
+                        // _bmsData._highVoltageProtection = raw_value / 10.0;
 
-                        raw_value = (((uint16_t)_temp[6]) << 8) | _temp[7];
-                        _bmsData._lowVoltageProtection = raw_value / 10.0;
+                        // raw_value = (((uint16_t)_temp[6]) << 8) | _temp[7];
+                        // _bmsData._lowVoltageProtection = raw_value / 10.0;
 
-                        sprintf(_dbgStr, "High Voltage Protection: %.1f V, Low Voltage Protection: %.1f V\r\n",
-                                _bmsData._highVoltageProtection, _bmsData._lowVoltageProtection);
+                        // sprintf(_dbgStr, "High Voltage Protection: %.1f V, Low Voltage Protection: %.1f V\r\n",
+                        //         _bmsData._highVoltageProtection, _bmsData._lowVoltageProtection);
+                        raw_value =  (uint16_t) ((((_temp[4]) - 40) + (( _temp[6]) - 40)) /2);
+                        _bmsData._temperature = raw_value;
                         //DebugUART_Send_Text(_dbgStr);
                         break;
                     }
@@ -384,12 +387,19 @@ static void _processReceivedResponsePacket(void) {
                         // Bytes 5-6: Th?i gian s?c c?n l?i
                         // Byte 7: Tr?ng th?i MOSFET x? (1 = ON, 0 = OFF)
                         // Bytes 8-9: Th?i gian x? c?n l?i
-                        _bmsData._chargeMOS = _temp[4];
-                        _bmsData._dischargeMOS = _temp[7];
+                        // _bmsData._chargeMOS = _temp[4];
+                        // _bmsData._dischargeMOS = _temp[7];
+                        for (j = 0; j < 3; j++){
+                            _bmsData._cellVoltages[j] = (_temp[5 + j * 2] << 8) | _temp[6 + j * 2];
+                        }
 
-                        sprintf(_dbgStr, "Charge MOS: %s, Discharge MOS: %s\r\n",
-                                _bmsData._chargeMOS ? "ON" : "OFF",
-                                _bmsData._dischargeMOS ? "ON" : "OFF");
+                        _bmsData._cellVoltages[3] = (_bmsData._cellVoltages[0] 
+                            + _bmsData._cellVoltages[1] + _bmsData._cellVoltages[2]) / 3;
+
+                        // sprintf(_dbgStr, "Charge MOS: %s, Discharge MOS: %s\r\n",
+                        //         _bmsData._chargeMOS ? "ON" : "OFF",
+                        //         _bmsData._dischargeMOS ? "ON" : "OFF");
+
                         //DebugUART_Send_Text(_dbgStr);
                         break;
                     }
@@ -426,7 +436,7 @@ static void _processReceivedResponsePacket(void) {
                         // G?i 0x98: Th?ng tin l?i
                         // Byte 4: S? lu?ng l?i
                         _bmsData._errorCount = _temp[4];
-
+                        
                         sprintf(_dbgStr, "Error Count: %d\r\n", _bmsData._errorCount);
                        // DebugUART_Send_Text(_dbgStr);
                         break;
