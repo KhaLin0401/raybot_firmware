@@ -1,5 +1,5 @@
-#line 1 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 1 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 
 
@@ -42,6 +42,177 @@ typedef unsigned int uintptr_t;
 
 typedef signed long int intmax_t;
 typedef unsigned long int uintmax_t;
+#line 1 "d:/mikroc pro for dspic/include/stdbool.h"
+
+
+
+ typedef char _Bool;
+#line 31 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+typedef enum
+{
+ CELL_THRESHOLDS = 0x59,
+ PACK_THRESHOLDS = 0x5A,
+ VOUT_IOUT_SOC = 0x90,
+ MIN_MAX_CELL_VOLTAGE = 0x91,
+ MIN_MAX_TEMPERATURE = 0x92,
+ DISCHARGE_CHARGE_MOS_STATUS = 0x93,
+ STATUS_INFO = 0x94,
+ CELL_VOLTAGES = 0x95,
+ CELL_TEMPERATURE = 0x96,
+ CELL_BALANCE_STATE = 0x97,
+ FAILURE_CODES = 0x98,
+ DISCHRG_FET = 0xD9,
+ CHRG_FET = 0xDA,
+ BMS_RESET = 0x00,
+ READ_SOC = 0x61,
+ SET_SOC = 0x21,
+} DALY_BMS_COMMAND;
+
+
+typedef struct
+{
+
+ float maxCellThreshold1;
+ float minCellThreshold1;
+ float maxCellThreshold2;
+ float minCellThreshold2;
+
+
+ float maxPackThreshold1;
+ float minPackThreshold1;
+ float maxPackThreshold2;
+ float minPackThreshold2;
+
+
+ float packVoltage;
+ float packCurrent;
+ float packSOC;
+
+
+ float maxCellmV;
+ int maxCellVNum;
+ float minCellmV;
+ int minCellVNum;
+ int cellDiff;
+
+
+ int tempAverage;
+
+
+
+
+ const char *chargeDischargeStatus;
+  _Bool  chargeFetState;
+  _Bool  disChargeFetState;
+ int bmsHeartBeat;
+ float resCapacityAh;
+
+
+ unsigned int numberOfCells;
+ unsigned int numOfTempSensors;
+  _Bool  chargeState;
+  _Bool  loadState;
+  _Bool  dIO[8];
+ int bmsCycles;
+
+
+ float cellVmV[48];
+
+
+ int cellTemperature[16];
+
+
+  _Bool  cellBalanceState[48];
+  _Bool  cellBalanceActive;
+
+
+  _Bool  connectionState;
+
+} DalyBmsData;
+
+
+typedef struct DalyBms
+{
+ unsigned long previousTime;
+ uint8_t requestCounter;
+ int soft_tx;
+ int soft_rx;
+
+
+ char failCodeArr[32];
+
+ DalyBmsData get;
+
+
+
+
+  _Bool  getStaticData;
+ unsigned int errorCounter;
+ unsigned int requestCount;
+ unsigned int commandQueue[5];
+
+
+ void *serial_handle;
+
+ uint8_t my_txBuffer[ 13 ];
+ uint8_t my_rxBuffer[ 13 ];
+ uint8_t my_rxFrameBuffer[ 13 *12];
+ uint8_t frameBuff[12][ 13 ];
+ unsigned int frameCount;
+
+
+ void (*requestCallback)(void);
+
+} DalyBms;
+#line 156 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+DalyBms* DalyBms_create(int rx, int tx);
+#line 164 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_init(DalyBms* bms);
+#line 171 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_loop(DalyBms* bms);
+#line 178 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+void DalyBms_set_callback(DalyBms* bms, void (*func)(void));
+#line 185 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getPackMeasurements(DalyBms* bms);
+#line 192 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getVoltageThreshold(DalyBms* bms);
+#line 199 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getPackVoltageThreshold(DalyBms* bms);
+#line 207 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getPackTemp(DalyBms* bms);
+#line 215 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getMinMaxCellVoltage(DalyBms* bms);
+#line 222 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getStatusInfo(DalyBms* bms);
+#line 229 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getCellVoltages(DalyBms* bms);
+#line 236 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getCellTemperature(DalyBms* bms);
+#line 243 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getCellBalanceState(DalyBms* bms);
+#line 250 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getFailureCodes(DalyBms* bms);
+#line 258 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_setDischargeMOS(DalyBms* bms,  _Bool  sw);
+#line 266 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_setChargeMOS(DalyBms* bms,  _Bool  sw);
+#line 274 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_setSOC(DalyBms* bms, float sw);
+#line 281 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getDischargeChargeMosStatus(DalyBms* bms);
+#line 289 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_setBmsReset(DalyBms* bms);
+#line 302 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_getState(DalyBms* bms);
+
+
+static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned int frameAmount);
+static  _Bool  DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID);
+static  _Bool  DalyBms_sendQueueAdd(DalyBms* bms, DALY_BMS_COMMAND cmdID);
+static  _Bool  DalyBms_receiveBytes(DalyBms* bms);
+static  _Bool  DalyBms_validateChecksum(DalyBms* bms);
+static void DalyBms_barfRXBuffer(DalyBms* bms);
+static void DalyBms_clearGet(DalyBms* bms);
 #line 1 "d:/mikroc pro for dspic/include/string.h"
 
 
@@ -67,1084 +238,921 @@ char * strpbrk(char * s1, char * s2);
 char * strrchr(char *ptr, char chr);
 char * strstr(char * s1, char * s2);
 char * strtok(char * s1, char * s2);
-#line 13 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/bms.h"
-typedef struct {
-
- float _sumVoltage;
- float _sumCurrent;
- float _sumSOC;
-
-
- float _maxCellVoltage;
- float _cellVoltages[3];
-
- float _minCellVoltage;
-
-
- float _temperature;
- int _cycleCount;
- uint8_t _protectionFlags;
- float _performance;
- float _backup;
-
-
- int _cellCount;
- float _remainingCapacity;
- float _totalCapacity;
- float _highVoltageProtection;
- float _lowVoltageProtection;
- int _ntcCount;
- float *_ntcTemperatures;
- int _counter;
- uint8_t _errorCode;
- uint8_t _chargeMOS;
- uint8_t _dischargeMOS;
- uint8_t *_balanceStatus;
- int _errorCount;
- uint8_t _hardwareVersion;
- uint8_t _softwareVersion;
- char *_manufacturer;
- uint8_t _charge_current_limit;
- uint8_t _discharge_current_limit;
-} BMSData;
-
-
-
-
-
-void _updateMinMaxCellVoltage(BMSData *bmsData);
-
-extern BMSData _bmsData;
-
-
-
-
-
-
-typedef struct {
- uint8_t _commandID;
- uint8_t _payload[8];
-} TXCommand;
-extern TXCommand _txBuffer[ 10 ];
-extern volatile uint8_t _txBufferHead;
-extern volatile uint8_t _txBufferTail;
-void TX_PushCommand(uint8_t _commandID, uint8_t * _payload);
-uint8_t TX_IsEmpty(void);
-TXCommand TX_PopCommand(void);
-
-
-
-
-
-extern uint8_t _rxBuffer[ 50 ];
-extern volatile uint8_t _rxBufferHead;
-extern volatile uint8_t _rxBufferTail;
-void RX_PushByte(uint8_t _data);
-int RX_PopBytes(uint8_t * _buffer, uint16_t _length);
-int RX_PeekBytes(uint8_t * _buffer, uint16_t _length);
-
-
-
-
-
-typedef struct {
- uint8_t _commandID;
- uint8_t _payload[7];
- uint8_t _value;
-} ImmediateCommand;
-extern ImmediateCommand _immediateQueue[ 10 ];
-extern volatile uint8_t _immediateQueueHead;
-extern volatile uint8_t _immediateQueueTail;
-void Immediate_PushCommand(uint8_t _commandID, uint8_t * _payload, uint8_t _value);
-uint8_t Immediate_IsEmpty(void);
-ImmediateCommand Immediate_PopCommand(void);
-
-
-
-
-void BMS_Init(void);
-void BMS_Update(void);
-
-
-void BMS_SendCommandImmediate(uint8_t _commandID, uint8_t * _payload, uint8_t _value);
-
-
-void BMS_PushCommand(uint8_t _commandID, uint8_t * _payload);
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/robot_system.h"
-#line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
-#line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 10 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
-typedef struct {
-
- char _rx_stack[ 15 ][ 180 ];
- volatile uint8_t _rx_head;
- volatile uint8_t _rx_tail;
-
-
- char _tx_stack[ 10 ][ 180 ];
- volatile uint8_t _tx_head;
- volatile uint8_t _tx_tail;
-
-
- char _temp_rx_buffer[ 180 ];
- volatile uint8_t _temp_index;
-} _UART2_Object;
-
-extern _UART2_Object _uart2;
-
-
-void _UART2_Init(void);
-#line 34 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
-void _UART2_SendPush(const char *text);
-
-
-int _UART2_SendBlocking(const char *text);
-#line 41 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
-uint8_t _UART2_SendProcess(void);
-#line 46 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
-uint8_t _UART2_Rx_GetCommand(char *out_cmd);
-#line 51 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
-void _UART2_Rx_Receive_ISR(void);
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/schedule_task.h"
-#line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 12 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/schedule_task.h"
-extern uint8_t _task_uart;
-extern uint8_t _task_update_system;
-extern uint8_t _task_update_motor;
-extern uint8_t _task_update_to_server;
-extern uint8_t _task_respond_Init;
-extern uint8_t _task_update_BMS;
-
-
-void _F_schedule_init(void);
-void _F_process_uart_command(void);
-void _F_update_system_status(void);
-void _F_update_to_server(void);
-void _F_respond_to_server(void);
-void Respond_Init();
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
-#line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 10 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
-typedef enum {
- SENSOR_GP2Y0A21YK0F,
- SENSOR_GP2Y0A02YK0F
-} SensorType;
-
-
-typedef struct {
- uint16_t readings[ 10 ];
- uint16_t filtered_value;
- float distance_cm;
- uint8_t index;
- float calib;
- uint8_t adc_channel;
- SensorType sensor_type;
-} DistanceSensor;
-
-
-void DistanceSensor_Init(DistanceSensor *sensor, uint8_t channel, SensorType type);
-
-
-void DistanceSensor_Update(DistanceSensor *sensor);
-
-
-uint16_t DistanceSensor_GetValue(DistanceSensor *sensor);
-
-
-float DistanceSensor_GetDistanceCM(DistanceSensor *sensor);
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/command_handler.h"
-#line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 1 "d:/mikroc pro for dspic/include/string.h"
 #line 1 "d:/mikroc pro for dspic/include/stdio.h"
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/uart2.h"
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/robot_system.h"
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motorcontrol.h"
-#line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 27 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motorcontrol.h"
-typedef struct {
- uint16_t speed;
- uint16_t target_speed;
- uint8_t direction;
- uint8_t enabled;
- int16_t front_distance;
- uint16_t Pwm_period_max;
- uint16_t Pwm_period_speed;
-
-
- int16_t error;
- int16_t last_error;
- int16_t integral;
- int16_t derivative;
- float Kp;
- float Ki;
- float Kd;
-
-
- void (*update)(void*);
- void (*set_speed)(void*, uint16_t);
- void (*set_target_speed)(void*, uint16_t);
- void (*set_direction)(void*, uint8_t);
- void (*enable)(void*, uint8_t);
- void (*pid_control)(void*);
- void (*pwm_update)(void*);
- void (*brake_control)(void*);
-} MotorControl;
-
-
-void MotorControl_Init(MotorControl* motor);
-
-
-void MotorControl_SafeSetSpeed(MotorControl *motor, uint16_t speed);
-void MotorControl_SafeSetTargetSpeed(MotorControl *motor, uint16_t target_speed);
-void MotorControl_SafeSetDirection(MotorControl *motor, uint8_t direction);
-void MotorControl_SafeEnable(MotorControl *motor, uint8_t enable);
-
-
-void update_motor(void* self);
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/json_parser.h"
-#line 1 "d:/mikroc pro for dspic/include/stddef.h"
-
-
-
-typedef int ptrdiff_t;
-typedef unsigned int size_t;
-typedef unsigned int wchar_t;
-#line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 7 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/json_parser.h"
-typedef struct {
- const char *json;
-} JSON_Parser;
-
-
-void JSON_Init(JSON_Parser *parser, const char *json);
-#line 16 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/json_parser.h"
-int JSON_GetInt(JSON_Parser *parser, const char *key, int *value);
-
-
-int JSON_ContainsKey(JSON_Parser *parser, const char *key);
-#line 24 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/json_parser.h"
-int JSON_GetString(JSON_Parser *parser, const char *key, char *out, size_t out_size);
-#line 30 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/json_parser.h"
-int JSON_GetObject(JSON_Parser *parser, const char *key, char *out, size_t out_size);
-#line 30 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/command_handler.h"
-typedef struct {
- char command_name[32];
- int command_value;
- char response_buffer[128];
- uint8_t is_valid;
- char id[32];
-} CommandHandler;
+#line 1 "d:/mikroc pro for dspic/include/stdlib.h"
 
 
-extern CommandHandler cmdHandler;
 
 
-void CommandHandler_Init(CommandHandler *handler);
-void CommandHandler_ParseCommand(CommandHandler *handler, const char *cmd);
-void CommandHandler_Execute(CommandHandler *handler, const char *cmd);
-void CommandHandler_Respond(CommandHandler *handler);
-void handle_unknown_command(CommandHandler *handler);
-void CommandHandler_ParseJSON(CommandHandler *handler, const char *cmd);
-static void strip_newline(char *str);
-#line 55 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/command_handler.h"
-void handle_get_bat_info(CommandHandler *handler);
-void handle_get_bat_current(CommandHandler *handler);
-void handle_get_bat_fault(CommandHandler *handler);
-void handle_get_bat_health(CommandHandler *handler);
-void handle_get_bat_soc(CommandHandler *handler);
-void handle_get_bat_status(CommandHandler *handler);
-void handle_get_bat_temp(CommandHandler *handler);
-void handle_get_bat_volt(CommandHandler *handler);
-void handle_get_cell_volt(CommandHandler *handler);
-
 
-void handle_get_chg_info(CommandHandler *handler);
-void handle_get_chg_cur_lim(CommandHandler *handler);
-void handle_set_chg_cur_lim(CommandHandler *handler);
-void handle_get_chg_en(CommandHandler *handler);
-void handle_set_chg_en(CommandHandler *handler);
-void handle_get_dis_info(CommandHandler *handler);
-void handle_get_dis_cur_lim(CommandHandler *handler);
-void handle_set_dis_cur_lim(CommandHandler *handler);
-void handle_get_dis_en(CommandHandler *handler);
-void handle_set_dis_en(CommandHandler *handler);
 
 
-void handle_get_di1(CommandHandler *handler);
-void handle_get_di2(CommandHandler *handler);
-void handle_get_di3(CommandHandler *handler);
+ typedef struct divstruct {
+ int quot;
+ int rem;
+ } div_t;
 
+ typedef struct ldivstruct {
+ long quot;
+ long rem;
+ } ldiv_t;
 
-void handle_get_dist_info(CommandHandler *handler);
-void handle_get_down_dist(CommandHandler *handler);
-void handle_get_front_dist(CommandHandler *handler);
-void handle_get_rear_dist(CommandHandler *handler);
-void handle_get_up_dist(CommandHandler *handler);
+ typedef struct uldivstruct {
+ unsigned long quot;
+ unsigned long rem;
+ } uldiv_t;
 
+int abs(int a);
+float atof(char * s);
+int atoi(char * s);
+long atol(char * s);
+div_t div(int number, int denom);
+ldiv_t ldiv(long number, long denom);
+uldiv_t uldiv(unsigned long number, unsigned long denom);
+long labs(long x);
+int max(int a, int b);
+int min(int a, int b);
+void srand(unsigned x);
+int rand();
+int xtoi(char * s);
+#line 1 "d:/mikroc pro for dspic/include/math.h"
 
-void handle_get_auto_mode(CommandHandler *handler);
-void handle_set_auto_mode(CommandHandler *handler);
 
 
-void handle_get_lifter_info(CommandHandler *handler);
-void handle_get_lifter_dir(CommandHandler *handler);
-void handle_set_lifter_dir(CommandHandler *handler);
-void handle_get_lifter_lim_down(CommandHandler *handler);
-void handle_get_lifter_lim_up(CommandHandler *handler);
-void handle_get_lifter_speed(CommandHandler *handler);
-void handle_set_lifter_speed(CommandHandler *handler);
-void handle_get_lifter_status(CommandHandler *handler);
 
 
-void handle_get_motor_info(CommandHandler *handler);
-void handle_get_motor_brake(CommandHandler *handler);
-void handle_set_motor_brake(CommandHandler *handler);
-void handle_get_motor_dir(CommandHandler *handler);
-void handle_set_motor_dir(CommandHandler *handler);
-void handle_get_motor_en(CommandHandler *handler);
-void handle_set_motor_en(CommandHandler *handler);
-void handle_get_motor_speed(CommandHandler *handler);
-void handle_set_motor_speed(CommandHandler *handler);
-void handle_get_travel_lim_front(CommandHandler *handler);
-void handle_get_travel_lim_rear(CommandHandler *handler);
+double fabs(double d);
+double floor(double x);
+double ceil(double x);
+double frexp(double value, int * eptr);
+double ldexp(double value, int newexp);
+double modf(double val, double * iptr);
+double sqrt(double x);
+double atan(double f);
+double asin(double x);
+double acos(double x);
+double atan2(double y,double x);
+double sin(double f);
+double cos(double f);
+double tan(double x);
+double exp(double x);
+double log(double x);
+double log10(double x);
+double pow(double x, double y);
+double sinh(double x);
+double cosh(double x);
+double tanh(double x);
+#line 14 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin,  _Bool  inverse_logic);
+size_t serial_write(void* handle, const uint8_t *buffer, size_t size);
+void serial_flush(void* handle);
+int serial_read_byte(void* handle);
+size_t serial_read_bytes(void* handle, uint8_t *buffer, size_t length);
 
 
-void handle_get_relay1(CommandHandler *handler);
-void handle_set_relay1(CommandHandler *handler);
-void handle_get_relay2(CommandHandler *handler);
-void handle_set_relay2(CommandHandler *handler);
+unsigned long current_millis();
 
 
-void handle_get_rfid_err(CommandHandler *handler);
-void handle_get_rfid_cur_loc(CommandHandler *handler);
-void handle_get_rfid_tar_loc(CommandHandler *handler);
 
 
-void handle_get_fw_ver(CommandHandler *handler);
-void handle_get_robot_model(CommandHandler *handler);
-void handle_get_robot_id(CommandHandler *handler);
-void handle_get_robot_serial(CommandHandler *handler);
-
-
-void handle_get_safe_sensor_front(CommandHandler *handler);
-void handle_get_safe_sensor_rear(CommandHandler *handler);
-
-
-void handle_unknown_command(CommandHandler *handler);
-
-
-void strip_newline(char *str);
-
-
-void handle_get_update_status(CommandHandler *handler);
-void handle_set_update_status(CommandHandler *handler);
-
-void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id);
-void handle_discharge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id);
-void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char *id);
-void handle_motorDC_config(CommandHandler *handler, JSON_Parser *dataParser, char *id);
-void handle_ping_command(CommandHandler *handler, JSON_Parser *dataParser, char *id);
-void handle_get_box_status(CommandHandler *handler);
-#line 1 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-#line 53 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-typedef enum {
- MOTOR_DIRECTION_FORWARD = 0,
- MOTOR_DIRECTION_REVERSE = 1
-} MotorDirection;
-
-typedef enum {
- MOTOR_STATUS_DISABLED = 0,
- MOTOR_STATUS_ENABLED = 1
-} MotorStatus;
-#line 80 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-typedef struct _MotorDC {
-
- float _kp;
- float _ki;
- float _kd;
- float _targetSpeed;
- float _currentSpeed;
-
-
- float _error;
- float _lastError;
- float _integral;
- float _output;
-
-
- float _distanceSensorValue;
-
-
- float _accelerationLimit;
- float _decelerationLimit;
-
-
- float _safeDistance;
-
-
- float _maxDuty;
-
-
- int _direction;
- int _status;
-
-
- void (*Update)(struct _MotorDC *motor);
-} _MotorDC;
-
-extern _MotorDC motorDC;
-#line 134 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_Init(_MotorDC *motor, float kp, float ki, float kd, float targetSpeed);
-#line 142 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_SetTargetSpeed(_MotorDC *motor, float targetSpeed);
-#line 151 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_SetDirection(_MotorDC *motor, MotorDirection direction);
-#line 159 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_Enable(_MotorDC *motor);
-#line 167 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_Disable(_MotorDC *motor);
-#line 176 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_Disable_Emergency(_MotorDC *motor);
-
-MotorStatus _MotorDC_GetStatus(_MotorDC *motor);
-#line 186 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_SetAccelerationLimit(_MotorDC *motor, float accLimit);
-#line 194 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_SetDecelerationLimit(_MotorDC *motor, float decLimit);
-#line 202 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_SetSafeDistance(_MotorDC *motor, float safeDistance);
-#line 210 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_SetMaxDuty(_MotorDC *motor, unsigned int maxDuty);
-#line 215 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_Set_Idle(_MotorDC *motor);
-#line 222 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_UpdatePID(_MotorDC *motor);
-#line 227 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-void _MotorDC_Update(_MotorDC *motor);
-#line 236 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-float _MotorDC_GetTargetSpeed(_MotorDC *motor);
-#line 241 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-float _MotorDC_GetCurrentSpeed(_MotorDC *motor);
-#line 246 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-float _MotorDC_GetAccelerationLimit(_MotorDC *motor);
-#line 251 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-float _MotorDC_GetDecelerationLimit(_MotorDC *motor);
-#line 256 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-float _MotorDC_GetSafeDistance(_MotorDC *motor);
-#line 261 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-unsigned int _MotorDC_GetMaxDuty(_MotorDC *motor);
-#line 266 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-MotorDirection _MotorDC_GetDirection(_MotorDC *motor);
-#line 271 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-float _MotorDC_GetOutput(_MotorDC *motor);
-#line 276 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-float _MotorDC_GetDistanceSensorValue(_MotorDC *motor);
-#line 286 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/motordc.h"
-char* _MotorDC_GetInfo(_MotorDC *motor);
-#line 29 "c:/users/asus/desktop/raybot/code/[03-07-2025]-op2-(fix-lms)/robot_system.h"
-extern char DEVICE_ID[16];
-extern char DEVICE_SERIAL[16];
-extern char ROBOT_MODEL[16];
-extern char FW_VER[16];
-
-
-extern DistanceSensor sensor_front;
-extern DistanceSensor sensor_rear;
-extern DistanceSensor sensor_lifter;
-extern DistanceSensor sensor_box;
-
-void init_distance_sensors();
-void update_all_sensors();
-
-
-
-void DebugUART_Init();
-void DebugUART_Send_Text(const char *text);
-#line 7 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
-BMSData _bmsData;
-
-
-
-
-TXCommand _txBuffer[ 10 ];
-volatile uint8_t _txBufferHead = 0;
-volatile uint8_t _txBufferTail = 0;
-
-
-void TX_PushCommand(uint8_t _commandID, uint8_t * _payload) {
- int _next = (_txBufferHead + 1) %  10 ;
- if (_next != _txBufferTail) {
- _txBuffer[_txBufferHead]._commandID = _commandID;
- memcpy(_txBuffer[_txBufferHead]._payload, _payload, 8);
- _txBufferHead = _next;
+extern void writeLog(const char* format, ...);
+#line 39 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+DalyBms* DalyBms_create(int rx, int tx)
+{
+ DalyBms* bms = (DalyBms*)malloc(sizeof(DalyBms));
+ if (bms == NULL) {
+ writeLog("<BMS > ERROR: Failed to allocate memory for DalyBms!");
+ return NULL;
  }
+ bms->soft_rx = rx;
+ bms->soft_tx = tx;
+
+
+ bms->serial_handle = (void*)1;
+ return bms;
 }
 
-uint8_t TX_IsEmpty(void) {
- return (_txBufferHead == _txBufferTail);
-}
+ _Bool  DalyBms_init(DalyBms* bms)
+{
 
-TXCommand TX_PopCommand(void) {
- TXCommand _cmd;
- memset(&_cmd, 0, sizeof(TXCommand));
- if (_txBufferHead != _txBufferTail) {
- memcpy(&_cmd, &_txBuffer[_txBufferTail], sizeof(TXCommand));
- _txBufferTail = (_txBufferTail + 1) %  10 ;
- }
- return _cmd;
-}
-
-
-
-
-ImmediateCommand _immediateQueue[ 10 ];
-volatile uint8_t _immediateQueueHead = 0;
-volatile uint8_t _immediateQueueTail = 0;
-
-void Immediate_PushCommand(uint8_t _commandID, uint8_t * _payload, uint8_t _value) {
-#line 54 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
- int _next = (_immediateQueueHead + 1) %  10 ;
-
- if (_next != _immediateQueueTail) {
- _immediateQueue[_immediateQueueHead]._commandID = _commandID;
- memcpy(_immediateQueue[_immediateQueueHead]._payload, _payload, 7);
- _immediateQueue[_immediateQueueHead]._value = _value;
- _immediateQueueHead = _next;
- } else {
-
- DebugUART_Send_Text("Immediate Queue Full!\r\n");
- }
-}
-
-uint8_t Immediate_IsEmpty(void) {
- return (_immediateQueueHead == _immediateQueueTail);
-}
-
-ImmediateCommand Immediate_PopCommand(void) {
-#line 79 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
- ImmediateCommand _cmd;
- char debug_cmd[30];
- memset(&_cmd, 0, sizeof(ImmediateCommand));
-
-
- if (_immediateQueueHead != _immediateQueueTail) {
- memcpy(&_cmd, &_immediateQueue[_immediateQueueTail], sizeof(ImmediateCommand));
- _immediateQueueTail = (_immediateQueueTail + 1) %  10 ;
- }
- DebugUART_Send_Text("chdebug da nhay vao day \n");
- sprintf(debug_cmd, "CMDID: %d, CMDVL: %d", _cmd._commandID, _cmd._value);
- DebugUART_Send_Text("\n");
- return _cmd;
-}
-
-
-
-
-uint8_t _rxBuffer[ 50 ];
-volatile uint8_t _rxBufferHead = 0;
-volatile uint8_t _rxBufferTail = 0;
-
-void RX_PushByte(uint8_t _data) {
- int _next = (_rxBufferHead + 1) %  50 ;
- if (_next != _rxBufferTail) {
- _rxBuffer[_rxBufferHead] = _data;
- _rxBufferHead = _next;
- }
-}
-
-int RX_PopBytes(uint8_t * _buffer, uint16_t _length) {
- uint16_t _available;
- if (_rxBufferHead >= _rxBufferTail)
- _available = _rxBufferHead - _rxBufferTail;
- else
- _available =  50  - _rxBufferTail + _rxBufferHead;
- if (_available < _length)
- return 0;
+ if (bms->serial_handle == NULL)
  {
- uint16_t _i;
- for (_i = 0; _i < _length; _i++) {
- _buffer[_i] = _rxBuffer[_rxBufferTail];
- _rxBufferTail = (_rxBufferTail + 1) %  50 ;
+ writeLog("<BMS > ERROR: No serial peripheral specificed!");
+ bms->get.connectionState =  0 ;
+ return  0 ;
  }
- }
- return _length;
+
+
+
+ serial_begin(bms->serial_handle, 9600, 0, bms->soft_rx, bms->soft_tx,  0 );
+
+ memset(bms->my_txBuffer, 0x00,  13 );
+ DalyBms_clearGet(bms);
+ return  1 ;
 }
 
-int RX_PeekBytes(uint8_t * _buffer, uint16_t _length) {
- uint16_t _available;
- if (_rxBufferHead >= _rxBufferTail)
- _available = _rxBufferHead - _rxBufferTail;
- else
- _available =  50  - _rxBufferTail + _rxBufferHead;
- if (_available < _length)
- return 0;
+ _Bool  DalyBms_loop(DalyBms* bms)
+{
+ if (current_millis() - bms->previousTime >=  150 )
  {
- uint16_t _i;
- uint8_t _idx = _rxBufferTail;
- for (_i = 0; _i < _length; _i++) {
- _buffer[_i] = _rxBuffer[_idx];
- _idx = (_idx + 1) %  50 ;
+ switch (bms->requestCounter)
+ {
+ case 0:
+ bms->requestCounter++;
+ break;
+ case 1:
+ if (DalyBms_getPackMeasurements(bms))
+ {
+ bms->get.connectionState =  1 ;
+ bms->errorCounter = 0;
+ bms->requestCounter++;
  }
- }
- return _length;
-}
-
-
-
-
-volatile uint8_t _txBusy = 0;
-
-
-
-
-
-
-static uint8_t _getEndMarker(uint8_t _commandID) {
- if (_commandID >= 0x90 && _commandID <= 0x99)
- return 0x7D + (_commandID - 0x90);
- else if (_commandID == 0xD8)
- return 0xC5;
- else if (_commandID == 0xE3)
- return 0x58;
  else
- return 0x7D;
+ {
+ bms->requestCounter = 0;
+ if (bms->errorCounter <  10 )
+ {
+ bms->errorCounter++;
+ }
+ else
+ {
+ bms->get.connectionState =  0 ;
+ bms->errorCounter = 0;
+ if (bms->requestCallback != NULL) {
+ bms->requestCallback();
+ }
+
+ }
+ }
+ break;
+ case 2:
+ bms->requestCounter = DalyBms_getMinMaxCellVoltage(bms) ? (bms->requestCounter + 1) : 0;
+ break;
+ case 3:
+ bms->requestCounter = DalyBms_getPackTemp(bms) ? (bms->requestCounter + 1) : 0;
+ break;
+ case 4:
+ bms->requestCounter = DalyBms_getDischargeChargeMosStatus(bms) ? (bms->requestCounter + 1) : 0;
+ break;
+ case 5:
+ bms->requestCounter = DalyBms_getStatusInfo(bms) ? (bms->requestCounter + 1) : 0;
+ break;
+ case 6:
+ bms->requestCounter = DalyBms_getCellVoltages(bms) ? (bms->requestCounter + 1) : 0;
+ break;
+ case 7:
+ bms->requestCounter = DalyBms_getCellTemperature(bms) ? (bms->requestCounter + 1) : 0;
+ break;
+ case 8:
+ bms->requestCounter = DalyBms_getCellBalanceState(bms) ? (bms->requestCounter + 1) : 0;
+ break;
+ case 9:
+ bms->requestCounter = DalyBms_getFailureCodes(bms) ? (bms->requestCounter + 1) : 0;
+ if (bms->getStaticData)
+ bms->requestCounter = 0;
+ if (bms->requestCallback != NULL) {
+ bms->requestCallback();
+ }
+ break;
+ case 10:
+ if (!bms->getStaticData)
+ bms->requestCounter = DalyBms_getVoltageThreshold(bms) ? (bms->requestCounter + 1) : 0;
+ if (bms->requestCallback != NULL) {
+ bms->requestCallback();
+ }
+ break;
+ case 11:
+ if (!bms->getStaticData)
+ bms->requestCounter = DalyBms_getPackVoltageThreshold(bms) ? (bms->requestCounter + 1) : 0;
+ bms->requestCounter = 0;
+ if (bms->requestCallback != NULL) {
+ bms->requestCallback();
+ }
+ bms->getStaticData =  1 ;
+ break;
+
+ default:
+ break;
+ }
+ bms->previousTime = current_millis();
+ }
+ return  1 ;
+}
+
+ _Bool  DalyBms_getVoltageThreshold(DalyBms* bms)
+{
+ if (!DalyBms_requestData(bms, CELL_THRESHOLDS, 1))
+ {
+ writeLog("<BMS > Receive failed %d", CELL_THRESHOLDS);
+ return  0 ;
+ }
+
+ bms->get.maxCellThreshold1 = (float)((bms->frameBuff[0][4] << 8) | bms->frameBuff[0][5]);
+ bms->get.maxCellThreshold2 = (float)((bms->frameBuff[0][6] << 8) | bms->frameBuff[0][7]);
+ bms->get.minCellThreshold1 = (float)((bms->frameBuff[0][8] << 8) | bms->frameBuff[0][9]);
+ bms->get.minCellThreshold2 = (float)((bms->frameBuff[0][10] << 8) | bms->frameBuff[0][11]);
+
+ return  1 ;
+}
+
+ _Bool  DalyBms_getPackVoltageThreshold(DalyBms* bms)
+{
+ if (!DalyBms_requestData(bms, PACK_THRESHOLDS, 1))
+ {
+ writeLog("<BMS > Receive failed %d", PACK_THRESHOLDS);
+ return  0 ;
+ }
+
+ bms->get.maxPackThreshold1 = (float)((bms->frameBuff[0][4] << 8) | bms->frameBuff[0][5]);
+ bms->get.maxPackThreshold2 = (float)((bms->frameBuff[0][6] << 8) | bms->frameBuff[0][7]);
+ bms->get.minPackThreshold1 = (float)((bms->frameBuff[0][8] << 8) | bms->frameBuff[0][9]);
+ bms->get.minPackThreshold2 = (float)((bms->frameBuff[0][10] << 8) | bms->frameBuff[0][11]);
+
+ return  1 ;
+}
+
+ _Bool  DalyBms_getPackMeasurements(DalyBms* bms)
+{
+ if (!DalyBms_requestData(bms, VOUT_IOUT_SOC, 1))
+ {
+ writeLog("<BMS > Receive failed %d", VOUT_IOUT_SOC);
+ DalyBms_clearGet(bms);
+ return  0 ;
+ }
+ else
+ {
+
+ if (((float)(((bms->frameBuff[0][8] << 8) | bms->frameBuff[0][9]) - 30000) / 10.0f) == -3000.f)
+ {
+ writeLog("<BMS > %d Cur. out of range", VOUT_IOUT_SOC);
+ return  0 ;
+ }
+ else
+
+ if (((float)((bms->frameBuff[0][10] << 8) | bms->frameBuff[0][11]) / 10.0f) > 100.f)
+ {
+ writeLog("<BMS > %d SOC. out of range", VOUT_IOUT_SOC);
+ return  0 ;
+ }
+ }
+
+ bms->get.packVoltage = ((float)((bms->frameBuff[0][4] << 8) | bms->frameBuff[0][5]) / 10.0f);
+ bms->get.packCurrent = ((float)(((bms->frameBuff[0][8] << 8) | bms->frameBuff[0][9]) - 30000) / 10.0f);
+ bms->get.packSOC = ((float)((bms->frameBuff[0][10] << 8) | bms->frameBuff[0][11]) / 10.0f);
+ return  1 ;
+}
+
+ _Bool  DalyBms_getMinMaxCellVoltage(DalyBms* bms)
+{
+ if (!DalyBms_requestData(bms, MIN_MAX_CELL_VOLTAGE, 1))
+ {
+ writeLog("<BMS > Receive failed %d", MIN_MAX_CELL_VOLTAGE);
+ return  0 ;
+ }
+
+ bms->get.maxCellmV = (float)((bms->frameBuff[0][4] << 8) | bms->frameBuff[0][5]);
+ bms->get.maxCellVNum = bms->frameBuff[0][6];
+ bms->get.minCellmV = (float)((bms->frameBuff[0][7] << 8) | bms->frameBuff[0][8]);
+ bms->get.minCellVNum = bms->frameBuff[0][9];
+ bms->get.cellDiff = (bms->get.maxCellmV - bms->get.minCellmV);
+
+ return  1 ;
+}
+
+ _Bool  DalyBms_getPackTemp(DalyBms* bms)
+{
+ if (!DalyBms_requestData(bms, MIN_MAX_TEMPERATURE, 1))
+ {
+ writeLog("<BMS > Receive failed %d", MIN_MAX_TEMPERATURE);
+ return  0 ;
+ }
+ bms->get.tempAverage = ((bms->frameBuff[0][4] - 40) + (bms->frameBuff[0][6] - 40)) / 2;
+
+ return  1 ;
+}
+
+ _Bool  DalyBms_getDischargeChargeMosStatus(DalyBms* bms)
+{
+ if (!DalyBms_requestData(bms, DISCHARGE_CHARGE_MOS_STATUS, 1))
+ {
+ writeLog("<BMS > Receive failed %d", DISCHARGE_CHARGE_MOS_STATUS);
+ return  0 ;
+ }
+
+ switch (bms->frameBuff[0][4])
+ {
+ case 0:
+ bms->get.chargeDischargeStatus = "Stationary";
+ break;
+ case 1:
+ bms->get.chargeDischargeStatus = "Charge";
+ break;
+ case 2:
+ bms->get.chargeDischargeStatus = "Discharge";
+ break;
+ default:
+ bms->get.chargeDischargeStatus = "Unknown";
+ break;
+ }
+
+ bms->get.chargeFetState =  (((bms->frameBuff[0][5]) >> (0)) & 1) ;
+ bms->get.disChargeFetState =  (((bms->frameBuff[0][6]) >> (0)) & 1) ;
+ bms->get.bmsHeartBeat = bms->frameBuff[0][7];
+ char msgbuff[16];
+ float tmpAh = (float)(((uint33_t)bms->frameBuff[0][8] << 0x18) | ((uint33_t)bms->frameBuff[0][9] << 0x10) | ((uint33_t)bms->frameBuff[0][10] << 0x08) | (uint33_t)bms->frameBuff[0][11]) * 0.001;
+ sprintf(msgbuff, "%.1f", tmpAh);
+ bms->get.resCapacityAh = atof(msgbuff);
+
+ return  1 ;
+}
+
+ _Bool  DalyBms_getStatusInfo(DalyBms* bms)
+{
+ if (!DalyBms_requestData(bms, STATUS_INFO, 1))
+ {
+ writeLog("<BMS > Receive failed %d", STATUS_INFO);
+ return  0 ;
+ }
+
+ bms->get.numberOfCells = bms->frameBuff[0][4];
+ bms->get.numOfTempSensors = bms->frameBuff[0][5];
+ bms->get.chargeState =  (((bms->frameBuff[0][6]) >> (0)) & 1) ;
+ bms->get.loadState =  (((bms->frameBuff[0][7]) >> (0)) & 1) ;
+
+
+ for (size_t i = 0; i < 8; i++)
+ {
+ bms->get.dIO[i] =  (((bms->frameBuff[0][8]) >> (i)) & 1) ;
+ }
+
+ bms->get.bmsCycles = ((uint16_t)bms->frameBuff[0][9] << 0x08) | (uint16_t)bms->frameBuff[0][10];
+
+ return  1 ;
+}
+
+ _Bool  DalyBms_getCellVoltages(DalyBms* bms)
+{
+ unsigned int cellNo = 0;
+
+
+ if (bms->get.numberOfCells <  1  || bms->get.numberOfCells >  48 )
+ {
+ return  0 ;
+ }
+
+ if (DalyBms_requestData(bms, CELL_VOLTAGES, (unsigned int)ceil(bms->get.numberOfCells / 3.0)))
+ {
+ for (size_t k = 0; k < (unsigned int)ceil(bms->get.numberOfCells / 3.0); k++)
+ {
+ for (size_t i = 0; i < 3; i++)
+ {
+ if (cellNo <  48 ) {
+ bms->get.cellVmV[cellNo] = (float)((bms->frameBuff[k][5 + (i * 2)] << 8) | bms->frameBuff[k][6 + (i * 2)]);
+ }
+ cellNo++;
+ if (cellNo >= bms->get.numberOfCells)
+ break;
+ }
+ }
+ return  1 ;
+ }
+ else
+ {
+ writeLog("<BMS > Receive failed %d", CELL_VOLTAGES);
+ return  0 ;
+ }
+}
+
+ _Bool  DalyBms_getCellTemperature(DalyBms* bms)
+{
+ unsigned int sensorNo = 0;
+
+ if ((bms->get.numOfTempSensors <  1 ) || (bms->get.numOfTempSensors >  16 ))
+ {
+ return  0 ;
+ }
+
+ if (DalyBms_requestData(bms, CELL_TEMPERATURE, (unsigned int)ceil(bms->get.numOfTempSensors / 7.0)))
+ {
+ for (size_t k = 0; k < (unsigned int)ceil(bms->get.numOfTempSensors / 7.0); k++)
+ {
+ for (size_t i = 0; i < 7; i++)
+ {
+ if (sensorNo <  16 ) {
+ bms->get.cellTemperature[sensorNo] = (bms->frameBuff[k][5 + i] - 40);
+ }
+ sensorNo++;
+ if (sensorNo >= bms->get.numOfTempSensors)
+ break;
+ }
+ }
+ return  1 ;
+ }
+ else
+ {
+ writeLog("<BMS > Receive failed %d", CELL_TEMPERATURE);
+ return  0 ;
+ }
+}
+
+ _Bool  DalyBms_getCellBalanceState(DalyBms* bms)
+{
+ int cellBalance = 0;
+ int cellBit = 0;
+
+
+ if (bms->get.numberOfCells <  1  || bms->get.numberOfCells >  48 )
+ {
+ return  0 ;
+ }
+
+ if (!DalyBms_requestData(bms, CELL_BALANCE_STATE, 1))
+ {
+ writeLog("<BMS > Receive failed %d", CELL_BALANCE_STATE);
+ return  0 ;
+ }
+
+
+ for (size_t i = 0; i < 6; i++)
+ {
+
+ for (size_t j = 0; j < 8; j++)
+ {
+ if (cellBit <  48 ) {
+ bms->get.cellBalanceState[cellBit] =  (((bms->frameBuff[0][i + 4]) >> (j)) & 1) ;
+ }
+ if ( (((bms->frameBuff[0][i + 4]) >> (j)) & 1) )
+ {
+ cellBalance++;
+ }
+ cellBit++;
+ if (cellBit >=  48 )
+ {
+ break;
+ }
+ }
+ if (cellBit >=  48 ) {
+ break;
+ }
+ }
+
+ if (cellBalance > 0)
+ {
+ bms->get.cellBalanceActive =  1 ;
+ }
+ else
+ {
+ bms->get.cellBalanceActive =  0 ;
+ }
+
+ return  1 ;
+}
+
+ _Bool  DalyBms_getFailureCodes(DalyBms* bms)
+{
+ if (!DalyBms_requestData(bms, FAILURE_CODES, 1))
+ {
+ writeLog("<BMS > Receive failed %d", FAILURE_CODES);
+ return  0 ;
+ }
+
+ bms->failCodeArr[0] = '\0';
+
+
+ if ( (((bms->frameBuff[0][4]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Cell volt high level 2,");
+ else if ( (((bms->frameBuff[0][4]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Cell volt high level 1,");
+ if ( (((bms->frameBuff[0][4]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Cell volt low level 2,");
+ else if ( (((bms->frameBuff[0][4]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Cell volt low level 1,");
+ if ( (((bms->frameBuff[0][4]) >> (5)) & 1) )
+ strcat(bms->failCodeArr, "Sum volt high level 2,");
+ else if ( (((bms->frameBuff[0][4]) >> (4)) & 1) )
+ strcat(bms->failCodeArr, "Sum volt high level 1,");
+ if ( (((bms->frameBuff[0][4]) >> (7)) & 1) )
+ strcat(bms->failCodeArr, "Sum volt low level 2,");
+ else if ( (((bms->frameBuff[0][4]) >> (6)) & 1) )
+ strcat(bms->failCodeArr, "Sum volt low level 1,");
+
+ if ( (((bms->frameBuff[0][5]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Chg temp high level 2,");
+ else if ( (((bms->frameBuff[0][5]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Chg temp high level 1,");
+ if ( (((bms->frameBuff[0][5]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Chg temp low level 2,");
+ else if ( (((bms->frameBuff[0][5]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Chg temp low level 1,");
+ if ( (((bms->frameBuff[0][5]) >> (5)) & 1) )
+ strcat(bms->failCodeArr, "Dischg temp high level 2,");
+ else if ( (((bms->frameBuff[0][5]) >> (4)) & 1) )
+ strcat(bms->failCodeArr, "Dischg temp high level 1,");
+ if ( (((bms->frameBuff[0][5]) >> (7)) & 1) )
+ strcat(bms->failCodeArr, "Dischg temp low level 2,");
+ else if ( (((bms->frameBuff[0][5]) >> (6)) & 1) )
+ strcat(bms->failCodeArr, "Dischg temp low level 1,");
+
+ if ( (((bms->frameBuff[0][6]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Chg overcurrent level 2,");
+ else if ( (((bms->frameBuff[0][6]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Chg overcurrent level 1,");
+ if ( (((bms->frameBuff[0][6]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Dischg overcurrent level 2,");
+ else if ( (((bms->frameBuff[0][6]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Dischg overcurrent level 1,");
+ if ( (((bms->frameBuff[0][6]) >> (5)) & 1) )
+ strcat(bms->failCodeArr, "SOC high level 2,");
+ else if ( (((bms->frameBuff[0][6]) >> (4)) & 1) )
+ strcat(bms->failCodeArr, "SOC high level 1,");
+ if ( (((bms->frameBuff[0][6]) >> (7)) & 1) )
+ strcat(bms->failCodeArr, "SOC Low level 2,");
+ else if ( (((bms->frameBuff[0][6]) >> (6)) & 1) )
+ strcat(bms->failCodeArr, "SOC Low level 1,");
+
+ if ( (((bms->frameBuff[0][7]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Diff volt level 2,");
+ else if ( (((bms->frameBuff[0][7]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Diff volt level 1,");
+ if ( (((bms->frameBuff[0][7]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Diff temp level 2,");
+ else if ( (((bms->frameBuff[0][7]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Diff temp level 1,");
+
+ if ( (((bms->frameBuff[0][8]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Chg MOS temp high alarm,");
+ if ( (((bms->frameBuff[0][8]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Dischg MOS temp high alarm,");
+ if ( (((bms->frameBuff[0][8]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Chg MOS temp sensor err,");
+ if ( (((bms->frameBuff[0][8]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Dischg MOS temp sensor err,");
+ if ( (((bms->frameBuff[0][8]) >> (4)) & 1) )
+ strcat(bms->failCodeArr, "Chg MOS adhesion err,");
+ if ( (((bms->frameBuff[0][8]) >> (5)) & 1) )
+ strcat(bms->failCodeArr, "Dischg MOS adhesion err,");
+ if ( (((bms->frameBuff[0][8]) >> (6)) & 1) )
+ strcat(bms->failCodeArr, "Chg MOS open circuit err,");
+ if ( (((bms->frameBuff[0][8]) >> (7)) & 1) )
+ strcat(bms->failCodeArr, " Discrg MOS open circuit err,");
+
+ if ( (((bms->frameBuff[0][9]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "AFE collect chip err,");
+ if ( (((bms->frameBuff[0][9]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Voltage collect dropped,");
+ if ( (((bms->frameBuff[0][9]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Cell temp sensor err,");
+ if ( (((bms->frameBuff[0][9]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "EEPROM err,");
+ if ( (((bms->frameBuff[0][9]) >> (4)) & 1) )
+ strcat(bms->failCodeArr, "RTC err,");
+ if ( (((bms->frameBuff[0][9]) >> (5)) & 1) )
+ strcat(bms->failCodeArr, "Precharge failure,");
+ if ( (((bms->frameBuff[0][9]) >> (6)) & 1) )
+ strcat(bms->failCodeArr, "Communication failure,");
+ if ( (((bms->frameBuff[0][9]) >> (7)) & 1) )
+ strcat(bms->failCodeArr, "Internal communication failure,");
+
+ if ( (((bms->frameBuff[0][10]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Current module fault,");
+ if ( (((bms->frameBuff[0][10]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Sum voltage detect fault,");
+ if ( (((bms->frameBuff[0][10]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Short circuit protect fault,");
+ if ( (((bms->frameBuff[0][10]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Low volt forbidden chg fault,");
+
+ size_t len = strlen(bms->failCodeArr);
+ if (len > 0 && bms->failCodeArr[len - 1] == ',')
+ {
+ bms->failCodeArr[len - 1] = '\0';
+ }
+ return  1 ;
+}
+
+ _Bool  DalyBms_setDischargeMOS(DalyBms* bms,  _Bool  sw)
+{
+ writeLog("<BMS > Switch discharge MOSFETs to %d", sw);
+ bms->requestCounter = 0;
+ if (sw)
+ {
+
+ bms->my_txBuffer[4] = 0x01;
+ }
+ else
+ {
+ bms->my_txBuffer[4] = 0x00;
+ }
+
+ DalyBms_sendCommand(bms, DISCHRG_FET);
+
+ if (!DalyBms_receiveBytes(bms))
+ {
+ writeLog("<BMS > No response from BMS! Can't verify MOSFETs switched.");
+ return  0 ;
+ }
+
+ return  1 ;
+}
+
+ _Bool  DalyBms_setChargeMOS(DalyBms* bms,  _Bool  sw)
+{
+ writeLog("<BMS > Switch charge MOSFETs to %d", sw);
+ bms->requestCounter = 0;
+ if (sw)
+ {
+
+ bms->my_txBuffer[4] = 0x01;
+ }
+ else
+ {
+ bms->my_txBuffer[4] = 0x00;
+ }
+ DalyBms_sendCommand(bms, CHRG_FET);
+
+ if (!DalyBms_receiveBytes(bms))
+ {
+ writeLog("<BMS > No response from BMS! Can't verify MOSFETs switched.");
+ return  0 ;
+ }
+
+ return  1 ;
+}
+
+ _Bool  DalyBms_setBmsReset(DalyBms* bms)
+{
+ bms->requestCounter = 0;
+ DalyBms_sendCommand(bms, BMS_RESET);
+ if (!DalyBms_receiveBytes(bms))
+ {
+ writeLog("<BMS > Send failed, can't verify BMS was reset!");
+ return  0 ;
+ }
+ return  1 ;
+}
+
+ _Bool  DalyBms_setSOC(DalyBms* bms, float val)
+{
+ if (val >= 0.0f && val <= 100.0f)
+ {
+ bms->requestCounter = 0;
+
+ writeLog("<BMS > Set SOC to %f", val);
+
+ DalyBms_sendCommand(bms, READ_SOC);
+ if (!DalyBms_receiveBytes(bms))
+ {
+ bms->my_txBuffer[5] = 0x17;
+ bms->my_txBuffer[6] = 0x01;
+ bms->my_txBuffer[7] = 0x01;
+ bms->my_txBuffer[8] = 0x01;
+ bms->my_txBuffer[9] = 0x01;
+ }
+ else
+ {
+ for (size_t i = 5; i <= 9; i++)
+ {
+ bms->my_txBuffer[i] = bms->my_rxBuffer[i];
+ }
+ }
+ uint16_t value = (uint16_t)(val * 10.0f);
+ bms->my_txBuffer[10] = (value >> 8) & 0xFF;
+ bms->my_txBuffer[11] = value & 0xFF;
+ DalyBms_sendCommand(bms, SET_SOC);
+
+ if (!DalyBms_receiveBytes(bms))
+ {
+ writeLog("<BMS > Set SOC failed!");
+ return  0 ;
+ }
+ else
+ {
+ return  1 ;
+ }
+ }
+ return  0 ;
+}
+
+ _Bool  DalyBms_getState(DalyBms* bms)
+{
+ return bms->get.connectionState;
+}
+
+void DalyBms_set_callback(DalyBms* bms, void (*func)(void))
+{
+ bms->requestCallback = func;
 }
 
 
 
 
 
-static void _sendCommandPacket(uint8_t _commandID, uint8_t * _payload) {
- uint8_t _packet[ 13 ];
- uint8_t _i;
- char _dbgStr[100] = "";
+
+static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned int frameAmount)
+{
+
+ memset(bms->my_rxFrameBuffer, 0x00, sizeof(bms->my_rxFrameBuffer));
+ memset(bms->frameBuff, 0x00, sizeof(bms->frameBuff));
+ memset(bms->my_txBuffer, 0x00,  13 );
+
+ uint8_t txChecksum = 0x00;
+ unsigned int byteCounter = 0;
+
+ bms->my_txBuffer[0] =  0xA5 ;
+ bms->my_txBuffer[1] =  0x40 ;
+ bms->my_txBuffer[2] = cmdID;
+ bms->my_txBuffer[3] =  0x08 ;
 
 
- _packet[0] = 0xA5;
- _packet[1] = 0x40;
- _packet[2] = _commandID;
- _packet[3] = 0x08;
- memcpy(&_packet[4], _payload, 8);
- _packet[12] = _getEndMarker(_commandID);
+ for (uint8_t i = 0; i <= 11; i++)
+ {
+ txChecksum += bms->my_txBuffer[i];
+ }
+
+ bms->my_txBuffer[12] = txChecksum;
 
 
- for (_i = 0; _i <  13 ; _i++){
- UART1_Write(_packet[_i]);
+ serial_write(bms->serial_handle, bms->my_txBuffer,  13 );
+
+ serial_flush(bms->serial_handle);
+
+
+
+ serial_read_bytes(bms->serial_handle, bms->my_rxFrameBuffer,  13  * frameAmount);
+ for (size_t i = 0; i < frameAmount; i++)
+ {
+ for (size_t j = 0; j <  13 ; j++)
+ {
+ bms->frameBuff[i][j] = bms->my_rxFrameBuffer[byteCounter];
+ byteCounter++;
+ }
+
+ uint8_t rxChecksum = 0x00;
+ for (int k = 0; k <  13  - 1; k++)
+ {
+ rxChecksum += bms->frameBuff[i][k];
  }
 
 
- for (_i = 0; _i <  13 ; _i++){
- char temp[10];
- sprintf(temp, "0x%02X ", _packet[_i]);
- strcat(_dbgStr, temp);
- }
- strcat(_dbgStr, "\r\n");
 
-}
-static void _sendSetCommandPacket(uint8_t _commandID, uint8_t * _payload, uint8_t _value) {
- uint8_t _packet[ 13 ];
- uint8_t _i;
- char _dbgStr[100] = "";
-
-
- _packet[0] = 0xA5;
- _packet[1] = 0x40;
- _packet[2] = _commandID;
- _packet[3] = 0x08;
- _packet[4] = _value;
- memcpy(&_packet[5], _payload, 7);
- if(_commandID == 0xD9){
- if(_value == 0x00)
- _packet[12] = 0xC6;
- else if (_value == 0x01)
- _packet[12] = 0xC7;
- else return;
+ if (rxChecksum != bms->frameBuff[i][ 13  - 1])
+ {
+ writeLog("<BMS > CRC FAIL");
+ return  0 ;
  }
- else if(_commandID == 0xDA){
- if(_value == 0x00)
- _packet[12] = 0xC7;
- else if(_value == 0x01)
- _packet[12] = 0xC8;
- else return;
+ if (rxChecksum == 0)
+ {
+ writeLog("<BMS > NO DATA");
+ return  0 ;
  }
- else {
- _packet[12] = _getEndMarker(_commandID);
+ if (bms->frameBuff[i][1] >= 0x20)
+ {
+ writeLog("<BMS > BMS SLEEPING");
+ return  0 ;
  }
-
- for (_i = 0; _i <  13 ; _i++){
- UART1_Write(_packet[_i]);
  }
-
-
- for (_i = 0; _i <  13 ; _i++){
- char temp[10];
- sprintf(temp, "0x%02X ", _packet[_i]);
- strcat(_dbgStr, temp);
- }
- strcat(_dbgStr, "\r\n");
- DebugUART_Send_Text(_dbgStr);
+ return  1 ;
 }
 
+static  _Bool  DalyBms_sendQueueAdd(DalyBms* bms, DALY_BMS_COMMAND cmdID)
+{
+ for (size_t i = 0; i < sizeof(bms->commandQueue) / sizeof(bms->commandQueue[0]); i++)
+ {
+ if (bms->commandQueue[i] == 0x100)
+ {
+ bms->commandQueue[i] = cmdID;
+ break;
+ }
+ }
+ return  1 ;
+}
 
-
-
-
-static void _processReceivedResponsePacket(void) {
-
- uint8_t _temp[ 13 ];
- char _dbgStr[150];
- uint8_t _discard;
- uint8_t i = 0;
- uint16_t raw_value = 0;
- int16_t raw_signed = 0;
+static  _Bool  DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
+{
  uint8_t checksum = 0;
 
-
- if (RX_PeekBytes(_temp,  13 ) ==  13 ) {
-
- strcpy(_dbgStr, "Peeked Packet: ");
- for (i = 0; i <  13 ; i++) {
- char _byteStr[10];
- sprintf(_byteStr, "0x%02X ", _temp[i]);
- strcat(_dbgStr, _byteStr);
- }
- strcat(_dbgStr, "\r\n");
+ while (serial_read_byte(bms->serial_handle) > 0);
 
 
-
- if ((_temp[0] == 0xA5) && (_temp[1] == 0x01) &&
- (_temp[3] == 0x08) && (((_temp[2]) & 0xF0) == 0x90)) {
-
-
-
-
- RX_PopBytes(_temp,  13 );
+ bms->my_txBuffer[0] =  0xA5 ;
+ bms->my_txBuffer[1] =  0x40 ;
+ bms->my_txBuffer[2] = cmdID;
+ bms->my_txBuffer[3] =  0x08 ;
 
 
-
- for (i = 0; i <  13  - 1; i++) {
- checksum += _temp[i];
+ for (uint8_t i = 0; i <= 11; i++)
+ {
+ checksum += bms->my_txBuffer[i];
  }
 
- if (checksum == _temp[ 13  - 1]) {
+ bms->my_txBuffer[12] = checksum;
 
- switch (_temp[2]) {
- case 0x90: {
-
+ serial_write(bms->serial_handle, bms->my_txBuffer,  13 );
 
 
+ serial_flush(bms->serial_handle);
 
 
- raw_value = (((uint16_t)_temp[4]) << 8) | _temp[5];
- _bmsData._sumVoltage = raw_value / 10.0;
+ memset(bms->my_txBuffer, 0x00,  13 );
+ bms->requestCounter = 0;
+ return  1 ;
+}
 
- raw_signed = (((uint16_t)_temp[6]) << 8) | _temp[7];
- _bmsData._sumCurrent = raw_signed / 10.0;
+static  _Bool  DalyBms_receiveBytes(DalyBms* bms)
+{
 
-
- _bmsData._cellCount = _temp[10];
-
- raw_value = (((uint16_t)_temp[10]) << 8) | _temp[11];
- _bmsData._sumSOC = raw_value / 10.0;
-
+ memset(bms->my_rxBuffer, 0x00,  13 );
+ memset(bms->frameBuff, 0x00, sizeof(bms->frameBuff));
 
 
+ uint8_t rxByteNum = serial_read_bytes(bms->serial_handle, bms->my_rxBuffer,  13 );
 
- break;
+
+ if (rxByteNum !=  13 )
+ {
+ writeLog("<BMS > Received wrong bytes! Expected %d, got %d",  13 , rxByteNum);
+ DalyBms_barfRXBuffer(bms);
+ return  0 ;
  }
- case 0x91: {
 
-
-
-
- raw_value = (((uint16_t)_temp[4]) << 8) | _temp[5];
- _bmsData._remainingCapacity = raw_value / 100.0;
-
- raw_value = (((uint16_t)_temp[6]) << 8) | _temp[7];
- _bmsData._totalCapacity = raw_value / 100.0;
-
- raw_value = (((uint16_t)_temp[8]) << 8) | _temp[9];
- _bmsData._cycleCount = raw_value;
-
- sprintf(_dbgStr, "Remaining Capacity: %.2f Ah, Total Capacity: %.2f Ah, Cycles: %d\r\n",
- _bmsData._remainingCapacity, _bmsData._totalCapacity, _bmsData._cycleCount);
-
- break;
+ if (!DalyBms_validateChecksum(bms))
+ {
+ writeLog("<BMS > Checksum failed!");
+ DalyBms_barfRXBuffer(bms);
+ return  0 ;
  }
- case 0x92: {
 
+ return  1 ;
+}
 
+static  _Bool  DalyBms_validateChecksum(DalyBms* bms)
+{
+ uint8_t checksum = 0x00;
 
- raw_value = (((uint16_t)_temp[4]) << 8) | _temp[5];
- _bmsData._highVoltageProtection = raw_value / 10.0;
-
- raw_value = (((uint16_t)_temp[6]) << 8) | _temp[7];
- _bmsData._lowVoltageProtection = raw_value / 10.0;
-
- sprintf(_dbgStr, "High Voltage Protection: %.1f V, Low Voltage Protection: %.1f V\r\n",
- _bmsData._highVoltageProtection, _bmsData._lowVoltageProtection);
-
- break;
+ for (int i = 0; i <  13  - 1; i++)
+ {
+ checksum += bms->my_rxBuffer[i];
  }
- case 0x93: {
-#line 360 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
- _bmsData._chargeMOS = _temp[6];
- _bmsData._dischargeMOS = _temp[7];
 
- sprintf(_dbgStr, "Charge MOS: %s, Discharge MOS: %s\r\n",
- _bmsData._chargeMOS ? "ON" : "OFF",
- _bmsData._dischargeMOS ? "ON" : "OFF");
- DebugUART_Send_Text(_dbgStr);
- break;
+ return (checksum == bms->my_rxBuffer[ 13  - 1]);
+}
+
+static void DalyBms_barfRXBuffer(DalyBms* bms)
+{
+
+ writeLog("<DALY-BMS DEBUG> RX Buffer: [");
+ for (int i = 0; i <  13 ; i++)
+ {
+ writeLog(",0x%02X", bms->my_rxBuffer[i]);
  }
- case 0x94: {
+ writeLog("]\n");
+}
+
+static void DalyBms_clearGet(DalyBms* bms)
+{
+ bms->get.chargeDischargeStatus = "offline";
 
 
-
- _bmsData._cellCount = _temp[4];
- _bmsData._ntcCount = _temp[5];
-
- sprintf(_dbgStr, "Cell Count: %d, NTC Count: %d\r\n",
- _bmsData._cellCount, _bmsData._ntcCount);
-
- break;
- }
- case 0x95: {
-
-
-
-
-
- _bmsData._chargeMOS = _temp[4];
- _bmsData._dischargeMOS = _temp[7];
-
- sprintf(_dbgStr, "Charge MOS: %s, Discharge MOS: %s\r\n",
- _bmsData._chargeMOS ? "ON" : "OFF",
- _bmsData._dischargeMOS ? "ON" : "OFF");
-
- break;
- }
- case 0x96: {
-
-
-
- uint8_t cellIndex = _temp[4] - 1;
- if (cellIndex <  16 ) {
- raw_value = (((uint16_t)_temp[5]) << 8) | _temp[6];
- _bmsData._cellVoltages[cellIndex] = raw_value / 1000.0;
-
- sprintf(_dbgStr, "Cell %d Voltage: %.3f V\r\n",
- cellIndex + 1, _bmsData._cellVoltages[cellIndex]);
-
-
-
- if (cellIndex == _bmsData._cellCount - 1) {
-
- }
- }
- break;
- }
- case 0x97: {
-
-
- _bmsData._balanceStatus = _temp[4];
-
- sprintf(_dbgStr, "Balance Status: 0x%02X\r\n", _bmsData._balanceStatus);
-
- break;
- }
- case 0x98: {
-
-
- _bmsData._errorCount = _temp[4];
-
- sprintf(_dbgStr, "Error Count: %d\r\n", _bmsData._errorCount);
-
- break;
- }
- case 0x99: {
-
-
-
-
- _bmsData._hardwareVersion = (((uint16_t)_temp[4]) << 8) | _temp[5];
- _bmsData._softwareVersion = (((uint16_t)_temp[6]) << 8) | _temp[7];
-
-
- _bmsData._manufacturer[0] = _temp[10];
- _bmsData._manufacturer[1] = _temp[11];
- _bmsData._manufacturer[2] = '\0';
-
- sprintf(_dbgStr, "HW Version: 0x%04X, SW Version: 0x%04X, Manufacturer: %s\r\n",
- _bmsData._hardwareVersion, _bmsData._softwareVersion, _bmsData._manufacturer);
-
- break;
- }
- default:
-
- break;
- }
- } else {
- sprintf(_dbgStr, "Checksum Error! Calculated: 0x%02X, Received: 0x%02X\r\n",
- checksum, _temp[ 13  - 1]);
-
- }
- } else {
-
- sprintf(_dbgStr, "Invalid Packet Header: 0x%02X 0x%02X 0x%02X 0x%02X\r\n",
- _temp[0], _temp[1], _temp[2], _temp[3]);
-
- RX_PopBytes(&_discard, 1);
- }
- }
 }
 
 
-static void _updateMinMaxCellVoltage(void) {
- uint8_t i;
+void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin,  _Bool  inverse_logic) {
+
+ writeLog("SERIAL: Initializing serial (handle: %p) at %ld baud, RX:%d, TX:%d\n", handle, baud, rx_pin, tx_pin);
+}
+
+size_t serial_write(void* handle, const uint8_t *buffer, size_t size) {
+
+ writeLog("SERIAL: Writing %zu bytes to serial (handle: %p)\n", size, handle);
+ return size;
+}
+
+void serial_flush(void* handle) {
+
+ writeLog("SERIAL: Flushing serial (handle: %p)\n", handle);
+}
+
+int serial_read_byte(void* handle) {
 
 
- _bmsData._minCellVoltage = _bmsData._cellVoltages[0];
- _bmsData._maxCellVoltage = _bmsData._cellVoltages[0];
+
+ return -1;
+}
+
+size_t serial_read_bytes(void* handle, uint8_t *buffer, size_t length) {
 
 
 
+ writeLog("SERIAL: Reading %zu bytes from serial (handle: %p)\n", length, handle);
 
- for (i = 1; i < _bmsData._cellCount; i++) {
- if (_bmsData._cellVoltages[i] < _bmsData._minCellVoltage) {
- _bmsData._minCellVoltage = _bmsData._cellVoltages[i];
 
- }
- if (_bmsData._cellVoltages[i] > _bmsData._maxCellVoltage) {
- _bmsData._maxCellVoltage = _bmsData._cellVoltages[i];
-
- }
- }
+ return 0;
 }
 
 
+unsigned long current_millis() {
 
 
 
-
-void BMS_SendCommandImmediate(uint8_t _commandID, uint8_t * _payload, uint8_t _value) {
-#line 513 "C:/Users/ASUS/Desktop/RAYBOT/CODE/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
- ImmediateCommand _imCmd;
- Immediate_PushCommand(_commandID, _payload, _value);
-
- if (!_txBusy) {
- _txBusy = 1;
- while (!Immediate_IsEmpty()) {
- _imCmd = Immediate_PopCommand();
- _sendSetCommandPacket(_imCmd._commandID, _imCmd._payload, _imCmd._value);
- }
-
- _txBusy = 0;
- }
-}
-
-
-
-
-void BMS_PushCommand(uint8_t _commandID, uint8_t * _payload) {
- TX_PushCommand(_commandID, _payload);
-}
-
-
-
-
-
-void BMS_Update(void) {
- static uint8_t _defaultCommandIndex = 0;
- ImmediateCommand _imCmd;
- TXCommand _txCmd;
-
-
- _processReceivedResponsePacket();
-
- if (!Immediate_IsEmpty()) {
- _imCmd = Immediate_PopCommand();
- DebugUART_Send_Text("Da lay duoc lenh\r\n");
- _sendSetCommandPacket(_imCmd._commandID, _imCmd._payload, _imCmd._value);
-
- } else if (!TX_IsEmpty()) {
- _txCmd = TX_PopCommand();
- _sendCommandPacket(_txCmd._commandID, _txCmd._payload);
- } else {
-
- uint8_t _defaultPayload[8] = {0};
- switch(_defaultCommandIndex) {
- case 0: _sendCommandPacket(0x90, _defaultPayload); break;
- case 1: _sendCommandPacket(0x91, _defaultPayload); break;
- case 2: _sendCommandPacket(0x92, _defaultPayload); break;
- case 3: _sendCommandPacket(0x93, _defaultPayload); break;
- case 4: _sendCommandPacket(0x94, _defaultPayload); break;
- case 5: _sendCommandPacket(0x95, _defaultPayload); break;
- case 6: _sendCommandPacket(0x96, _defaultPayload); break;
- case 7: _sendCommandPacket(0x97, _defaultPayload); break;
- case 8: _sendCommandPacket(0x98, _defaultPayload); break;
- case 9: _sendCommandPacket(0x99, _defaultPayload); break;
- default: break;
- }
- _defaultCommandIndex++;
- if (_defaultCommandIndex >= 10)
- _defaultCommandIndex = 0;
- }
-}
-
-
-
-
-void BMS_Init(void) {
-
- _bmsData._sumVoltage = 0;
- _bmsData._sumCurrent = 0;
- _bmsData._sumSOC = 0;
- _bmsData._temperature = 0;
- _bmsData._cycleCount = 0;
- _bmsData._protectionFlags = 0;
-
-
-
- _txBufferHead = 0;
- _txBufferTail = 0;
- _immediateQueueHead = 0;
- _immediateQueueTail = 0;
- _rxBufferHead = 0;
- _rxBufferTail = 0;
- _txBusy = 0;
-
- _bmsData._charge_current_limit = 0;
- _bmsData._discharge_current_limit = 0;
-
- IEC0bits.U1RXIE = 1;
- IFS0bits.U1RXIF = 0;
-}
-
-
-
-
-
-
-void _UART1_Interrupt() iv IVT_ADDR_U1RXINTERRUPT ics ICS_AUTO {
- char _dbgStr[150];
- uint8_t _packet[ 13 ];
- int _next;
- uint8_t i; uint8_t _byte;
- uint8_t _dummy[13];
-
- while (UART1_Data_Ready()) {
- _byte = UART1_Read();
-
-
- _next = (_rxBufferHead + 1) %  50 ;
- if (_next != _rxBufferTail) {
- _rxBuffer[_rxBufferHead] = _byte;
- _rxBufferHead = _next;
- }
- }
-
-
- IFS0bits.U1RXIF = 0;
+ return 0;
 }

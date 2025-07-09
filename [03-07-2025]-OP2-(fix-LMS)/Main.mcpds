@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=Lifter.c
+Value=BMS.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -55,7 +55,8 @@ File16=uart2.h
 File17=Box.c
 File18=Box.h
 File19=distance_sensor.h
-Count=20
+File20=BMS.c
+Count=21
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
