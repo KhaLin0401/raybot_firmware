@@ -63,9 +63,9 @@ diagnostics: 223	123	Compiled Successfully	json_parser.c
 hint: 33	1164	Variable 'key_len' has been eliminated by optimizer	json_parser.c
 hint: 80	1164	Variable 'key_len' has been eliminated by optimizer	json_parser.c
 diagnostics: 0	122	Compilation Started	stdint.h
-diagnostics: 858	123	Compiled Successfully	BMS.c
-hint: 214	1164	Variable 'tmpAh' has been eliminated by optimizer	BMS.c
-hint: 763	1164	Variable 'rxByteNum' has been eliminated by optimizer	BMS.c
+diagnostics: 860	123	Compiled Successfully	BMS.c
+hint: 208	1164	Variable 'tmpAh' has been eliminated by optimizer	BMS.c
+hint: 757	1164	Variable 'rxByteNum' has been eliminated by optimizer	BMS.c
 diagnostics: 0	122	Compilation Started	stdint.h
 warning: 60	1505	Suspicious pointer conversion	uart2.c
 hint: 0	1004	interrupt handler (_UART2_Rx_Receive_ISR at 0x0050)	uart2.c
@@ -75,6 +75,12 @@ diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 22	123	Compiled Successfully	Lms.c
 diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 181	123	Compiled Successfully	Box.c
-diagnostics: 0	127	All files Compiled in 1359 ms	 
-0	0		
-error: 0	102	Finished (with errors): 09 Jul 2025, 15:49:29	Main.mcpds
+diagnostics: 0	127	All files Compiled in 1469 ms	 
+hint: 0	1144	Used RX (bytes): 32 (100%)   Free RX (bytes): 0 (0%)	Used RX (bytes): 32 (100%)   Free RX (bytes): 0 (0%)
+hint: 0	1144	Static RAM (bytes): 7215   Dynamic RAM (bytes): 976	Static RAM (bytes): 7215   Dynamic RAM (bytes): 976
+hint: 0	1144	Used ROM (bytes): 30666 (70%)  Free ROM (bytes): 13362 (30%)	Used ROM (bytes): 30666 (70%)  Free ROM (bytes): 13362 (30%)
+diagnostics: 0	125	Project Linked Successfully	Main.mcpds
+hint: 32	1004	Possible stack overflow: recursion or cross-calling detected.	BMS.c
+diagnostics: 0	128	Linked in 281 ms	 
+diagnostics: 0	129	Project 'Main.mcpds' completed: 1812 ms	 
+diagnostics: 0	103	Finished successfully: 09 Jul 2025, 16:10:50	Main.mcpds

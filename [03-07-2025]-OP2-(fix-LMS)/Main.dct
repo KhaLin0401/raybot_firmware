@@ -7638,6 +7638,7 @@ wren_bit
 wrerr
 wrerr
 wrerr_bit
+writelog
 wrsp
 wrsp
 wrsp_bit

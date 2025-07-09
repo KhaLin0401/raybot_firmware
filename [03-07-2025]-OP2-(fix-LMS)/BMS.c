@@ -9,16 +9,11 @@ https://github.com/softwarecrash/DALY2MQTT
 #include <math.h>   // For ceil
 #include <ctype.h>
 #include <stddef.h>
+#include <stdarg.h>
 
-extern void writeLog(const char* format, ...);
-
-// Forward declarations for mock serial functions (you'll replace these with actual implementations)
-// These functions would typically interact with your hardware UART or a software serial library written in C.
-// For this example, they are placeholders.
-
-unsigned long current_millis(); // You need to define this function in your environment
-
+// Global BMS instance
 DalyBms bms;
+
 // Mock implementation for bitRead if not available on your platform
 #define BIT_READ(value, bit) (((value) >> (bit)) & 1)
 
@@ -33,7 +28,6 @@ DalyBms bms;
 //----------------------------------------------------------------------
 
 // Constructor equivalent for C
-
 
 bool DalyBms_update(DalyBms* bms)
 {
@@ -760,7 +754,7 @@ static bool DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 
 static bool DalyBms_receiveBytes(DalyBms* bms)
 {
-    uint8_t rxByteNum;
+    unsigned int rxByteNum;
     
     // Clear out the input buffer
     memset(bms->my_rxBuffer, 0x00, XFER_BUFFER_LENGTH);
@@ -824,7 +818,7 @@ void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin, b
     // Implement your serial initialization here
 }
 
-size_t serial_write(void* handle, const uint8_t *buffer, size_t size) {
+unsigned int serial_write(void* handle, const uint8_t *buffer, unsigned int size) {
     // Implement your serial write here
     return size;
 }
@@ -840,7 +834,7 @@ int serial_read_byte(void* handle) {
     return -1; // No byte available
 }
 
-size_t serial_read_bytes(void* handle, uint8_t *buffer, size_t length) {
+unsigned int serial_read_bytes(void* handle, uint8_t *buffer, unsigned int length) {
     // Implement your serial read bytes here.
     // For this mock, fill with dummy data or return 0 for no data.
     // In a real scenario, you'd read from hardware.
@@ -850,9 +844,17 @@ size_t serial_read_bytes(void* handle, uint8_t *buffer, size_t length) {
 }
 
 // Mock implementation for millis() for environments without it
-unsigned long current_millis() {
+unsigned long current_millis(void) {
     // In a real embedded system, this would typically read a hardware timer.
     // For a desktop C program, you might use time.h for rough simulation.
     // This is a placeholder.
     return 0; // Always returns 0 for this mock. You need a real implementation.
+}
+
+// Implementation for writeLog function
+void writeLog(const char* format, ...) {
+    // This is a mock implementation. In a real embedded system,
+    // you would implement this to write to UART, LCD, or other output device.
+    // For now, we'll leave it empty to avoid compilation issues.
+    (void)format; // Suppress unused parameter warning
 }

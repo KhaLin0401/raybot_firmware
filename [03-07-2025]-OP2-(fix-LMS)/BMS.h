@@ -147,7 +147,11 @@ typedef struct DalyBms
 
 // Function prototypes (replaces member functions)
 
+// Global BMS instance
 extern DalyBms bms;
+
+// Logging function
+extern void writeLog(const char* format, ...);
 
 /**
  * @brief put it in loop
@@ -287,6 +291,7 @@ bool DalyBms_setBmsReset(DalyBms* bms);
  */
 bool DalyBms_getState(DalyBms* bms);
 
+// Serial function prototypes - using unsigned int for mikroC compatibility
 void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin, bool inverse_logic);
 
 unsigned int serial_write(void* handle, const uint8_t *buffer, unsigned int size);
@@ -297,7 +302,8 @@ int serial_read_byte(void* handle);
 
 unsigned int serial_read_bytes(void* handle, uint8_t *buffer, unsigned int length);
 
-// Mock implementation for millis() if not available on your platform
+// Mock implementation for millis() for environments without it
+unsigned long current_millis(void);
 
 // Private helper function prototypes (conventionally prefixed with DalyBms_)
 static bool DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned int frameAmount);
