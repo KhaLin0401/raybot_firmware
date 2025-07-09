@@ -23,8 +23,6 @@ unsigned long current_millis(); // You need to define this function in your envi
 // Mock implementation for bitRead if not available on your platform
 #define BIT_READ(value, bit) (((value) >> (bit)) & 1)
 
-
-
 // Dummy SoftwareSerial equivalent for demonstration. In a real C project,
 // you'd typically manage UART directly or use a C-compatible software serial library.
 // For this example, the `serial_handle` in DalyBms will be a placeholder.
@@ -36,39 +34,25 @@ unsigned long current_millis(); // You need to define this function in your envi
 //----------------------------------------------------------------------
 
 // Constructor equivalent for C
-DalyBms* DalyBms_create(int rx, int tx)
-{
-    DalyBms* bms = (DalyBms*)malloc(sizeof(DalyBms));
-    if (bms == NULL) {
-        return NULL;
-    }
-    bms->soft_rx = rx;
-    bms->soft_tx = tx;
-    // In a real C implementation, this would be where you initialize your serial port handle
-    // For this example, we'll just set it to a non-NULL value.
-    bms->serial_handle = (void*)1; // Placeholder, replace with actual serial port init
-    return bms;
-}
-
 bool DalyBms_init(DalyBms* bms)
 {
-    // Null check the serial interface
-    if (bms->serial_handle == NULL)
-    {
-        bms->get.connectionState = false; // Using bool now, not -3
-        return false;
-    }
+    // // Null check the serial interface
+    // if (bms->serial_handle == NULL)
+    // {
+    //     bms->get.connectionState = false; // Using bool now, not -3
+    //     return false;
+    // }
 
-    // Initialize the serial link to 9600 baud with 8 data bits and no parity bits, per the Daly BMS spec
-    // This assumes you have a C-compatible serial initialization function
-    serial_begin(bms->serial_handle, 9600, 0, bms->soft_rx, bms->soft_tx, false);
+    // // Initialize the serial link to 9600 baud with 8 data bits and no parity bits, per the Daly BMS spec
+    // // This assumes you have a C-compatible serial initialization function
+    // serial_begin(bms->serial_handle, 9600, 0, bms->soft_rx, bms->soft_tx, false);
 
-    memset(bms->my_txBuffer, 0x00, XFER_BUFFER_LENGTH);
-    DalyBms_clearGet(bms);
+    // memset(bms->my_txBuffer, 0x00, XFER_BUFFER_LENGTH);
+    // DalyBms_clearGet(bms);
     return true;
 }
 
-bool DalyBms_loop(DalyBms* bms)
+bool DalyBms_update(DalyBms* bms)
 {
     if (current_millis() - bms->previousTime >= DELAYTINME)
     {
@@ -243,6 +227,9 @@ bool DalyBms_getPackTemp(DalyBms* bms) // 0x92
 
 bool DalyBms_getDischargeChargeMosStatus(DalyBms* bms) // 0x93
 {
+    char msgbuff[16];
+    float tmpAh;
+    
     if (!DalyBms_requestData(bms, DISCHARGE_CHARGE_MOS_STATUS, 1))
     {
         return false;
@@ -267,8 +254,7 @@ bool DalyBms_getDischargeChargeMosStatus(DalyBms* bms) // 0x93
     bms->get.chargeFetState = BIT_READ(bms->frameBuff[0][5], 0); // Assuming 0 or 1 indicates state
     bms->get.disChargeFetState = BIT_READ(bms->frameBuff[0][6], 0); // Assuming 0 or 1 indicates state
     bms->get.bmsHeartBeat = bms->frameBuff[0][7];
-    char msgbuff[16];
-    float tmpAh = (float)(((uint32_t)bms->frameBuff[0][8] << 0x18) | ((uint32_t)bms->frameBuff[0][9] << 0x10) | ((uint32_t)bms->frameBuff[0][10] << 0x08) | (uint32_t)bms->frameBuff[0][11]) * 0.001;
+    tmpAh = (float)(((uint32_t)bms->frameBuff[0][8] << 0x18) | ((uint32_t)bms->frameBuff[0][9] << 0x10) | ((uint32_t)bms->frameBuff[0][10] << 0x08) | (uint32_t)bms->frameBuff[0][11]) * 0.001;
     sprintf(msgbuff, "%.1f", tmpAh); // Use sprintf for float to string conversion
     bms->get.resCapacityAh = atof(msgbuff);
 
@@ -277,6 +263,8 @@ bool DalyBms_getDischargeChargeMosStatus(DalyBms* bms) // 0x93
 
 bool DalyBms_getStatusInfo(DalyBms* bms) // 0x94
 {
+    size_t i;
+    
     if (!DalyBms_requestData(bms, STATUS_INFO, 1))
     {
         return false;
@@ -288,7 +276,7 @@ bool DalyBms_getStatusInfo(DalyBms* bms) // 0x94
     bms->get.loadState = BIT_READ(bms->frameBuff[0][7], 0);   // Assuming 0 or 1 indicates state
 
     // Parse the 8 bits into 8 booleans that represent the states of the Digital IO
-    for (size_t i = 0; i < 8; i++)
+    for (i = 0; i < 8; i++)
     {
         bms->get.dIO[i] = BIT_READ(bms->frameBuff[0][8], i);
     }
@@ -300,7 +288,12 @@ bool DalyBms_getStatusInfo(DalyBms* bms) // 0x94
 
 bool DalyBms_getCellVoltages(DalyBms* bms) // 0x95
 {
-    unsigned int cellNo = 0; // start with cell no. 1
+    unsigned int cellNo;
+    size_t k;
+    size_t i;
+
+    // start with cell no. 1
+    cellNo = 0;
 
     // Check to make sure we have a valid number of cells
     if (bms->get.numberOfCells < MIN_NUMBER_CELLS || bms->get.numberOfCells > MAX_NUMBER_CELLS)
@@ -310,9 +303,9 @@ bool DalyBms_getCellVoltages(DalyBms* bms) // 0x95
 
     if (DalyBms_requestData(bms, CELL_VOLTAGES, (unsigned int)ceil(bms->get.numberOfCells / 3.0)))
     {
-        for (size_t k = 0; k < (unsigned int)ceil(bms->get.numberOfCells / 3.0); k++)
+        for (k = 0; k < (unsigned int)ceil(bms->get.numberOfCells / 3.0); k++)
         {
-            for (size_t i = 0; i < 3; i++)
+            for (i = 0; i < 3; i++)
             {
                 if (cellNo < MAX_NUMBER_CELLS) { // Ensure no out-of-bounds access
                     bms->get.cellVmV[cellNo] = (float)((bms->frameBuff[k][5 + (i * 2)] << 8) | bms->frameBuff[k][6 + (i * 2)]);
@@ -332,7 +325,13 @@ bool DalyBms_getCellVoltages(DalyBms* bms) // 0x95
 
 bool DalyBms_getCellTemperature(DalyBms* bms) // 0x96
 {
-    unsigned int sensorNo = 0;
+    unsigned int sensorNo;
+    size_t k;
+    size_t i;
+    
+    // start with sensor no. 1
+    sensorNo = 0;
+    
     // Check to make sure we have a valid number of temp sensors
     if ((bms->get.numOfTempSensors < MIN_NUMBER_TEMP_SENSORS) || (bms->get.numOfTempSensors > MAX_NUMBER_TEMP_SENSORS))
     {
@@ -341,9 +340,9 @@ bool DalyBms_getCellTemperature(DalyBms* bms) // 0x96
 
     if (DalyBms_requestData(bms, CELL_TEMPERATURE, (unsigned int)ceil(bms->get.numOfTempSensors / 7.0)))
     {
-        for (size_t k = 0; k < (unsigned int)ceil(bms->get.numOfTempSensors / 7.0); k++)
+        for (k = 0; k < (unsigned int)ceil(bms->get.numOfTempSensors / 7.0); k++)
         {
-            for (size_t i = 0; i < 7; i++)
+            for (i = 0; i < 7; i++)
             {
                 if (sensorNo < MAX_NUMBER_TEMP_SENSORS) { // Ensure no out-of-bounds access
                     bms->get.cellTemperature[sensorNo] = (bms->frameBuff[k][5 + i] - 40);
@@ -363,8 +362,13 @@ bool DalyBms_getCellTemperature(DalyBms* bms) // 0x96
 
 bool DalyBms_getCellBalanceState(DalyBms* bms) // 0x97
 {
-    int cellBalance = 0;
-    int cellBit = 0;
+    int cellBalance;
+    int cellBit;
+    size_t i;
+    size_t j;
+
+    cellBalance = 0;
+    cellBit = 0;
 
     // Check to make sure we have a valid number of cells
     if (bms->get.numberOfCells < MIN_NUMBER_CELLS || bms->get.numberOfCells > MAX_NUMBER_CELLS)
@@ -378,10 +382,10 @@ bool DalyBms_getCellBalanceState(DalyBms* bms) // 0x97
     }
 
     // We expect 6 bytes response for this command
-    for (size_t i = 0; i < 6; i++)
+    for (i = 0; i < 6; i++)
     {
         // For each bit in the byte, pull out the cell balance state boolean
-        for (size_t j = 0; j < 8; j++)
+        for (j = 0; j < 8; j++)
         {
             if (cellBit < MAX_NUMBER_CELLS) { // Ensure no out-of-bounds access
                 bms->get.cellBalanceState[cellBit] = BIT_READ(bms->frameBuff[0][i + 4], j);
@@ -415,6 +419,8 @@ bool DalyBms_getCellBalanceState(DalyBms* bms) // 0x97
 
 bool DalyBms_getFailureCodes(DalyBms* bms) // 0x98
 {
+    size_t len;
+    
     if (!DalyBms_requestData(bms, FAILURE_CODES, 1))
     {
         return false;
@@ -526,7 +532,7 @@ bool DalyBms_getFailureCodes(DalyBms* bms) // 0x98
     if (BIT_READ(bms->frameBuff[0][10], 3))
         strcat(bms->failCodeArr, "Low volt forbidden chg fault,");
     // remove the last character
-    size_t len = strlen(bms->failCodeArr);
+    len = strlen(bms->failCodeArr);
     if (len > 0 && bms->failCodeArr[len - 1] == ',')
     {
         bms->failCodeArr[len - 1] = '\0';
@@ -551,7 +557,6 @@ bool DalyBms_setDischargeMOS(DalyBms* bms, bool sw) // 0xD9 0x80 First Byte 0x01
 
     if (!DalyBms_receiveBytes(bms))
     {
-        writeLog("<BMS > No response from BMS! Can't verify MOSFETs switched.");
         return false;
     }
 
@@ -593,6 +598,9 @@ bool DalyBms_setBmsReset(DalyBms* bms) // 0x00 Reset the BMS
 
 bool DalyBms_setSOC(DalyBms* bms, float val) // 0x21 last two byte is SOC
 {
+    uint16_t value;
+    size_t i;
+    
     if (val >= 0.0f && val <= 100.0f)
     {
         bms->requestCounter = 0;
@@ -609,12 +617,12 @@ bool DalyBms_setSOC(DalyBms* bms, float val) // 0x21 last two byte is SOC
         }
         else
         {
-            for (size_t i = 5; i <= 9; i++)
+            for (i = 5; i <= 9; i++)
             {
                 bms->my_txBuffer[i] = bms->my_rxBuffer[i];
             }
         }
-        uint16_t value = (uint16_t)(val * 10.0f);
+        value = (uint16_t)(val * 10.0f);
         bms->my_txBuffer[10] = (value >> 8) & 0xFF;
         bms->my_txBuffer[11] = value & 0xFF;
         DalyBms_sendCommand(bms, SET_SOC);
@@ -648,13 +656,22 @@ void DalyBms_set_callback(DalyBms* bms, void (*func)(void)) // callback function
 
 static bool DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned int frameAmount)
 {
+    uint8_t txChecksum;
+    unsigned int byteCounter;
+    size_t i;
+    size_t j;
+    uint8_t rxChecksum;
+    int k;
+    
     // Clear out the buffers
     memset(bms->my_rxFrameBuffer, 0x00, sizeof(bms->my_rxFrameBuffer));
     memset(bms->frameBuff, 0x00, sizeof(bms->frameBuff));
     memset(bms->my_txBuffer, 0x00, XFER_BUFFER_LENGTH);
+    
     //--------------send part--------------------
-    uint8_t txChecksum = 0x00;    // transmit checksum buffer
-    unsigned int byteCounter = 0; // bytecounter for incoming data
+    txChecksum = 0x00;    // transmit checksum buffer
+    byteCounter = 0; // bytecounter for incoming data
+    
     // prepare the frame with static data and command ID
     bms->my_txBuffer[0] = START_BYTE;
     bms->my_txBuffer[1] = HOST_ADRESS;
@@ -662,7 +679,7 @@ static bool DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned i
     bms->my_txBuffer[3] = FRAME_LENGTH;
 
     // Calculate the checksum
-    for (uint8_t i = 0; i <= 11; i++)
+    for (i = 0; i <= 11; i++)
     {
         txChecksum += bms->my_txBuffer[i];
     }
@@ -677,16 +694,16 @@ static bool DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned i
 
     //-----------Receive Part---------------------
     /*uint8_t rxByteNum = */ serial_read_bytes(bms->serial_handle, bms->my_rxFrameBuffer, XFER_BUFFER_LENGTH * frameAmount);
-    for (size_t i = 0; i < frameAmount; i++)
+    for (i = 0; i < frameAmount; i++)
     {
-        for (size_t j = 0; j < XFER_BUFFER_LENGTH; j++)
+        for (j = 0; j < XFER_BUFFER_LENGTH; j++)
         {
             bms->frameBuff[i][j] = bms->my_rxFrameBuffer[byteCounter];
             byteCounter++;
         }
 
-        uint8_t rxChecksum = 0x00;
-        for (int k = 0; k < XFER_BUFFER_LENGTH - 1; k++)
+        rxChecksum = 0x00;
+        for (k = 0; k < XFER_BUFFER_LENGTH - 1; k++)
         {
             rxChecksum += bms->frameBuff[i][k];
         }
@@ -711,7 +728,9 @@ static bool DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned i
 
 static bool DalyBms_sendQueueAdd(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 {
-    for (size_t i = 0; i < sizeof(bms->commandQueue) / sizeof(bms->commandQueue[0]); i++)
+    size_t i;
+    
+    for (i = 0; i < sizeof(bms->commandQueue) / sizeof(bms->commandQueue[0]); i++)
     {
         if (bms->commandQueue[i] == 0x100)
         {
@@ -724,7 +743,10 @@ static bool DalyBms_sendQueueAdd(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 
 static bool DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 {
-    uint8_t checksum = 0;
+    uint8_t checksum;
+    uint8_t i;
+    
+    checksum = 0;
     // clear all incoming serial to avoid data collision
     while (serial_read_byte(bms->serial_handle) > 0);
 
@@ -735,7 +757,7 @@ static bool DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
     bms->my_txBuffer[3] = FRAME_LENGTH;
 
     // Calculate the checksum
-    for (uint8_t i = 0; i <= 11; i++)
+    for (i = 0; i <= 11; i++)
     {
         checksum += bms->my_txBuffer[i];
     }
@@ -755,12 +777,14 @@ static bool DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 
 static bool DalyBms_receiveBytes(DalyBms* bms)
 {
+    uint8_t rxByteNum;
+    
     // Clear out the input buffer
     memset(bms->my_rxBuffer, 0x00, XFER_BUFFER_LENGTH);
     memset(bms->frameBuff, 0x00, sizeof(bms->frameBuff)); // This line seems redundant if my_rxBuffer is the primary target
 
     // Read bytes from the specified serial interface
-    uint8_t rxByteNum = serial_read_bytes(bms->serial_handle, bms->my_rxBuffer, XFER_BUFFER_LENGTH);
+    rxByteNum = serial_read_bytes(bms->serial_handle, bms->my_rxBuffer, XFER_BUFFER_LENGTH);
 
     // Make sure we got the correct number of bytes
     if (rxByteNum != XFER_BUFFER_LENGTH)
@@ -780,9 +804,12 @@ static bool DalyBms_receiveBytes(DalyBms* bms)
 
 static bool DalyBms_validateChecksum(DalyBms* bms)
 {
-    uint8_t checksum = 0x00;
+    uint8_t checksum;
+    int i;
+    
+    checksum = 0x00;
 
-    for (int i = 0; i < XFER_BUFFER_LENGTH - 1; i++)
+    for (i = 0; i < XFER_BUFFER_LENGTH - 1; i++)
     {
         checksum += bms->my_rxBuffer[i];
     }
@@ -792,8 +819,10 @@ static bool DalyBms_validateChecksum(DalyBms* bms)
 
 static void DalyBms_barfRXBuffer(DalyBms* bms)
 {
+    int i;
+    
     // These were C++ String operations, replaced with C-style logging
-    for (int i = 0; i < XFER_BUFFER_LENGTH; i++)
+    for (i = 0; i < XFER_BUFFER_LENGTH; i++)
     {
         writeLog(",0x%02X", bms->my_rxBuffer[i]);
     }
