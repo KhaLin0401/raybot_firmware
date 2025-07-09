@@ -629,14 +629,14 @@ _handle_get_bat_info:
 	LNK	#16
 
 ;command_handler.c,244 :: 		void handle_get_bat_info(CommandHandler *handler) {
-;command_handler.c,249 :: 		(int)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
+;command_handler.c,249 :: 		(uint8_t)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
 	MOV	__bmsData+82, W0
 	MOV	W0, [W14+14]
 	PUSH	W10
 	MOV	__bmsData+8, W0
 	MOV	__bmsData+10, W1
 	CALL	__Float2Longint
-	MOV	W0, [W14+12]
+	MOV.B	W0, [W14+12]
 ;command_handler.c,248 :: 		(int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1], (int)_bmsData._cellVoltages[2], (int)_bmsData._cellVoltages[3],
 	MOV	__bmsData+28, W0
 	MOV	__bmsData+30, W1
@@ -669,21 +669,22 @@ _handle_get_bat_info:
 	POP	W10
 ;command_handler.c,245 :: 		sprintf(handler->response_buffer,
 	MOV	#34, W1
-	ADD	W10, W1, W11
-;command_handler.c,249 :: 		(int)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
+	ADD	W10, W1, W8
+;command_handler.c,249 :: 		(uint8_t)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
 	MOV	#1, W1
 	PUSH	W1
-	MOV	#1, W9
-	MOV	[W14+14], W8
-	MOV	[W14+12], W7
+	MOV	#1, W2
+	MOV	[W14+14], W1
+	PUSH	W2
+	PUSH	W1
+	MOV.B	[W14+12], W1
+	ZE	W1, W7
 	MOV	[W14+10], W6
 	MOV	[W14+8], W5
 	MOV	[W14+6], W4
 	MOV	[W14+4], W3
 	MOV	[W14+2], W2
 	MOV	[W14+0], W1
-	PUSH	W9
-	PUSH	W8
 	PUSH	W7
 ;command_handler.c,248 :: 		(int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1], (int)_bmsData._cellVoltages[2], (int)_bmsData._cellVoltages[3],
 	PUSH	W6
@@ -698,8 +699,8 @@ _handle_get_bat_info:
 	MOV	#lo_addr(?lstr_13_command_handler), W0
 	PUSH	W0
 ;command_handler.c,245 :: 		sprintf(handler->response_buffer,
-	PUSH	W11
-;command_handler.c,249 :: 		(int)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
+	PUSH	W8
+;command_handler.c,249 :: 		(uint8_t)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
 	CALL	_sprintf
 	SUB	#26, W15
 ;command_handler.c,250 :: 		}

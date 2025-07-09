@@ -20,9 +20,9 @@ __F_timer1_init:
 	MOV	#lo_addr(IPC0bits), W0
 	XOR	W1, [W0], W1
 	MOV	W1, IPC0bits
-;schedule_task.c,31 :: 		IFS0bits.T1IF = 0;  // Xóa c? ng?t Timer1
+;schedule_task.c,31 :: 		IFS0bits.T1IF = 0;  // Xï¿½a c? ng?t Timer1
 	BCLR.B	IFS0bits, #3
-;schedule_task.c,32 :: 		IEC0bits.T1IE = 1;  // Cho phép ng?t Timer1
+;schedule_task.c,32 :: 		IEC0bits.T1IE = 1;  // Cho phï¿½p ng?t Timer1
 	BSET.B	IEC0bits, #3
 ;schedule_task.c,33 :: 		}
 L_end__F_timer1_init:
@@ -240,10 +240,10 @@ L___SC_update_motor54:
 	GOTO	L___SC_update_motor37
 L___SC_update_motor55:
 L___SC_update_motor36:
-;schedule_task.c,128 :: 		_Lifter_Disable(&lifter);         // D?ng motor nâng h?       // C?p nh?t motor ph?
+;schedule_task.c,128 :: 		_Lifter_Disable(&lifter);         // D?ng motor nï¿½ng h?       // C?p nh?t motor ph?
 	MOV	#lo_addr(_lifter), W10
 	CALL	__Lifter_Disable
-;schedule_task.c,129 :: 		LATA4_bit = 1;                    // Buzzer kêu c?nh báo
+;schedule_task.c,129 :: 		LATA4_bit = 1;                    // Buzzer kï¿½u c?nh bï¿½o
 	BSET	LATA4_bit, BitPos(LATA4_bit+0)
 ;schedule_task.c,130 :: 		}
 	GOTO	L__SC_update_motor18
