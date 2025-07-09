@@ -173,8 +173,6 @@ _main:
 	PUSH.D	W0
 	CALL	__Lifter_Init
 	SUB	#12, W15
-;Main.c,73 :: 		BMS_Init();
-	CALL	_BMS_Init
 ;Main.c,74 :: 		Lms_Init();
 	CALL	_Lms_Init
 ;Main.c,75 :: 		init_distance_sensors();

@@ -7,19 +7,18 @@ https://github.com/softwarecrash/DALY2MQTT
 #include <stdio.h>  // For sprintf (if needed for logging)
 #include <stdlib.h> // For atof
 #include <math.h>   // For ceil
+#include <ctype.h>
+#include <stddef.h>
+
+extern void writeLog(const char* format, ...);
 
 // Forward declarations for mock serial functions (you'll replace these with actual implementations)
 // These functions would typically interact with your hardware UART or a software serial library written in C.
 // For this example, they are placeholders.
-void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin, bool inverse_logic);
-size_t serial_write(void* handle, const uint8_t *buffer, size_t size);
-void serial_flush(void* handle);
-int serial_read_byte(void* handle);
-size_t serial_read_bytes(void* handle, uint8_t *buffer, size_t length);
 
-// Mock implementation for millis() if not available on your platform
 unsigned long current_millis(); // You need to define this function in your environment
 
+DalyBms bms;
 // Mock implementation for bitRead if not available on your platform
 #define BIT_READ(value, bit) (((value) >> (bit)) & 1)
 
@@ -34,23 +33,7 @@ unsigned long current_millis(); // You need to define this function in your envi
 //----------------------------------------------------------------------
 
 // Constructor equivalent for C
-bool DalyBms_init(DalyBms* bms)
-{
-    // // Null check the serial interface
-    // if (bms->serial_handle == NULL)
-    // {
-    //     bms->get.connectionState = false; // Using bool now, not -3
-    //     return false;
-    // }
 
-    // // Initialize the serial link to 9600 baud with 8 data bits and no parity bits, per the Daly BMS spec
-    // // This assumes you have a C-compatible serial initialization function
-    // serial_begin(bms->serial_handle, 9600, 0, bms->soft_rx, bms->soft_tx, false);
-
-    // memset(bms->my_txBuffer, 0x00, XFER_BUFFER_LENGTH);
-    // DalyBms_clearGet(bms);
-    return true;
-}
 
 bool DalyBms_update(DalyBms* bms)
 {

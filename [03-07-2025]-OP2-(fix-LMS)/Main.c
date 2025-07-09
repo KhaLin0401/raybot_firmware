@@ -7,7 +7,7 @@
 
 
 void init_hardware() {
-    // C?u hình các chân làm input
+    // C?u hï¿½nh cï¿½c chï¿½n lï¿½m input
     TRISAbits.TRISA0 = 1;
     TRISAbits.TRISA1 = 1;
     TRISBbits.TRISB2 = 1;
@@ -32,7 +32,7 @@ void init_hardware() {
     TRISA8_bit = 0; // RA8: output
     LATA8_bit = 1;
     
-    // C?u hình các chân di?u khi?n motor (Direction)
+    // C?u hï¿½nh cï¿½c chï¿½n di?u khi?n motor (Direction)
     TRISC7_bit = 0; // RC7: output
     LATC7_bit = 1;
     TRISC6_bit = 0; // RB6: output
@@ -40,13 +40,13 @@ void init_hardware() {
     TRISC8_bit = 0; // RC8: output
     LATC8_bit = 1;
 
-    // C?u hình chân enable cho motor và lifter
+    // C?u hï¿½nh chï¿½n enable cho motor vï¿½ lifter
     TRISB12_bit = 0; // EN_M1/M2
     LATB12_bit = 0;
     TRISB5_bit = 0; // EN_lifter
     LATB5_bit = 0;
 
-    // C?u hình PPS cho UART và PWM
+    // C?u hï¿½nh PPS cho UART vï¿½ PWM
     Unlock_IOLOCK();
         PPS_Mapping_NoLock(RX1, _INPUT, _U1RX); // RP13 -> U1RX
         PPS_Mapping_NoLock(TX1, _OUTPUT, _U1TX); // RP14 -> U1TX
@@ -70,7 +70,7 @@ void main() {
     _MotorDC_Init(&motorDC, 2.5, 0.5, 1.0, 0);
     _MotorDC_SetSafeDistance(&motorDC, 40);
     _Lifter_Init(&lifter, 1.0, 0.5, 0.1, 30);
-    BMS_Init();
+    //DalyBms_init(&bms);
     Lms_Init();
     init_distance_sensors();
     CommandHandler_Init(&cmdHandler);

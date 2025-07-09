@@ -244,41 +244,41 @@ void CommandHandler_Execute(CommandHandler *handler, const char *cmd) {
 void handle_get_bat_info(CommandHandler *handler) {
     sprintf(handler->response_buffer,
     ">{\"type\":0,\"state_type\":0,\"data\":{\"current\":%d,\"temp\":%d,\"voltage\":%d,\"cell_voltages\":[%d,%d,%d,%d],\"percent\":%d,\"fault\":%d,\"health\":%d,\"status\":%d}}\r\n",
-    (int)_bmsData._sumCurrent,(int) _bmsData._temperature, (int)_bmsData._sumVoltage,
-    (int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1], (int)_bmsData._cellVoltages[2], 0,
-    (int)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
+    (int)bms.get.packCurrent,(int) bms.get.tempAverage, (int)bms.get.packVoltage,
+    (int)bms.get.cellVmV[0], (int)bms.get.cellVmV[1], (int)bms.get.cellVmV[2], bms.get.cellVmV[3],
+    (int)bms.get.packSOC, (int)bms.errorCounter, (int) 90, (int)1);
 }
-void handle_get_bat_current(CommandHandler *handler) {
-    sprintf(handler->response_buffer, "BAT_CURRENT=%d\r\n",_bmsData._sumCurrent);
-}
-void handle_get_bat_fault(CommandHandler *handler) {
-    sprintf(handler->response_buffer, "BAT_FAULT=%d\r\n",_bmsData._errorCount);
-}
-void handle_get_bat_health(CommandHandler *handler) {
-    sprintf(handler->response_buffer, "BAT_HEALTH=%d\r\n", 0);
-}
-void handle_get_bat_soc(CommandHandler *handler) {
-    sprintf(handler->response_buffer, "BAT_SOC=%d\r\n",_bmsData._sumSOC);
-}
-void handle_get_bat_status(CommandHandler *handler) {
-    sprintf(handler->response_buffer, "BAT_STATUS=%d\r\n",0);
-}
-void handle_get_bat_temp(CommandHandler *handler) {
-    sprintf(handler->response_buffer, "BAT_TEMP=%d\r\n",_bmsData._temperature);
-}
-void handle_get_bat_volt(CommandHandler *handler) {
-    sprintf(handler->response_buffer, "BAT_VOLT=%d\r\n",_bmsData._sumVoltage);
-}
-void handle_get_cell_volt(CommandHandler *handler) {
-    sprintf(handler->response_buffer, "CELL_VOLT=[%d,%d,%d,%d]\r\n",
-    _bmsData._cellVoltages[0], _bmsData._cellVoltages[1], _bmsData._cellVoltages[2], 0);
-}
+// void handle_get_bat_current(CommandHandler *handler) {
+//     sprintf(handler->response_buffer, "BAT_CURRENT=%d\r\n",bms._sumCurrent);
+// }
+// void handle_get_bat_fault(CommandHandler *handler) {
+//     sprintf(handler->response_buffer, "BAT_FAULT=%d\r\n",bms._errorCount);
+// }
+// void handle_get_bat_health(CommandHandler *handler) {
+//     sprintf(handler->response_buffer, "BAT_HEALTH=%d\r\n", 0);
+// }
+// void handle_get_bat_soc(CommandHandler *handler) {
+//     sprintf(handler->response_buffer, "BAT_SOC=%d\r\n",bms._sumSOC);
+// }
+// void handle_get_bat_status(CommandHandler *handler) {
+//     sprintf(handler->response_buffer, "BAT_STATUS=%d\r\n",0);
+// }
+// void handle_get_bat_temp(CommandHandler *handler) {
+//     sprintf(handler->response_buffer, "BAT_TEMP=%d\r\n",bms._temperature);
+// }
+// void handle_get_bat_volt(CommandHandler *handler) {
+//     sprintf(handler->response_buffer, "BAT_VOLT=%d\r\n",bms._sumVoltage);
+// }
+// void handle_get_cell_volt(CommandHandler *handler) {
+//     sprintf(handler->response_buffer, "CELL_VOLT=[%d,%d,%d,%d]\r\n",
+//     bms._cellVoltages[0], bms._cellVoltages[1], bms._cellVoltages[2], 0);
+// }
 
 /* ========== Charging ========== */
 void handle_get_chg_info(CommandHandler *handler){
     sprintf(handler->response_buffer,
     ">{\"type\":0,\"state_type\":1,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
-    (int) _bmsData._charge_current_limit, (int) _bmsData._chargeMOS);
+    (int) 1, (int) bms.get.chargeFetState);
 }
 void handle_get_chg_cur_lim(CommandHandler *handler) {
     sprintf(handler->response_buffer, "CHG_CUR_LIM=3000\r\n");
@@ -295,7 +295,7 @@ void handle_set_chg_en(CommandHandler *handler) {
 void handle_get_dis_info(CommandHandler *handler){
     sprintf(handler->response_buffer,
     ">{\"type\":0,\"state_type\":2,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
-    (int) _bmsData._discharge_current_limit, (int) _bmsData._dischargeMOS);
+    (int) 1, (int) bms.get.chargeDischargeStatus);
 }
 void handle_get_dis_cur_lim(CommandHandler *handler) {
     sprintf(handler->response_buffer, "DIS_CUR_LIM=5000\r\n");
@@ -532,11 +532,11 @@ void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char
     int current_limit, enable;
     if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
         JSON_GetInt(dataParser, "enable", &enable)) {
-        _bmsData._charge_current_limit = current_limit;
+        //bms._charge_current_limit = current_limit;
         if (enable == 0)
-            Immediate_PushCommand(0xDA, _defaultSetPayload, 0x00);
+            DalyBms_setChargeMOS(&bms, 0);
         else if (enable == 1)
-            Immediate_PushCommand(0xDA, _defaultSetPayload, 0x01);
+            DalyBms_setChargeMOS(&bms, 1);
         else {
             sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
             return;
@@ -552,11 +552,11 @@ void handle_discharge_config(CommandHandler *handler, JSON_Parser *dataParser, c
     int current_limit, enable;
     if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
         JSON_GetInt(dataParser, "enable", &enable)) {
-        _bmsData._discharge_current_limit = current_limit;
+        //bms._discharge_current_limit = current_limit;
         if (enable == 0)
-            Immediate_PushCommand(0xD9, _defaultSetPayload, 0x00);
+            DalyBms_setDischargeMOS(&bms, 0);
         else if (enable == 1)
-            Immediate_PushCommand(0xD9, _defaultSetPayload, 0x01);
+            DalyBms_setDischargeMOS(&bms, 1);
         else {
             sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
             return;

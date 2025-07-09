@@ -1,55 +1,42 @@
 0	1	mikroCdsPIC.exe -MSF -DBG -pP24FJ64GA004 -DL -SSA -O11111114 -fo16 -N"C:\Users\ASUS\Desktop\RAYBOT\SOURCE\raybot_firmware\[03-07-2025]-OP2-(fix-LMS)\Main.mcpds" -SP"D:\mikroC PRO for dsPIC\Defs\" -SP"D:\mikroC PRO for dsPIC\Uses\" -SP"C:\Users\ASUS\Desktop\RAYBOT\SOURCE\raybot_firmware\[03-07-2025]-OP2-(fix-LMS)\" -SP"D:\mikroC PRO for dsPIC\Packages\Utilities Scheduler\Uses\" -IP"D:\mikroC PRO for dsPIC\Uses\" -IP"C:\Users\ASUS\Desktop\RAYBOT\SOURCE\raybot_firmware\[03-07-2025]-OP2-(fix-LMS)\" -IP"D:\mikroC PRO for dsPIC\Packages\Utilities Scheduler\Uses\" "Main.c" "robot_system.c" "schedule_task.c" "distance_sensor.c" "command_handler.c" "Lifter.c" "MotorDC.c" "json_parser.c" "BMS.c" "uart2.c" "Lms.c" "Box.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_CType.mcl" "__Lib_CString.mcl" "__Lib_CStdlib.mcl" "__Lib_CMath.mcl" "__Lib_Conversions.mcl" "__Lib_Sprintf.mcl" "__Lib_Sprinti.mcl" "__Lib_Sprintl.mcl" "__Lib_Time.mcl" "__Lib_Button.mcl" "__Lib_SoftUART.mcl" "__Lib_ADC_1_p24FJ_p30.mcl" "__Lib_PWM_1.mcl" "__Lib_UART_12_p24_p33.mcl" "__Lib_PPS_p24FJ64GA004_DPC44.mcl" "scheduler.mcl"	 
-diagnostics: 0	121	Loading...	 
+0	0	Loading...	 
 diagnostics: 0	122	Compilation Started	stdint.h
-error: 156	380	Arguments cannot have explicit memory specificator	bms.h
-error: 73	324	Undeclared identifier 'BMS_Init' in expression	Main.c
+diagnostics: 83	123	Compiled Successfully	Main.c
 diagnostics: 0	122	Compilation Started	stdint.h
 hint: 37	1163	Variable 'debug_msg' has been declared, but not used	robot_system.c
 diagnostics: 75	123	Compiled Successfully	robot_system.c
 diagnostics: 0	122	Compilation Started	stdint.h
-error: 156	380	Arguments cannot have explicit memory specificator	bms.h
 hint: 0	1004	interrupt handler (__attribute__ at 0x001A)	schedule_task.c
-error: 94	324	Undeclared identifier 'BMS_Update' in expression	schedule_task.c
 hint: 50	1163	Variable '_command_available' has been declared, but not used	schedule_task.c
-error: 127	324	Undeclared identifier 'LIFTER_RUN_UP' in expression	schedule_task.c
-error: 227	324	Undeclared identifier 'BMS_Update' in expression	schedule_task.c
 warning: 227	1508	Implicit conversion of int to ptr	schedule_task.c
+diagnostics: 232	123	Compiled Successfully	schedule_task.c
 diagnostics: 0	122	Compilation Started	stdint.h
 hint: 57	1163	Variable 'debug_buffer' has been declared, but not used	distance_sensor.c
 diagnostics: 87	123	Compiled Successfully	distance_sensor.c
 hint: 36	1164	Variable 'voltage' has been eliminated by optimizer	distance_sensor.c
 hint: 46	1164	Variable 'voltage' has been eliminated by optimizer	distance_sensor.c
 diagnostics: 0	122	Compilation Started	stddef.h
-error: 156	380	Arguments cannot have explicit memory specificator	bms.h
 warning: 120	1505	Suspicious pointer conversion	command_handler.c
-hint: 113	1163	Variable '_param1' has been declared, but not used	command_handler.c
-hint: 113	1163	Variable '_param2' has been declared, but not used	command_handler.c
-hint: 113	1163	Variable '_param3' has been declared, but not used	command_handler.c
 warning: 224	1505	Suspicious pointer conversion	command_handler.c
-hint: 192	1163	Variable 'i' has been declared, but not used	command_handler.c
-error: 247	324	Undeclared identifier '_bmsData' in expression	command_handler.c
-error: 247	317	Operator '.' is not applicable to these operands ''	command_handler.c
-error: 247	324	Undeclared identifier '_bmsData' in expression	command_handler.c
-error: 247	317	Operator '.' is not applicable to these operands ''	command_handler.c
-error: 247	324	Undeclared identifier '_bmsData' in expression	command_handler.c
-error: 247	317	Operator '.' is not applicable to these operands ''	command_handler.c
-error: 248	324	Undeclared identifier '_bmsData' in expression	command_handler.c
-error: 248	317	Operator '.' is not applicable to these operands ''	command_handler.c
-error: 248	317	Operator '' is not applicable to these operands ''	command_handler.c
-error: 248	322	Pointer required	command_handler.c
-error: 248	324	Undeclared identifier '_bmsData' in expression	command_handler.c
-error: 248	317	Operator '.' is not applicable to these operands ''	command_handler.c
-error: 248	317	Operator '' is not applicable to these operands ''	command_handler.c
-error: 248	322	Pointer required	command_handler.c
-error: 248	324	Undeclared identifier '_bmsData' in expression	command_handler.c
-error: 248	317	Operator '.' is not applicable to these operands ''	command_handler.c
-error: 248	317	Operator '' is not applicable to these operands ''	command_handler.c
-error: 248	322	Pointer required	command_handler.c
-error: 249	324	Undeclared identifier '_bmsData' in expression	command_handler.c
-error: 249	317	Operator '.' is not applicable to these operands ''	command_handler.c
-error: 249	324	Undeclared identifier '_bmsData' in expression	command_handler.c
-error: 249	317	Operator '.' is not applicable to these operands ''	command_handler.c
-error: 250	312	Internal error ''	command_handler.c
+hint: 429	1354	argument may be out of range [?T543]	command_handler.c
+hint: 571	1163	Variable 'strdata' has been declared, but not used	command_handler.c
+hint: 627	1354	argument may be out of range [direction]	command_handler.c
+diagnostics: 667	123	Compiled Successfully	command_handler.c
+warning: 533	1512	variable 'current_limit' might not have been initialized	command_handler.c
+warning: 534	1512	variable 'enable' might not have been initialized	command_handler.c
+warning: 553	1512	variable 'current_limit' might not have been initialized	command_handler.c
+warning: 554	1512	variable 'enable' might not have been initialized	command_handler.c
+warning: 573	1512	variable 'target_position' might not have been initialized	command_handler.c
+warning: 574	1512	variable 'max_output' might not have been initialized	command_handler.c
+warning: 575	1512	variable 'enable' might not have been initialized	command_handler.c
+warning: 623	1512	variable 'direction' might not have been initialized	command_handler.c
+warning: 624	1512	variable 'speed' might not have been initialized	command_handler.c
+warning: 625	1512	variable 'enable' might not have been initialized	command_handler.c
+warning: 656	1512	variable 'type' might not have been initialized	command_handler.c
+hint: 113	1164	Variable '_param1' has been eliminated by optimizer	command_handler.c
+hint: 113	1164	Variable '_param2' has been eliminated by optimizer	command_handler.c
+hint: 113	1164	Variable '_param3' has been eliminated by optimizer	command_handler.c
+hint: 192	1164	Variable 'i' has been eliminated by optimizer	command_handler.c
 diagnostics: 0	122	Compilation Started	lifter.h
 hint: 11	1163	Variable 'buffer' has been declared, but not used	Lifter.c
 diagnostics: 210	123	Compiled Successfully	Lifter.c
@@ -76,22 +63,9 @@ diagnostics: 223	123	Compiled Successfully	json_parser.c
 hint: 33	1164	Variable 'key_len' has been eliminated by optimizer	json_parser.c
 hint: 80	1164	Variable 'key_len' has been eliminated by optimizer	json_parser.c
 diagnostics: 0	122	Compilation Started	stdint.h
-error: 156	380	Arguments cannot have explicit memory specificator	bms.h
-error: 15	402	; expected, but 'serial_write' found	BMS.c
-error: 15	371	Specifier needed	BMS.c
-error: 15	300	Syntax Error: ')' expected,  but 'size' found	BMS.c
-error: 18	402	; expected, but 'serial_read_bytes' found	BMS.c
-error: 18	393	'size_t' Identifier redefined	BMS.c
-error: 18	371	Specifier needed	BMS.c
-error: 18	300	Syntax Error: ')' expected,  but 'length' found	BMS.c
-error: 39	380	Arguments cannot have explicit memory specificator	BMS.c
-error: 41	324	Undeclared identifier 'malloc' in expression	BMS.c
-error: 41	307	Illegal typecast 'can not convert to pointer' ''	BMS.c
-error: 41	300	Syntax Error: ';' expected,  but ')' found	BMS.c
-error: 41	424	'}' expected ';' found	BMS.c
-hint: 41	1163	Variable 'bms' has been declared, but not used	BMS.c
-warning: 45	1503	Result is not defined in function: 'DalyBms_create'	BMS.c
-error: 45	312	Internal error ''	BMS.c
+diagnostics: 858	123	Compiled Successfully	BMS.c
+hint: 214	1164	Variable 'tmpAh' has been eliminated by optimizer	BMS.c
+hint: 763	1164	Variable 'rxByteNum' has been eliminated by optimizer	BMS.c
 diagnostics: 0	122	Compilation Started	stdint.h
 warning: 60	1505	Suspicious pointer conversion	uart2.c
 hint: 0	1004	interrupt handler (_UART2_Rx_Receive_ISR at 0x0050)	uart2.c
@@ -101,4 +75,6 @@ diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 22	123	Compiled Successfully	Lms.c
 diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 181	123	Compiled Successfully	Box.c
-error: 0	102	Finished (with errors): 09 Jul 2025, 09:37:04	Main.mcpds
+diagnostics: 0	127	All files Compiled in 1359 ms	 
+0	0		
+error: 0	102	Finished (with errors): 09 Jul 2025, 15:49:29	Main.mcpds

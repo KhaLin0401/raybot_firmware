@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=BMS.c
+Value=Main.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -56,7 +56,9 @@ File17=Box.c
 File18=Box.h
 File19=distance_sensor.h
 File20=BMS.c
-Count=21
+File21=uart2.c
+File22=BMS.h
+Count=23
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -110,6 +112,7 @@ Count=3
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries
+45=Conversions
 348=PS2
 351=PWM
 377=Software_UART

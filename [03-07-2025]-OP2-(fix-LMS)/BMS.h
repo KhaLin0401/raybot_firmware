@@ -2,8 +2,8 @@
 DALY2MQTT Project
 https://github.com/softwarecrash/DALY2MQTT
 */
-#ifndef DALY_BMS_UART_H
-#define DALY_BMS_UART_H
+#ifndef BMS_H
+#define BMS_H
 
 #include <stdint.h> // For uint8_t
 #include <stdbool.h> // For bool
@@ -147,14 +147,7 @@ typedef struct DalyBms
 
 // Function prototypes (replaces member functions)
 
-/**
- * @brief Construct a new DalyBms object
- * @param rx RX pin
- * @param tx TX pin
- * @return Pointer to a newly initialized DalyBms object, or NULL on failure.
- */
-
-bool DalyBms_init(DalyBms* bms);
+extern DalyBms bms;
 
 /**
  * @brief put it in loop
@@ -294,6 +287,18 @@ bool DalyBms_setBmsReset(DalyBms* bms);
  */
 bool DalyBms_getState(DalyBms* bms);
 
+void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin, bool inverse_logic);
+
+unsigned int serial_write(void* handle, const uint8_t *buffer, unsigned int size);
+
+void serial_flush(void* handle);
+
+int serial_read_byte(void* handle);
+
+unsigned int serial_read_bytes(void* handle, uint8_t *buffer, unsigned int length);
+
+// Mock implementation for millis() if not available on your platform
+
 // Private helper function prototypes (conventionally prefixed with DalyBms_)
 static bool DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned int frameAmount);
 static bool DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID);
@@ -303,4 +308,4 @@ static bool DalyBms_validateChecksum(DalyBms* bms);
 static void DalyBms_barfRXBuffer(DalyBms* bms);
 static void DalyBms_clearGet(DalyBms* bms);
 
-#endif // DALY_BMS_UART_H
+#endif // BMS_H

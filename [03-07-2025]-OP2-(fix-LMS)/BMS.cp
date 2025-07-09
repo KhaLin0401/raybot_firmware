@@ -164,46 +164,58 @@ typedef struct DalyBms
  void (*requestCallback)(void);
 
 } DalyBms;
-#line 156 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
-DalyBms* DalyBms_create(int rx, int tx);
+
+
+
+extern DalyBms bms;
+#line 157 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_update(DalyBms* bms);
 #line 164 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_init(DalyBms* bms);
-#line 171 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_loop(DalyBms* bms);
-#line 178 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 void DalyBms_set_callback(DalyBms* bms, void (*func)(void));
-#line 185 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 171 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackMeasurements(DalyBms* bms);
-#line 192 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 178 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getVoltageThreshold(DalyBms* bms);
-#line 199 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 185 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackVoltageThreshold(DalyBms* bms);
-#line 207 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 193 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackTemp(DalyBms* bms);
-#line 215 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 201 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getMinMaxCellVoltage(DalyBms* bms);
-#line 222 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 208 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getStatusInfo(DalyBms* bms);
-#line 229 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 215 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellVoltages(DalyBms* bms);
-#line 236 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 222 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellTemperature(DalyBms* bms);
-#line 243 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 229 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellBalanceState(DalyBms* bms);
-#line 250 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 236 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getFailureCodes(DalyBms* bms);
-#line 258 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 244 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setDischargeMOS(DalyBms* bms,  _Bool  sw);
-#line 266 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 252 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setChargeMOS(DalyBms* bms,  _Bool  sw);
-#line 274 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 260 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setSOC(DalyBms* bms, float sw);
-#line 281 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 267 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getDischargeChargeMosStatus(DalyBms* bms);
-#line 289 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 275 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setBmsReset(DalyBms* bms);
-#line 302 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 288 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getState(DalyBms* bms);
+
+void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin,  _Bool  inverse_logic);
+
+unsigned int serial_write(void* handle, const uint8_t *buffer, unsigned int size);
+
+void serial_flush(void* handle);
+
+int serial_read_byte(void* handle);
+
+unsigned int serial_read_bytes(void* handle, uint8_t *buffer, unsigned int length);
+
+
 
 
 static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned int frameAmount);
@@ -302,56 +314,43 @@ double pow(double x, double y);
 double sinh(double x);
 double cosh(double x);
 double tanh(double x);
-#line 14 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
-void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin,  _Bool  inverse_logic);
-size_t serial_write(void* handle, const uint8_t *buffer, size_t size);
-void serial_flush(void* handle);
-int serial_read_byte(void* handle);
-size_t serial_read_bytes(void* handle, uint8_t *buffer, size_t length);
+#line 1 "d:/mikroc pro for dspic/include/ctype.h"
+
+
+
+
+
+unsigned int islower(char character);
+unsigned int isupper(char character);
+unsigned int isalpha(char character);
+unsigned int iscntrl(char character);
+unsigned int isdigit(char character);
+unsigned int isalnum(char character);
+unsigned int isspace(char character);
+unsigned int ispunct(char character);
+unsigned int isgraph(char character);
+unsigned int isxdigit(char character);
+unsigned short tolower(char character);
+unsigned short toupper(char character);
+#line 1 "d:/mikroc pro for dspic/include/stddef.h"
+
+
+
+typedef int ptrdiff_t;
+typedef unsigned int size_t;
+typedef unsigned int wchar_t;
+#line 13 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+extern void writeLog(const char* format, ...);
+
+
+
 
 
 unsigned long current_millis();
 
-
-
-
-extern void writeLog(const char* format, ...);
-#line 39 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
-DalyBms* DalyBms_create(int rx, int tx)
-{
- DalyBms* bms = (DalyBms*)malloc(sizeof(DalyBms));
- if (bms == NULL) {
- writeLog("<BMS > ERROR: Failed to allocate memory for DalyBms!");
- return NULL;
- }
- bms->soft_rx = rx;
- bms->soft_tx = tx;
-
-
- bms->serial_handle = (void*)1;
- return bms;
-}
-
- _Bool  DalyBms_init(DalyBms* bms)
-{
-
- if (bms->serial_handle == NULL)
- {
- writeLog("<BMS > ERROR: No serial peripheral specificed!");
- bms->get.connectionState =  0 ;
- return  0 ;
- }
-
-
-
- serial_begin(bms->serial_handle, 9600, 0, bms->soft_rx, bms->soft_tx,  0 );
-
- memset(bms->my_txBuffer, 0x00,  13 );
- DalyBms_clearGet(bms);
- return  1 ;
-}
-
- _Bool  DalyBms_loop(DalyBms* bms)
+DalyBms bms;
+#line 38 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+ _Bool  DalyBms_update(DalyBms* bms)
 {
  if (current_millis() - bms->previousTime >=  150 )
  {
@@ -378,7 +377,7 @@ DalyBms* DalyBms_create(int rx, int tx)
  {
  bms->get.connectionState =  0 ;
  bms->errorCounter = 0;
- if (bms->requestCallback != NULL) {
+ if (bms->requestCallback !=  ((void *)0) ) {
  bms->requestCallback();
  }
 
@@ -410,14 +409,14 @@ DalyBms* DalyBms_create(int rx, int tx)
  bms->requestCounter = DalyBms_getFailureCodes(bms) ? (bms->requestCounter + 1) : 0;
  if (bms->getStaticData)
  bms->requestCounter = 0;
- if (bms->requestCallback != NULL) {
+ if (bms->requestCallback !=  ((void *)0) ) {
  bms->requestCallback();
  }
  break;
  case 10:
  if (!bms->getStaticData)
  bms->requestCounter = DalyBms_getVoltageThreshold(bms) ? (bms->requestCounter + 1) : 0;
- if (bms->requestCallback != NULL) {
+ if (bms->requestCallback !=  ((void *)0) ) {
  bms->requestCallback();
  }
  break;
@@ -425,7 +424,7 @@ DalyBms* DalyBms_create(int rx, int tx)
  if (!bms->getStaticData)
  bms->requestCounter = DalyBms_getPackVoltageThreshold(bms) ? (bms->requestCounter + 1) : 0;
  bms->requestCounter = 0;
- if (bms->requestCallback != NULL) {
+ if (bms->requestCallback !=  ((void *)0) ) {
  bms->requestCallback();
  }
  bms->getStaticData =  1 ;
@@ -443,7 +442,6 @@ DalyBms* DalyBms_create(int rx, int tx)
 {
  if (!DalyBms_requestData(bms, CELL_THRESHOLDS, 1))
  {
- writeLog("<BMS > Receive failed %d", CELL_THRESHOLDS);
  return  0 ;
  }
 
@@ -459,7 +457,6 @@ DalyBms* DalyBms_create(int rx, int tx)
 {
  if (!DalyBms_requestData(bms, PACK_THRESHOLDS, 1))
  {
- writeLog("<BMS > Receive failed %d", PACK_THRESHOLDS);
  return  0 ;
  }
 
@@ -475,7 +472,6 @@ DalyBms* DalyBms_create(int rx, int tx)
 {
  if (!DalyBms_requestData(bms, VOUT_IOUT_SOC, 1))
  {
- writeLog("<BMS > Receive failed %d", VOUT_IOUT_SOC);
  DalyBms_clearGet(bms);
  return  0 ;
  }
@@ -484,14 +480,12 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  if (((float)(((bms->frameBuff[0][8] << 8) | bms->frameBuff[0][9]) - 30000) / 10.0f) == -3000.f)
  {
- writeLog("<BMS > %d Cur. out of range", VOUT_IOUT_SOC);
  return  0 ;
  }
  else
 
  if (((float)((bms->frameBuff[0][10] << 8) | bms->frameBuff[0][11]) / 10.0f) > 100.f)
  {
- writeLog("<BMS > %d SOC. out of range", VOUT_IOUT_SOC);
  return  0 ;
  }
  }
@@ -506,7 +500,6 @@ DalyBms* DalyBms_create(int rx, int tx)
 {
  if (!DalyBms_requestData(bms, MIN_MAX_CELL_VOLTAGE, 1))
  {
- writeLog("<BMS > Receive failed %d", MIN_MAX_CELL_VOLTAGE);
  return  0 ;
  }
 
@@ -523,7 +516,6 @@ DalyBms* DalyBms_create(int rx, int tx)
 {
  if (!DalyBms_requestData(bms, MIN_MAX_TEMPERATURE, 1))
  {
- writeLog("<BMS > Receive failed %d", MIN_MAX_TEMPERATURE);
  return  0 ;
  }
  bms->get.tempAverage = ((bms->frameBuff[0][4] - 40) + (bms->frameBuff[0][6] - 40)) / 2;
@@ -533,9 +525,11 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  _Bool  DalyBms_getDischargeChargeMosStatus(DalyBms* bms)
 {
+ char msgbuff[16];
+ float tmpAh;
+
  if (!DalyBms_requestData(bms, DISCHARGE_CHARGE_MOS_STATUS, 1))
  {
- writeLog("<BMS > Receive failed %d", DISCHARGE_CHARGE_MOS_STATUS);
  return  0 ;
  }
 
@@ -558,8 +552,7 @@ DalyBms* DalyBms_create(int rx, int tx)
  bms->get.chargeFetState =  (((bms->frameBuff[0][5]) >> (0)) & 1) ;
  bms->get.disChargeFetState =  (((bms->frameBuff[0][6]) >> (0)) & 1) ;
  bms->get.bmsHeartBeat = bms->frameBuff[0][7];
- char msgbuff[16];
- float tmpAh = (float)(((uint33_t)bms->frameBuff[0][8] << 0x18) | ((uint33_t)bms->frameBuff[0][9] << 0x10) | ((uint33_t)bms->frameBuff[0][10] << 0x08) | (uint33_t)bms->frameBuff[0][11]) * 0.001;
+ tmpAh = (float)(((uint32_t)bms->frameBuff[0][8] << 0x18) | ((uint32_t)bms->frameBuff[0][9] << 0x10) | ((uint32_t)bms->frameBuff[0][10] << 0x08) | (uint32_t)bms->frameBuff[0][11]) * 0.001;
  sprintf(msgbuff, "%.1f", tmpAh);
  bms->get.resCapacityAh = atof(msgbuff);
 
@@ -568,9 +561,10 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  _Bool  DalyBms_getStatusInfo(DalyBms* bms)
 {
+ size_t i;
+
  if (!DalyBms_requestData(bms, STATUS_INFO, 1))
  {
- writeLog("<BMS > Receive failed %d", STATUS_INFO);
  return  0 ;
  }
 
@@ -580,7 +574,7 @@ DalyBms* DalyBms_create(int rx, int tx)
  bms->get.loadState =  (((bms->frameBuff[0][7]) >> (0)) & 1) ;
 
 
- for (size_t i = 0; i < 8; i++)
+ for (i = 0; i < 8; i++)
  {
  bms->get.dIO[i] =  (((bms->frameBuff[0][8]) >> (i)) & 1) ;
  }
@@ -592,7 +586,12 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  _Bool  DalyBms_getCellVoltages(DalyBms* bms)
 {
- unsigned int cellNo = 0;
+ unsigned int cellNo;
+ size_t k;
+ size_t i;
+
+
+ cellNo = 0;
 
 
  if (bms->get.numberOfCells <  1  || bms->get.numberOfCells >  48 )
@@ -602,9 +601,9 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  if (DalyBms_requestData(bms, CELL_VOLTAGES, (unsigned int)ceil(bms->get.numberOfCells / 3.0)))
  {
- for (size_t k = 0; k < (unsigned int)ceil(bms->get.numberOfCells / 3.0); k++)
+ for (k = 0; k < (unsigned int)ceil(bms->get.numberOfCells / 3.0); k++)
  {
- for (size_t i = 0; i < 3; i++)
+ for (i = 0; i < 3; i++)
  {
  if (cellNo <  48 ) {
  bms->get.cellVmV[cellNo] = (float)((bms->frameBuff[k][5 + (i * 2)] << 8) | bms->frameBuff[k][6 + (i * 2)]);
@@ -618,14 +617,19 @@ DalyBms* DalyBms_create(int rx, int tx)
  }
  else
  {
- writeLog("<BMS > Receive failed %d", CELL_VOLTAGES);
  return  0 ;
  }
 }
 
  _Bool  DalyBms_getCellTemperature(DalyBms* bms)
 {
- unsigned int sensorNo = 0;
+ unsigned int sensorNo;
+ size_t k;
+ size_t i;
+
+
+ sensorNo = 0;
+
 
  if ((bms->get.numOfTempSensors <  1 ) || (bms->get.numOfTempSensors >  16 ))
  {
@@ -634,9 +638,9 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  if (DalyBms_requestData(bms, CELL_TEMPERATURE, (unsigned int)ceil(bms->get.numOfTempSensors / 7.0)))
  {
- for (size_t k = 0; k < (unsigned int)ceil(bms->get.numOfTempSensors / 7.0); k++)
+ for (k = 0; k < (unsigned int)ceil(bms->get.numOfTempSensors / 7.0); k++)
  {
- for (size_t i = 0; i < 7; i++)
+ for (i = 0; i < 7; i++)
  {
  if (sensorNo <  16 ) {
  bms->get.cellTemperature[sensorNo] = (bms->frameBuff[k][5 + i] - 40);
@@ -650,15 +654,19 @@ DalyBms* DalyBms_create(int rx, int tx)
  }
  else
  {
- writeLog("<BMS > Receive failed %d", CELL_TEMPERATURE);
  return  0 ;
  }
 }
 
  _Bool  DalyBms_getCellBalanceState(DalyBms* bms)
 {
- int cellBalance = 0;
- int cellBit = 0;
+ int cellBalance;
+ int cellBit;
+ size_t i;
+ size_t j;
+
+ cellBalance = 0;
+ cellBit = 0;
 
 
  if (bms->get.numberOfCells <  1  || bms->get.numberOfCells >  48 )
@@ -668,15 +676,14 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  if (!DalyBms_requestData(bms, CELL_BALANCE_STATE, 1))
  {
- writeLog("<BMS > Receive failed %d", CELL_BALANCE_STATE);
  return  0 ;
  }
 
 
- for (size_t i = 0; i < 6; i++)
+ for (i = 0; i < 6; i++)
  {
 
- for (size_t j = 0; j < 8; j++)
+ for (j = 0; j < 8; j++)
  {
  if (cellBit <  48 ) {
  bms->get.cellBalanceState[cellBit] =  (((bms->frameBuff[0][i + 4]) >> (j)) & 1) ;
@@ -710,9 +717,10 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  _Bool  DalyBms_getFailureCodes(DalyBms* bms)
 {
+ size_t len;
+
  if (!DalyBms_requestData(bms, FAILURE_CODES, 1))
  {
- writeLog("<BMS > Receive failed %d", FAILURE_CODES);
  return  0 ;
  }
 
@@ -822,7 +830,7 @@ DalyBms* DalyBms_create(int rx, int tx)
  if ( (((bms->frameBuff[0][10]) >> (3)) & 1) )
  strcat(bms->failCodeArr, "Low volt forbidden chg fault,");
 
- size_t len = strlen(bms->failCodeArr);
+ len = strlen(bms->failCodeArr);
  if (len > 0 && bms->failCodeArr[len - 1] == ',')
  {
  bms->failCodeArr[len - 1] = '\0';
@@ -832,7 +840,6 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  _Bool  DalyBms_setDischargeMOS(DalyBms* bms,  _Bool  sw)
 {
- writeLog("<BMS > Switch discharge MOSFETs to %d", sw);
  bms->requestCounter = 0;
  if (sw)
  {
@@ -848,7 +855,6 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  if (!DalyBms_receiveBytes(bms))
  {
- writeLog("<BMS > No response from BMS! Can't verify MOSFETs switched.");
  return  0 ;
  }
 
@@ -857,7 +863,6 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  _Bool  DalyBms_setChargeMOS(DalyBms* bms,  _Bool  sw)
 {
- writeLog("<BMS > Switch charge MOSFETs to %d", sw);
  bms->requestCounter = 0;
  if (sw)
  {
@@ -872,7 +877,6 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  if (!DalyBms_receiveBytes(bms))
  {
- writeLog("<BMS > No response from BMS! Can't verify MOSFETs switched.");
  return  0 ;
  }
 
@@ -885,7 +889,6 @@ DalyBms* DalyBms_create(int rx, int tx)
  DalyBms_sendCommand(bms, BMS_RESET);
  if (!DalyBms_receiveBytes(bms))
  {
- writeLog("<BMS > Send failed, can't verify BMS was reset!");
  return  0 ;
  }
  return  1 ;
@@ -893,11 +896,13 @@ DalyBms* DalyBms_create(int rx, int tx)
 
  _Bool  DalyBms_setSOC(DalyBms* bms, float val)
 {
+ uint16_t value;
+ size_t i;
+
  if (val >= 0.0f && val <= 100.0f)
  {
  bms->requestCounter = 0;
 
- writeLog("<BMS > Set SOC to %f", val);
 
  DalyBms_sendCommand(bms, READ_SOC);
  if (!DalyBms_receiveBytes(bms))
@@ -910,19 +915,18 @@ DalyBms* DalyBms_create(int rx, int tx)
  }
  else
  {
- for (size_t i = 5; i <= 9; i++)
+ for (i = 5; i <= 9; i++)
  {
  bms->my_txBuffer[i] = bms->my_rxBuffer[i];
  }
  }
- uint16_t value = (uint16_t)(val * 10.0f);
+ value = (uint16_t)(val * 10.0f);
  bms->my_txBuffer[10] = (value >> 8) & 0xFF;
  bms->my_txBuffer[11] = value & 0xFF;
  DalyBms_sendCommand(bms, SET_SOC);
 
  if (!DalyBms_receiveBytes(bms))
  {
- writeLog("<BMS > Set SOC failed!");
  return  0 ;
  }
  else
@@ -950,13 +954,22 @@ void DalyBms_set_callback(DalyBms* bms, void (*func)(void))
 
 static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned int frameAmount)
 {
+ uint8_t txChecksum;
+ unsigned int byteCounter;
+ size_t i;
+ size_t j;
+ uint8_t rxChecksum;
+ int k;
+
 
  memset(bms->my_rxFrameBuffer, 0x00, sizeof(bms->my_rxFrameBuffer));
  memset(bms->frameBuff, 0x00, sizeof(bms->frameBuff));
  memset(bms->my_txBuffer, 0x00,  13 );
 
- uint8_t txChecksum = 0x00;
- unsigned int byteCounter = 0;
+
+ txChecksum = 0x00;
+ byteCounter = 0;
+
 
  bms->my_txBuffer[0] =  0xA5 ;
  bms->my_txBuffer[1] =  0x40 ;
@@ -964,7 +977,7 @@ static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigne
  bms->my_txBuffer[3] =  0x08 ;
 
 
- for (uint8_t i = 0; i <= 11; i++)
+ for (i = 0; i <= 11; i++)
  {
  txChecksum += bms->my_txBuffer[i];
  }
@@ -979,16 +992,16 @@ static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigne
 
 
  serial_read_bytes(bms->serial_handle, bms->my_rxFrameBuffer,  13  * frameAmount);
- for (size_t i = 0; i < frameAmount; i++)
+ for (i = 0; i < frameAmount; i++)
  {
- for (size_t j = 0; j <  13 ; j++)
+ for (j = 0; j <  13 ; j++)
  {
  bms->frameBuff[i][j] = bms->my_rxFrameBuffer[byteCounter];
  byteCounter++;
  }
 
- uint8_t rxChecksum = 0x00;
- for (int k = 0; k <  13  - 1; k++)
+ rxChecksum = 0x00;
+ for (k = 0; k <  13  - 1; k++)
  {
  rxChecksum += bms->frameBuff[i][k];
  }
@@ -997,17 +1010,14 @@ static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigne
 
  if (rxChecksum != bms->frameBuff[i][ 13  - 1])
  {
- writeLog("<BMS > CRC FAIL");
  return  0 ;
  }
  if (rxChecksum == 0)
  {
- writeLog("<BMS > NO DATA");
  return  0 ;
  }
  if (bms->frameBuff[i][1] >= 0x20)
  {
- writeLog("<BMS > BMS SLEEPING");
  return  0 ;
  }
  }
@@ -1016,7 +1026,9 @@ static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigne
 
 static  _Bool  DalyBms_sendQueueAdd(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 {
- for (size_t i = 0; i < sizeof(bms->commandQueue) / sizeof(bms->commandQueue[0]); i++)
+ size_t i;
+
+ for (i = 0; i < sizeof(bms->commandQueue) / sizeof(bms->commandQueue[0]); i++)
  {
  if (bms->commandQueue[i] == 0x100)
  {
@@ -1029,7 +1041,10 @@ static  _Bool  DalyBms_sendQueueAdd(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 
 static  _Bool  DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 {
- uint8_t checksum = 0;
+ uint8_t checksum;
+ uint8_t i;
+
+ checksum = 0;
 
  while (serial_read_byte(bms->serial_handle) > 0);
 
@@ -1040,7 +1055,7 @@ static  _Bool  DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
  bms->my_txBuffer[3] =  0x08 ;
 
 
- for (uint8_t i = 0; i <= 11; i++)
+ for (i = 0; i <= 11; i++)
  {
  checksum += bms->my_txBuffer[i];
  }
@@ -1060,24 +1075,24 @@ static  _Bool  DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 
 static  _Bool  DalyBms_receiveBytes(DalyBms* bms)
 {
+ uint8_t rxByteNum;
+
 
  memset(bms->my_rxBuffer, 0x00,  13 );
  memset(bms->frameBuff, 0x00, sizeof(bms->frameBuff));
 
 
- uint8_t rxByteNum = serial_read_bytes(bms->serial_handle, bms->my_rxBuffer,  13 );
+ rxByteNum = serial_read_bytes(bms->serial_handle, bms->my_rxBuffer,  13 );
 
 
  if (rxByteNum !=  13 )
  {
- writeLog("<BMS > Received wrong bytes! Expected %d, got %d",  13 , rxByteNum);
  DalyBms_barfRXBuffer(bms);
  return  0 ;
  }
 
  if (!DalyBms_validateChecksum(bms))
  {
- writeLog("<BMS > Checksum failed!");
  DalyBms_barfRXBuffer(bms);
  return  0 ;
  }
@@ -1087,9 +1102,12 @@ static  _Bool  DalyBms_receiveBytes(DalyBms* bms)
 
 static  _Bool  DalyBms_validateChecksum(DalyBms* bms)
 {
- uint8_t checksum = 0x00;
+ uint8_t checksum;
+ int i;
 
- for (int i = 0; i <  13  - 1; i++)
+ checksum = 0x00;
+
+ for (i = 0; i <  13  - 1; i++)
  {
  checksum += bms->my_rxBuffer[i];
  }
@@ -1099,9 +1117,10 @@ static  _Bool  DalyBms_validateChecksum(DalyBms* bms)
 
 static void DalyBms_barfRXBuffer(DalyBms* bms)
 {
+ int i;
 
- writeLog("<DALY-BMS DEBUG> RX Buffer: [");
- for (int i = 0; i <  13 ; i++)
+
+ for (i = 0; i <  13 ; i++)
  {
  writeLog(",0x%02X", bms->my_rxBuffer[i]);
  }
@@ -1118,18 +1137,15 @@ static void DalyBms_clearGet(DalyBms* bms)
 
 void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin,  _Bool  inverse_logic) {
 
- writeLog("SERIAL: Initializing serial (handle: %p) at %ld baud, RX:%d, TX:%d\n", handle, baud, rx_pin, tx_pin);
 }
 
 size_t serial_write(void* handle, const uint8_t *buffer, size_t size) {
 
- writeLog("SERIAL: Writing %zu bytes to serial (handle: %p)\n", size, handle);
  return size;
 }
 
 void serial_flush(void* handle) {
 
- writeLog("SERIAL: Flushing serial (handle: %p)\n", handle);
 }
 
 int serial_read_byte(void* handle) {
@@ -1143,7 +1159,6 @@ size_t serial_read_bytes(void* handle, uint8_t *buffer, size_t length) {
 
 
 
- writeLog("SERIAL: Reading %zu bytes from serial (handle: %p)\n", length, handle);
 
 
  return 0;

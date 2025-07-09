@@ -583,46 +583,58 @@ typedef struct DalyBms
  void (*requestCallback)(void);
 
 } DalyBms;
-#line 156 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
-DalyBms* DalyBms_create(int rx, int tx);
+
+
+
+extern DalyBms bms;
+#line 157 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_update(DalyBms* bms);
 #line 164 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_init(DalyBms* bms);
-#line 171 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_loop(DalyBms* bms);
-#line 178 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 void DalyBms_set_callback(DalyBms* bms, void (*func)(void));
-#line 185 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 171 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackMeasurements(DalyBms* bms);
-#line 192 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 178 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getVoltageThreshold(DalyBms* bms);
-#line 199 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 185 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackVoltageThreshold(DalyBms* bms);
-#line 207 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 193 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackTemp(DalyBms* bms);
-#line 215 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 201 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getMinMaxCellVoltage(DalyBms* bms);
-#line 222 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 208 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getStatusInfo(DalyBms* bms);
-#line 229 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 215 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellVoltages(DalyBms* bms);
-#line 236 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 222 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellTemperature(DalyBms* bms);
-#line 243 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 229 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellBalanceState(DalyBms* bms);
-#line 250 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 236 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getFailureCodes(DalyBms* bms);
-#line 258 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 244 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setDischargeMOS(DalyBms* bms,  _Bool  sw);
-#line 266 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 252 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setChargeMOS(DalyBms* bms,  _Bool  sw);
-#line 274 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 260 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setSOC(DalyBms* bms, float sw);
-#line 281 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 267 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getDischargeChargeMosStatus(DalyBms* bms);
-#line 289 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 275 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setBmsReset(DalyBms* bms);
-#line 302 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 288 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getState(DalyBms* bms);
+
+void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin,  _Bool  inverse_logic);
+
+unsigned int serial_write(void* handle, const uint8_t *buffer, unsigned int size);
+
+void serial_flush(void* handle);
+
+int serial_read_byte(void* handle);
+
+unsigned int serial_read_bytes(void* handle, uint8_t *buffer, unsigned int length);
+
+
 
 
 static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned int frameAmount);
@@ -833,7 +845,7 @@ void _F_process_uart_command(void) {
  _UART2_SendProcess();
 
 
- BMS_Update();
+ DalyBms_update(&bms);
 
 }
 #line 102 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
@@ -944,7 +956,7 @@ void _F_schedule_init(void) {
  _task_uart = task_add(_F_process_uart_command, 50);
  _task_update_to_server = task_add(_F_update_to_server, 950);
  _task_update_motor = task_add(_SC_update_motor, 100);
- _task_update_BMS = task_add(BMS_Update, 850);
+ _task_update_BMS = task_add(DalyBms_update(&bms), 850);
  _task_update_system = task_add(_F_update_system_status, 75);
  task_scheduler_start();
  DebugUART_Send_Text("Task Scheduler initialization complete!\n");
