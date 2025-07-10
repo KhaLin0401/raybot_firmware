@@ -390,11 +390,13 @@ static void _processReceivedResponsePacket(void) {
                         // _bmsData._chargeMOS = _temp[4];
                         // _bmsData._dischargeMOS = _temp[7];
                         for (j = 0; j < 3; j++){
-                            _bmsData._cellVoltages[j] = (_temp[5 + j + j] << 8) | _temp[6 + j + j];
+                            _bmsData._cellVoltages1 = (_temp[5 + j + j] << 8) | _temp[6 + j + j];
                         }
-
-                        _bmsData._cellVoltages[3] = (_bmsData._cellVoltages[0] 
-                            + _bmsData._cellVoltages[1] + _bmsData._cellVoltages[2]) / 3;
+                        _bmsData._cellVoltages0 = (_temp[5] << 8) | _temp[6];
+                        _bmsData._cellVoltages1 = (_temp[7] << 8) | _temp[8];
+                        _bmsData._cellVoltages2 = (_temp[9] << 8) | _temp[10];
+                        _bmsData._cellVoltages3 = (_bmsData._cellVoltages0 
+                            + _bmsData._cellVoltages1 + _bmsData._cellVoltages2) / 3;
 
                         // sprintf(_dbgStr, "Charge MOS: %s, Discharge MOS: %s\r\n",
                         //         _bmsData._chargeMOS ? "ON" : "OFF",
@@ -407,20 +409,20 @@ static void _processReceivedResponsePacket(void) {
                         // G?i 0x96: Th?ng tin di?n ?p cell
                         // Byte 4: S? lu?ng cell trong g?i n?y
                         // Bytes 5-6: ?i?n ?p cell
-                        uint8_t cellIndex = _temp[4] - 1;
-                        if (cellIndex < MAX_CELL_COUNT) {
-                            raw_value = (((uint16_t)_temp[5]) << 8) | _temp[6];
-                            _bmsData._cellVoltages[cellIndex] = raw_value / 1000.0;
+                        // uint8_t cellIndex = _temp[4] - 1;
+                        // if (cellIndex < MAX_CELL_COUNT) {
+                        //     raw_value = (((uint16_t)_temp[5]) << 8) | _temp[6];
+                        //     _bmsData._cellVoltages[cellIndex] = raw_value / 1000.0;
 
-                            sprintf(_dbgStr, "Cell %d Voltage: %.3f V\r\n",
-                                    cellIndex + 1, _bmsData._cellVoltages[cellIndex]);
-                            //DebugUART_Send_Text(_dbgStr);
+                        //     sprintf(_dbgStr, "Cell %d Voltage: %.3f V\r\n",
+                        //             cellIndex + 1, _bmsData._cellVoltages[cellIndex]);
+                        //     //DebugUART_Send_Text(_dbgStr);
 
-                            // C?p nh?t min/max sau khi nh?n du?c t?t c? c?c di?n ?p cell
-                            if (cellIndex == _bmsData._cellCount - 1) {
-                                //_updateMinMaxCellVoltage();
-                            }
-                        }
+                        //     // C?p nh?t min/max sau khi nh?n du?c t?t c? c?c di?n ?p cell
+                        //     if (cellIndex == _bmsData._cellCount - 1) {
+                        //         //_updateMinMaxCellVoltage();
+                        //     }
+                        // }
                         break;
                     }
                     case 0x97: {
@@ -483,19 +485,19 @@ static void _updateMinMaxCellVoltage(void) {
     uint8_t i;
 
     // Kh?i t?o min/max b?ng di?n ?p cell d?u ti?n
-    _bmsData._minCellVoltage = _bmsData._cellVoltages[0];
-    _bmsData._maxCellVoltage = _bmsData._cellVoltages[0];
-    //_bmsData._minCellIndex = 0;
-    //_bmsData._maxCellIndex = 0;
+    // _bmsData._minCellVoltage = _bmsData._cellVoltages[0];
+    // _bmsData._maxCellVoltage = _bmsData._cellVoltages[0];
+    // //_bmsData._minCellIndex = 0;
+    // //_bmsData._maxCellIndex = 0;
 
-    // T?m min/max
-    for (i = 1; i < _bmsData._cellCount; i++) {
-        if (_bmsData._cellVoltages[i] < _bmsData._minCellVoltage) {
-            _bmsData._minCellVoltage = _bmsData._cellVoltages[i];
-            //_bmsData._minCellIndex = i;
-        }
-        if (_bmsData._cellVoltages[i] > _bmsData._maxCellVoltage) {
-            _bmsData._maxCellVoltage = _bmsData._cellVoltages[i];
+    // // T?m min/max
+    // for (i = 1; i < _bmsData._cellCount; i++) {
+    //     if (_bmsData._cellVoltages[i] < _bmsData._minCellVoltage) {
+    //         _bmsData._minCellVoltage = _bmsData._cellVoltages[i];
+    //         //_bmsData._minCellIndex = i;
+    //     }
+    //     if (_bmsData._cellVoltages[i] > _bmsData._maxCellVoltage) {
+    //         _bmsData._maxCellVoltage = _bmsData._cellVoltages[i];
             //_bmsData._maxCellIndex = i;
         }
     }
@@ -594,10 +596,10 @@ void BMS_Init(void) {
     _bmsData._temperature = 0;
     _bmsData._cycleCount = 0;
     _bmsData._protectionFlags = 0;
-    _bmsData._cellVoltages[0] = 0;
-    _bmsData._cellVoltages[1] = 0;
-    _bmsData._cellVoltages[2] = 0;
-    _bmsData._cellVoltages[3] = 0;
+    _bmsData._cellVoltages0 = 0;
+    _bmsData._cellVoltages1 = 0;
+    _bmsData._cellVoltages2 = 0;
+    _bmsData._cellVoltages3 = 0;
 
 
     _txBufferHead = 0;
