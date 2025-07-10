@@ -637,7 +637,7 @@ _handle_get_bat_info:
 	MOV	__bmsData+10, W1
 	CALL	__Float2Longint
 	MOV.B	W0, [W14+12]
-;command_handler.c,248 :: 		(int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1], (int)_bmsData._cellVoltages[2], (int)_bmsData._cellVoltages[3],
+;command_handler.c,248 :: 		(int)_bmsData._cellVoltages0, (int)_bmsData._cellVoltages1, (int)_bmsData._cellVoltages2, (int)_bmsData._cellVoltages3,
 	MOV	__bmsData+28, W0
 	MOV	__bmsData+30, W1
 	CALL	__Float2Longint
@@ -686,7 +686,7 @@ _handle_get_bat_info:
 	MOV	[W14+2], W2
 	MOV	[W14+0], W1
 	PUSH	W7
-;command_handler.c,248 :: 		(int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1], (int)_bmsData._cellVoltages[2], (int)_bmsData._cellVoltages[3],
+;command_handler.c,248 :: 		(int)_bmsData._cellVoltages0, (int)_bmsData._cellVoltages1, (int)_bmsData._cellVoltages2, (int)_bmsData._cellVoltages3,
 	PUSH	W6
 	PUSH	W5
 	PUSH	W4
@@ -837,25 +837,6 @@ L_end_handle_get_bat_volt:
 _handle_get_cell_volt:
 
 ;command_handler.c,272 :: 		void handle_get_cell_volt(CommandHandler *handler) {
-;command_handler.c,273 :: 		sprintf(handler->response_buffer, "CELL_VOLT=[%d,%d,%d,%d]\r\n",
-	MOV	#34, W0
-	ADD	W10, W0, W1
-;command_handler.c,274 :: 		_bmsData._cellVoltages[0], _bmsData._cellVoltages[1], _bmsData._cellVoltages[2], 0);
-	CLR	W0
-	PUSH	W0
-	PUSH	__bmsData+24
-	PUSH	__bmsData+26
-	PUSH	__bmsData+20
-	PUSH	__bmsData+22
-	PUSH	__bmsData+16
-	PUSH	__bmsData+18
-;command_handler.c,273 :: 		sprintf(handler->response_buffer, "CELL_VOLT=[%d,%d,%d,%d]\r\n",
-	MOV	#lo_addr(?lstr_21_command_handler), W0
-	PUSH	W0
-	PUSH	W1
-;command_handler.c,274 :: 		_bmsData._cellVoltages[0], _bmsData._cellVoltages[1], _bmsData._cellVoltages[2], 0);
-	CALL	_sprintf
-	SUB	#18, W15
 ;command_handler.c,275 :: 		}
 L_end_handle_get_cell_volt:
 	RETURN
@@ -877,7 +858,7 @@ _handle_get_chg_info:
 	PUSH	W3
 	PUSH	W2
 ;command_handler.c,280 :: 		">{\"type\":0,\"state_type\":1,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_22_command_handler), W0
+	MOV	#lo_addr(?lstr_21_command_handler), W0
 	PUSH	W0
 ;command_handler.c,279 :: 		sprintf(handler->response_buffer,
 	PUSH	W1
@@ -895,7 +876,7 @@ _handle_get_chg_cur_lim:
 ;command_handler.c,284 :: 		sprintf(handler->response_buffer, "CHG_CUR_LIM=3000\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_23_command_handler), W0
+	MOV	#lo_addr(?lstr_22_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -915,7 +896,7 @@ _handle_set_chg_cur_lim:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_24_command_handler), W0
+	MOV	#lo_addr(?lstr_23_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -931,7 +912,7 @@ _handle_get_chg_en:
 ;command_handler.c,290 :: 		sprintf(handler->response_buffer, "CHG_EN=1\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_25_command_handler), W0
+	MOV	#lo_addr(?lstr_24_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -951,7 +932,7 @@ _handle_set_chg_en:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_26_command_handler), W0
+	MOV	#lo_addr(?lstr_25_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -976,7 +957,7 @@ _handle_get_dis_info:
 	PUSH	W3
 	PUSH	W2
 ;command_handler.c,297 :: 		">{\"type\":0,\"state_type\":2,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_27_command_handler), W0
+	MOV	#lo_addr(?lstr_26_command_handler), W0
 	PUSH	W0
 ;command_handler.c,296 :: 		sprintf(handler->response_buffer,
 	PUSH	W1
@@ -994,7 +975,7 @@ _handle_get_dis_cur_lim:
 ;command_handler.c,301 :: 		sprintf(handler->response_buffer, "DIS_CUR_LIM=5000\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_28_command_handler), W0
+	MOV	#lo_addr(?lstr_27_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1014,7 +995,7 @@ _handle_set_dis_cur_lim:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_29_command_handler), W0
+	MOV	#lo_addr(?lstr_28_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1030,7 +1011,7 @@ _handle_get_dis_en:
 ;command_handler.c,307 :: 		sprintf(handler->response_buffer, "DIS_EN=1\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_30_command_handler), W0
+	MOV	#lo_addr(?lstr_29_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1050,7 +1031,7 @@ _handle_set_dis_en:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_31_command_handler), W0
+	MOV	#lo_addr(?lstr_30_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1066,7 +1047,7 @@ _handle_get_di1:
 ;command_handler.c,315 :: 		sprintf(handler->response_buffer, "DI1=0\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_32_command_handler), W0
+	MOV	#lo_addr(?lstr_31_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1082,7 +1063,7 @@ _handle_get_di2:
 ;command_handler.c,318 :: 		sprintf(handler->response_buffer, "DI2=1\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_33_command_handler), W0
+	MOV	#lo_addr(?lstr_32_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1098,7 +1079,7 @@ _handle_get_di3:
 ;command_handler.c,321 :: 		sprintf(handler->response_buffer, "DI3=0\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_34_command_handler), W0
+	MOV	#lo_addr(?lstr_33_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1136,7 +1117,7 @@ _handle_get_dist_info:
 	PUSH	W1
 	PUSH	W0
 ;command_handler.c,327 :: 		">{\"type\":0,\"state_type\":3,\"data\":{\"front\":%d,\"back\":%d,\"down\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_35_command_handler), W0
+	MOV	#lo_addr(?lstr_34_command_handler), W0
 	PUSH	W0
 ;command_handler.c,326 :: 		sprintf(handler->response_buffer,
 	PUSH	W3
@@ -1155,7 +1136,7 @@ _handle_get_down_dist:
 ;command_handler.c,331 :: 		sprintf(handler->response_buffer, "DOWN_DIST=30\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_36_command_handler), W0
+	MOV	#lo_addr(?lstr_35_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1171,7 +1152,7 @@ _handle_get_front_dist:
 ;command_handler.c,334 :: 		sprintf(handler->response_buffer, "FRONT_DIST=100\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_37_command_handler), W0
+	MOV	#lo_addr(?lstr_36_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1187,7 +1168,7 @@ _handle_get_rear_dist:
 ;command_handler.c,337 :: 		sprintf(handler->response_buffer, "REAR_DIST=120\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_38_command_handler), W0
+	MOV	#lo_addr(?lstr_37_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1203,7 +1184,7 @@ _handle_get_up_dist:
 ;command_handler.c,340 :: 		sprintf(handler->response_buffer, "UP_DIST=50\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_39_command_handler), W0
+	MOV	#lo_addr(?lstr_38_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1219,7 +1200,7 @@ _handle_get_auto_mode:
 ;command_handler.c,345 :: 		sprintf(handler->response_buffer, "AUTO_MODE=1\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_40_command_handler), W0
+	MOV	#lo_addr(?lstr_39_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1239,7 +1220,7 @@ _handle_set_auto_mode:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_41_command_handler), W0
+	MOV	#lo_addr(?lstr_40_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1297,7 +1278,7 @@ L__handle_get_lifter_info147:
 	PUSH	W1
 	PUSH	W0
 ;command_handler.c,355 :: 		">{\"type\":0,\"state_type\":4,\"data\":{\"current_position\":%d,\"target_position\":%d,\"is_running\":%d,\"enabled\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_42_command_handler), W0
+	MOV	#lo_addr(?lstr_41_command_handler), W0
 	PUSH	W0
 ;command_handler.c,354 :: 		sprintf(handler->response_buffer,
 	PUSH	W3
@@ -1336,7 +1317,7 @@ L__handle_get_lifter_info220:
 	PUSH	W1
 	PUSH	W0
 ;command_handler.c,360 :: 		">{\"type\":0,\"state_type\":4,\"data\":{\"current_position\":%d,\"target_position\":%d,\"is_running\":%d,\"enabled\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_43_command_handler), W0
+	MOV	#lo_addr(?lstr_42_command_handler), W0
 	PUSH	W0
 ;command_handler.c,359 :: 		sprintf(handler->response_buffer,
 	PUSH	W3
@@ -1367,7 +1348,7 @@ L_handle_get_lifter_info42:
 	PUSH	W1
 	PUSH	W0
 ;command_handler.c,365 :: 		">{\"type\":0,\"state_type\":4,\"data\":{\"current_position\":%d,\"target_position\":%d,\"is_running\":%d,\"enabled\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_44_command_handler), W0
+	MOV	#lo_addr(?lstr_43_command_handler), W0
 	PUSH	W0
 ;command_handler.c,364 :: 		sprintf(handler->response_buffer,
 	PUSH	W3
@@ -1389,7 +1370,7 @@ _handle_get_lifter_dir:
 ;command_handler.c,370 :: 		sprintf(handler->response_buffer, "LIFTER_DIR=1\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_45_command_handler), W0
+	MOV	#lo_addr(?lstr_44_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1409,7 +1390,7 @@ _handle_set_lifter_dir:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_46_command_handler), W0
+	MOV	#lo_addr(?lstr_45_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1425,7 +1406,7 @@ _handle_get_lifter_lim_down:
 ;command_handler.c,376 :: 		sprintf(handler->response_buffer, "LIFTER_LIM_DOWN=0\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_47_command_handler), W0
+	MOV	#lo_addr(?lstr_46_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1441,7 +1422,7 @@ _handle_get_lifter_lim_up:
 ;command_handler.c,379 :: 		sprintf(handler->response_buffer, "LIFTER_LIM_UP=0\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_48_command_handler), W0
+	MOV	#lo_addr(?lstr_47_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1457,7 +1438,7 @@ _handle_get_lifter_speed:
 ;command_handler.c,382 :: 		sprintf(handler->response_buffer, "LIFTER_SPEED=200\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_49_command_handler), W0
+	MOV	#lo_addr(?lstr_48_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1477,7 +1458,7 @@ _handle_set_lifter_speed:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_50_command_handler), W0
+	MOV	#lo_addr(?lstr_49_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1493,7 +1474,7 @@ _handle_get_lifter_status:
 ;command_handler.c,388 :: 		sprintf(handler->response_buffer, "LIFTER_STATUS=1\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_51_command_handler), W0
+	MOV	#lo_addr(?lstr_50_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1542,7 +1523,7 @@ L__handle_get_motor_info229:
 	ZE	W0, W0
 	PUSH	W0
 ;command_handler.c,407 :: 		">{\"type\":0,\"state_type\":5,\"data\":{\"direction\":%d,\"speed\":%d,\"is_running\":%d,\"enabled\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_52_command_handler), W0
+	MOV	#lo_addr(?lstr_51_command_handler), W0
 	PUSH	W0
 ;command_handler.c,406 :: 		sprintf(handler->response_buffer,
 	PUSH	W3
@@ -1597,7 +1578,7 @@ L__handle_get_motor_info150:
 	ZE	W0, W0
 	PUSH	W0
 ;command_handler.c,412 :: 		">{\"type\":0,\"state_type\":5,\"data\":{\"direction\":%d,\"speed\":%d,\"is_running\":%d,\"enabled\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_53_command_handler), W0
+	MOV	#lo_addr(?lstr_52_command_handler), W0
 	PUSH	W0
 ;command_handler.c,411 :: 		sprintf(handler->response_buffer,
 	PUSH	W3
@@ -1635,7 +1616,7 @@ L__handle_get_motor_info151:
 	ZE	W0, W0
 	PUSH	W0
 ;command_handler.c,417 :: 		">{\"type\":0,\"state_type\":5,\"data\":{\"direction\":%d,\"speed\":%d,\"is_running\":%d,\"enabled\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_54_command_handler), W0
+	MOV	#lo_addr(?lstr_53_command_handler), W0
 	PUSH	W0
 ;command_handler.c,416 :: 		sprintf(handler->response_buffer,
 	PUSH	W3
@@ -1663,7 +1644,7 @@ _handle_get_motor_dir:
 	ADD	W10, W1, W1
 	ZE	W0, W0
 	PUSH	W0
-	MOV	#lo_addr(?lstr_55_command_handler), W0
+	MOV	#lo_addr(?lstr_54_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1710,7 +1691,7 @@ L__handle_set_motor_dir154:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_56_command_handler), W0
+	MOV	#lo_addr(?lstr_55_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1725,7 +1706,7 @@ L_handle_set_motor_dir52:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_57_command_handler), W0
+	MOV	#lo_addr(?lstr_56_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1750,7 +1731,7 @@ _handle_get_motor_en:
 	ADD	W10, W1, W1
 	ZE	W0, W0
 	PUSH	W0
-	MOV	#lo_addr(?lstr_58_command_handler), W0
+	MOV	#lo_addr(?lstr_57_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1770,7 +1751,7 @@ _handle_set_motor_en:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_59_command_handler), W0
+	MOV	#lo_addr(?lstr_58_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1791,7 +1772,7 @@ _handle_get_motor_speed:
 	MOV	#34, W2
 	ADD	W10, W2, W2
 	PUSH.D	W0
-	MOV	#lo_addr(?lstr_60_command_handler), W0
+	MOV	#lo_addr(?lstr_59_command_handler), W0
 	PUSH	W0
 	PUSH	W2
 	CALL	_sprintf
@@ -1826,7 +1807,7 @@ _handle_set_motor_speed:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_61_command_handler), W0
+	MOV	#lo_addr(?lstr_60_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1844,7 +1825,7 @@ _handle_get_relay1:
 ;command_handler.c,471 :: 		sprintf(handler->response_buffer, "RELAY1=1\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_62_command_handler), W0
+	MOV	#lo_addr(?lstr_61_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1864,7 +1845,7 @@ _handle_set_relay1:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_63_command_handler), W0
+	MOV	#lo_addr(?lstr_62_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1880,7 +1861,7 @@ _handle_get_relay2:
 ;command_handler.c,477 :: 		sprintf(handler->response_buffer, "RELAY2=0\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_64_command_handler), W0
+	MOV	#lo_addr(?lstr_63_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1900,7 +1881,7 @@ _handle_set_relay2:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W2
-	MOV	#lo_addr(?lstr_65_command_handler), W0
+	MOV	#lo_addr(?lstr_64_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1916,7 +1897,7 @@ _handle_get_rfid_err:
 ;command_handler.c,485 :: 		sprintf(handler->response_buffer, "RFID_ERR=0\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_66_command_handler), W0
+	MOV	#lo_addr(?lstr_65_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1932,7 +1913,7 @@ _handle_get_rfid_cur_loc:
 ;command_handler.c,488 :: 		sprintf(handler->response_buffer, "RFID_CUR_LOC=Null\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_67_command_handler), W0
+	MOV	#lo_addr(?lstr_66_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1948,7 +1929,7 @@ _handle_get_rfid_tar_loc:
 ;command_handler.c,491 :: 		sprintf(handler->response_buffer, "RFID_TAR_LOC=Null\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_68_command_handler), W0
+	MOV	#lo_addr(?lstr_67_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1964,7 +1945,7 @@ _handle_get_fw_ver:
 ;command_handler.c,496 :: 		sprintf(handler->response_buffer, "FW_VER=%s\r\n"),FW_VER;
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_69_command_handler), W0
+	MOV	#lo_addr(?lstr_68_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1982,7 +1963,7 @@ _handle_get_robot_model:
 	ADD	W10, W0, W1
 	MOV	#lo_addr(_ROBOT_MODEL), W0
 	PUSH	W0
-	MOV	#lo_addr(?lstr_70_command_handler), W0
+	MOV	#lo_addr(?lstr_69_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2000,7 +1981,7 @@ _handle_get_robot_id:
 	ADD	W10, W0, W1
 	MOV	#lo_addr(_DEVICE_ID), W0
 	PUSH	W0
-	MOV	#lo_addr(?lstr_71_command_handler), W0
+	MOV	#lo_addr(?lstr_70_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2018,7 +1999,7 @@ _handle_get_robot_serial:
 	ADD	W10, W0, W1
 	MOV	#lo_addr(_DEVICE_SERIAL), W0
 	PUSH	W0
-	MOV	#lo_addr(?lstr_72_command_handler), W0
+	MOV	#lo_addr(?lstr_71_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2034,7 +2015,7 @@ _handle_get_safe_sensor_front:
 ;command_handler.c,511 :: 		sprintf(handler->response_buffer, "SAFE_SENSOR_FRONT=1\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_73_command_handler), W0
+	MOV	#lo_addr(?lstr_72_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2050,7 +2031,7 @@ _handle_get_safe_sensor_rear:
 ;command_handler.c,514 :: 		sprintf(handler->response_buffer, "SAFE_SENSOR_REAR=0\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_74_command_handler), W0
+	MOV	#lo_addr(?lstr_73_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2073,7 +2054,7 @@ _handle_get_update_status:
 	ADD	W10, W1, W1
 	ZE	W0, W0
 	PUSH	W0
-	MOV	#lo_addr(?lstr_75_command_handler), W0
+	MOV	#lo_addr(?lstr_74_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2089,7 +2070,7 @@ _handle_set_update_status:
 ;command_handler.c,521 :: 		sprintf(handler->response_buffer, "SAFE_SENSOR_REAR=0\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_76_command_handler), W0
+	MOV	#lo_addr(?lstr_75_command_handler), W0
 	PUSH	W10
 	PUSH	W0
 	PUSH	W1
@@ -2113,7 +2094,7 @@ L__handle_set_update_status255:
 ;command_handler.c,524 :: 		sprintf(handler->response_buffer, "UPDATE_TASK_STATUS ON\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_77_command_handler), W0
+	MOV	#lo_addr(?lstr_76_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2137,7 +2118,7 @@ L__handle_set_update_status256:
 ;command_handler.c,527 :: 		sprintf(handler->response_buffer, "UPDATE_TASK_STATUS OFF\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
-	MOV	#lo_addr(?lstr_78_command_handler), W0
+	MOV	#lo_addr(?lstr_77_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2161,7 +2142,7 @@ _handle_charge_config:
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_79_command_handler), W11
+	MOV	#lo_addr(?lstr_78_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
@@ -2175,7 +2156,7 @@ L__handle_charge_config258:
 	PUSH	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_80_command_handler), W11
+	MOV	#lo_addr(?lstr_79_command_handler), W11
 	CALL	_JSON_GetInt
 	POP	W10
 	POP	W12
@@ -2218,7 +2199,7 @@ L_handle_charge_config62:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_81_command_handler), W0
+	MOV	#lo_addr(?lstr_80_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2232,7 +2213,7 @@ L_handle_charge_config61:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_82_command_handler), W0
+	MOV	#lo_addr(?lstr_81_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2246,7 +2227,7 @@ L__handle_charge_config125:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_83_command_handler), W0
+	MOV	#lo_addr(?lstr_82_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2271,7 +2252,7 @@ _handle_discharge_config:
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_84_command_handler), W11
+	MOV	#lo_addr(?lstr_83_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
@@ -2285,7 +2266,7 @@ L__handle_discharge_config263:
 	PUSH	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_85_command_handler), W11
+	MOV	#lo_addr(?lstr_84_command_handler), W11
 	CALL	_JSON_GetInt
 	POP	W10
 	POP	W12
@@ -2336,7 +2317,7 @@ L_handle_discharge_config70:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_86_command_handler), W0
+	MOV	#lo_addr(?lstr_85_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2350,7 +2331,7 @@ L_handle_discharge_config69:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_87_command_handler), W0
+	MOV	#lo_addr(?lstr_86_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2364,7 +2345,7 @@ L__handle_discharge_config128:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_88_command_handler), W0
+	MOV	#lo_addr(?lstr_87_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2390,7 +2371,7 @@ _handle_lifter_config:
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_89_command_handler), W11
+	MOV	#lo_addr(?lstr_88_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
@@ -2404,7 +2385,7 @@ L__handle_lifter_config268:
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_90_command_handler), W11
+	MOV	#lo_addr(?lstr_89_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
@@ -2418,7 +2399,7 @@ L__handle_lifter_config269:
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_91_command_handler), W11
+	MOV	#lo_addr(?lstr_90_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
@@ -2461,7 +2442,7 @@ L__handle_lifter_config133:
 	PUSH	W12
 	PUSH	W10
 	PUSH	W12
-	MOV	#lo_addr(?lstr_92_command_handler), W0
+	MOV	#lo_addr(?lstr_91_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2519,7 +2500,7 @@ L_handle_lifter_config82:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_93_command_handler), W0
+	MOV	#lo_addr(?lstr_92_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2536,7 +2517,7 @@ L_handle_lifter_config81:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_94_command_handler), W0
+	MOV	#lo_addr(?lstr_93_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2554,7 +2535,7 @@ L__handle_lifter_config135:
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_95_command_handler), W11
+	MOV	#lo_addr(?lstr_94_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
@@ -2568,7 +2549,7 @@ L__handle_lifter_config275:
 	PUSH	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_96_command_handler), W11
+	MOV	#lo_addr(?lstr_95_command_handler), W11
 	CALL	_JSON_GetInt
 	POP	W10
 	POP	W12
@@ -2624,7 +2605,7 @@ L_handle_lifter_config90:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_97_command_handler), W0
+	MOV	#lo_addr(?lstr_96_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2641,7 +2622,7 @@ L_handle_lifter_config89:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_98_command_handler), W0
+	MOV	#lo_addr(?lstr_97_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2655,7 +2636,7 @@ L__handle_lifter_config138:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_99_command_handler), W0
+	MOV	#lo_addr(?lstr_98_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2682,7 +2663,7 @@ _handle_motorDC_config:
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_100_command_handler), W11
+	MOV	#lo_addr(?lstr_99_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
@@ -2696,7 +2677,7 @@ L__handle_motorDC_config280:
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_101_command_handler), W11
+	MOV	#lo_addr(?lstr_100_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
@@ -2710,7 +2691,7 @@ L__handle_motorDC_config281:
 	PUSH	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_102_command_handler), W11
+	MOV	#lo_addr(?lstr_101_command_handler), W11
 	CALL	_JSON_GetInt
 	POP	W10
 	POP	W12
@@ -2747,7 +2728,7 @@ L_handle_motorDC_config98:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_103_command_handler), W0
+	MOV	#lo_addr(?lstr_102_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2805,7 +2786,7 @@ L_handle_motorDC_config102:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_104_command_handler), W0
+	MOV	#lo_addr(?lstr_103_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2819,7 +2800,7 @@ L_handle_motorDC_config101:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_105_command_handler), W0
+	MOV	#lo_addr(?lstr_104_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2835,7 +2816,7 @@ L__handle_motorDC_config144:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_106_command_handler), W0
+	MOV	#lo_addr(?lstr_105_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2860,7 +2841,7 @@ _handle_ping_command:
 	PUSH	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_107_command_handler), W11
+	MOV	#lo_addr(?lstr_106_command_handler), W11
 	CALL	_JSON_GetInt
 	POP	W10
 	POP	W12
@@ -2878,7 +2859,7 @@ L__handle_ping_command289:
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_108_command_handler), W0
+	MOV	#lo_addr(?lstr_107_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -2912,7 +2893,7 @@ _handle_get_box_status:
 ;command_handler.c,689 :: 		(int) Box_t.limit_switch_state);
 	PUSH	W2
 ;command_handler.c,688 :: 		sprintf(handler->response_buffer, ">{\"type\":0,\"state_type\":7,\"data\":{\"object\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_109_command_handler), W0
+	MOV	#lo_addr(?lstr_108_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 ;command_handler.c,689 :: 		(int) Box_t.limit_switch_state);

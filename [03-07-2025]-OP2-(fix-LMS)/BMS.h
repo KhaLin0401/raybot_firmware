@@ -18,7 +18,11 @@ typedef struct {
 
     // D? li?u di?n ?p cell:
     float _maxCellVoltage;  // T? g?i 0x91, v? d?: ~4,138 V
-    float _cellVoltages[4]; // T? c?c g?i 0x92, 0x93, 0x94, ?ng v?i Cell 1, Cell 2, Cell 3
+    float _cellVoltages0;
+    float _cellVoltages1;
+    float _cellVoltages2;
+    float _cellVoltages3;
+     // T? c?c g?i 0x92, 0x93, 0x94, ?ng v?i Cell 1, Cell 2, Cell 3
                             // (v? d?: ~4,088 V, ~4,119 V, ~4,123 V)
     float _minCellVoltage;  // T?nh du?c: min c?a 3 cell tr?n (v? d?: ~4,088 V)
 

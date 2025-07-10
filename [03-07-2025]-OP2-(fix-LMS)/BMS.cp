@@ -76,7 +76,11 @@ typedef struct {
 
 
  float _maxCellVoltage;
- float _cellVoltages[4];
+ float _cellVoltages0;
+ float _cellVoltages1;
+ float _cellVoltages2;
+ float _cellVoltages3;
+
 
  float _minCellVoltage;
 
@@ -911,12 +915,12 @@ static void _processReceivedResponsePacket(void) {
 
 
 
- for (j = 0; j < 3; j++){
- _bmsData._cellVoltages[j] = (_temp[5 + j + j] << 8) | _temp[6 + j + j];
- }
 
- _bmsData._cellVoltages[3] = (_bmsData._cellVoltages[0]
- + _bmsData._cellVoltages[1] + _bmsData._cellVoltages[2]) / 3;
+ _bmsData._cellVoltages0 = (_temp[5] << 8) | _temp[6];
+ _bmsData._cellVoltages1 = (_temp[7] << 8) | _temp[8];
+ _bmsData._cellVoltages2 = (_temp[9] << 8) | _temp[10];
+ _bmsData._cellVoltages3 = (_bmsData._cellVoltages0
+ + _bmsData._cellVoltages1 + _bmsData._cellVoltages2) / 3;
 
 
 
@@ -926,23 +930,7 @@ static void _processReceivedResponsePacket(void) {
  break;
  }
  case 0x96: {
-
-
-
- uint8_t cellIndex = _temp[4] - 1;
- if (cellIndex <  16 ) {
- raw_value = (((uint16_t)_temp[5]) << 8) | _temp[6];
- _bmsData._cellVoltages[cellIndex] = raw_value / 1000.0;
-
- sprintf(_dbgStr, "Cell %d Voltage: %.3f V\r\n",
- cellIndex + 1, _bmsData._cellVoltages[cellIndex]);
-
-
-
- if (cellIndex == _bmsData._cellCount - 1) {
-
- }
- }
+#line 424 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
  break;
  }
  case 0x97: {
@@ -1003,24 +991,7 @@ static void _processReceivedResponsePacket(void) {
 
 static void _updateMinMaxCellVoltage(void) {
  uint8_t i;
-
-
- _bmsData._minCellVoltage = _bmsData._cellVoltages[0];
- _bmsData._maxCellVoltage = _bmsData._cellVoltages[0];
-
-
-
-
- for (i = 1; i < _bmsData._cellCount; i++) {
- if (_bmsData._cellVoltages[i] < _bmsData._minCellVoltage) {
- _bmsData._minCellVoltage = _bmsData._cellVoltages[i];
-
- }
- if (_bmsData._cellVoltages[i] > _bmsData._maxCellVoltage) {
- _bmsData._maxCellVoltage = _bmsData._cellVoltages[i];
-
- }
- }
+#line 502 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
 }
 
 
@@ -1104,10 +1075,10 @@ void BMS_Init(void) {
  _bmsData._temperature = 0;
  _bmsData._cycleCount = 0;
  _bmsData._protectionFlags = 0;
- _bmsData._cellVoltages[0] = 0;
- _bmsData._cellVoltages[1] = 0;
- _bmsData._cellVoltages[2] = 0;
- _bmsData._cellVoltages[3] = 0;
+ _bmsData._cellVoltages0 = 0;
+ _bmsData._cellVoltages1 = 0;
+ _bmsData._cellVoltages2 = 0;
+ _bmsData._cellVoltages3 = 0;
 
 
  _txBufferHead = 0;

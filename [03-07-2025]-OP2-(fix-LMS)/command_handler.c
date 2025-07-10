@@ -245,7 +245,7 @@ void handle_get_bat_info(CommandHandler *handler) {
     sprintf(handler->response_buffer,
     ">{\"type\":0,\"state_type\":0,\"data\":{\"current\":%d,\"temp\":%d,\"voltage\":%d,\"cell_voltages\":[%d,%d,%d,%d],\"percent\":%d,\"fault\":%d,\"health\":%d,\"status\":%d}}\r\n",
     (int)_bmsData._sumCurrent,(int) _bmsData._temperature, (int)_bmsData._sumVoltage,
-    (int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1], (int)_bmsData._cellVoltages[2], (int)_bmsData._cellVoltages[3],
+    (int)_bmsData._cellVoltages0, (int)_bmsData._cellVoltages1, (int)_bmsData._cellVoltages2, (int)_bmsData._cellVoltages3,
     (uint8_t)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
 }
 void handle_get_bat_current(CommandHandler *handler) {
@@ -270,8 +270,8 @@ void handle_get_bat_volt(CommandHandler *handler) {
     sprintf(handler->response_buffer, "BAT_VOLT=%d\r\n",_bmsData._sumVoltage);
 }
 void handle_get_cell_volt(CommandHandler *handler) {
-    sprintf(handler->response_buffer, "CELL_VOLT=[%d,%d,%d,%d]\r\n",
-    _bmsData._cellVoltages[0], _bmsData._cellVoltages[1], _bmsData._cellVoltages[2], 0);
+    // sprintf(handler->response_buffer, "CELL_VOLT=[%d,%d,%d,%d]\r\n",
+    // _bmsData._cellVoltages[0], _bmsData._cellVoltages[1], _bmsData._cellVoltages[2], 0);
 }
 
 /* ========== Charging ========== */

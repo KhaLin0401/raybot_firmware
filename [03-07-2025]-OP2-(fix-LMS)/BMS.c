@@ -389,14 +389,12 @@ static void _processReceivedResponsePacket(void) {
                         // Bytes 8-9: Th?i gian x? c?n l?i
                         // _bmsData._chargeMOS = _temp[4];
                         // _bmsData._dischargeMOS = _temp[7];
-                        for (j = 0; j < 3; j++){
-                            _bmsData._cellVoltages1 = (_temp[5 + j + j] << 8) | _temp[6 + j + j];
-                        }
+                        
                         _bmsData._cellVoltages0 = (_temp[5] << 8) | _temp[6];
                         _bmsData._cellVoltages1 = (_temp[7] << 8) | _temp[8];
                         _bmsData._cellVoltages2 = (_temp[9] << 8) | _temp[10];
-                        _bmsData._cellVoltages3 = (_bmsData._cellVoltages0 
-                            + _bmsData._cellVoltages1 + _bmsData._cellVoltages2) / 3;
+                        _bmsData._cellVoltages3 = (_bmsData._cellVoltages0 + 
+                        _bmsData._cellVoltages1 + _bmsData._cellVoltages2) / 3;
 
                         // sprintf(_dbgStr, "Charge MOS: %s, Discharge MOS: %s\r\n",
                         //         _bmsData._chargeMOS ? "ON" : "OFF",
@@ -482,7 +480,7 @@ static void _processReceivedResponsePacket(void) {
 
 // H?m c?p nh?t di?n ?p cell min/max
 static void _updateMinMaxCellVoltage(void) {
-    uint8_t i;
+    //uint8_t i;
 
     // Kh?i t?o min/max b?ng di?n ?p cell d?u ti?n
     // _bmsData._minCellVoltage = _bmsData._cellVoltages[0];
@@ -499,8 +497,8 @@ static void _updateMinMaxCellVoltage(void) {
     //     if (_bmsData._cellVoltages[i] > _bmsData._maxCellVoltage) {
     //         _bmsData._maxCellVoltage = _bmsData._cellVoltages[i];
             //_bmsData._maxCellIndex = i;
-        }
-    }
+    //     }
+    // }
 }
 
 

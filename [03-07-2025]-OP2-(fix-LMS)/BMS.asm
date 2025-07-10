@@ -17,9 +17,9 @@ _TX_PushCommand:
 	MOV	#lo_addr(__txBufferTail), W0
 	ZE	[W0], W0
 	CP	W1, W0
-	BRA NZ	L__TX_PushCommand123
+	BRA NZ	L__TX_PushCommand113
 	GOTO	L_TX_PushCommand0
-L__TX_PushCommand123:
+L__TX_PushCommand113:
 ;BMS.c,20 :: 		_txBuffer[_txBufferHead]._commandID = _commandID;
 	MOV	#lo_addr(__txBufferHead), W0
 	ZE	[W0], W1
@@ -61,9 +61,9 @@ _TX_IsEmpty:
 	MOV	#lo_addr(__txBufferTail), W0
 	CP.B	W1, [W0]
 	CLR.B	W0
-	BRA NZ	L__TX_IsEmpty125
+	BRA NZ	L__TX_IsEmpty115
 	INC.B	W0
-L__TX_IsEmpty125:
+L__TX_IsEmpty115:
 ;BMS.c,28 :: 		}
 L_end_TX_IsEmpty:
 	RETURN
@@ -87,9 +87,9 @@ _TX_PopCommand:
 	MOV.B	[W0], W1
 	MOV	#lo_addr(__txBufferTail), W0
 	CP.B	W1, [W0]
-	BRA NZ	L__TX_PopCommand127
+	BRA NZ	L__TX_PopCommand117
 	GOTO	L_TX_PopCommand1
-L__TX_PopCommand127:
+L__TX_PopCommand117:
 ;BMS.c,34 :: 		memcpy(&_cmd, &_txBuffer[_txBufferTail], sizeof(TXCommand));
 	MOV	#lo_addr(__txBufferTail), W0
 	ZE	[W0], W1
@@ -146,9 +146,9 @@ _Immediate_PushCommand:
 	MOV	#lo_addr(__immediateQueueTail), W0
 	ZE	[W0], W0
 	CP	W1, W0
-	BRA NZ	L__Immediate_PushCommand129
+	BRA NZ	L__Immediate_PushCommand119
 	GOTO	L_Immediate_PushCommand2
-L__Immediate_PushCommand129:
+L__Immediate_PushCommand119:
 ;BMS.c,57 :: 		_immediateQueue[_immediateQueueHead]._commandID = _commandID;
 	MOV	#lo_addr(__immediateQueueHead), W0
 	ZE	[W0], W1
@@ -206,9 +206,9 @@ _Immediate_IsEmpty:
 	MOV	#lo_addr(__immediateQueueTail), W0
 	CP.B	W1, [W0]
 	CLR.B	W0
-	BRA NZ	L__Immediate_IsEmpty131
+	BRA NZ	L__Immediate_IsEmpty121
 	INC.B	W0
-L__Immediate_IsEmpty131:
+L__Immediate_IsEmpty121:
 ;BMS.c,69 :: 		}
 L_end_Immediate_IsEmpty:
 	RETURN
@@ -232,9 +232,9 @@ _Immediate_PopCommand:
 	MOV.B	[W0], W1
 	MOV	#lo_addr(__immediateQueueTail), W0
 	CP.B	W1, [W0]
-	BRA NZ	L__Immediate_PopCommand133
+	BRA NZ	L__Immediate_PopCommand123
 	GOTO	L_Immediate_PopCommand4
-L__Immediate_PopCommand133:
+L__Immediate_PopCommand123:
 ;BMS.c,85 :: 		memcpy(&_cmd, &_immediateQueue[_immediateQueueTail], sizeof(ImmediateCommand));
 	MOV	#lo_addr(__immediateQueueTail), W0
 	ZE	[W0], W1
@@ -309,9 +309,9 @@ _RX_PushByte:
 	MOV	#lo_addr(__rxBufferTail), W0
 	ZE	[W0], W0
 	CP	W1, W0
-	BRA NZ	L__RX_PushByte135
+	BRA NZ	L__RX_PushByte125
 	GOTO	L_RX_PushByte5
-L__RX_PushByte135:
+L__RX_PushByte125:
 ;BMS.c,104 :: 		_rxBuffer[_rxBufferHead] = _data;
 	MOV	#lo_addr(__rxBufferHead), W0
 	ZE	[W0], W1
@@ -337,9 +337,9 @@ _RX_PopBytes:
 	MOV.B	[W0], W1
 	MOV	#lo_addr(__rxBufferTail), W0
 	CP.B	W1, [W0]
-	BRA GEU	L__RX_PopBytes137
+	BRA GEU	L__RX_PopBytes127
 	GOTO	L_RX_PopBytes6
-L__RX_PopBytes137:
+L__RX_PopBytes127:
 ;BMS.c,112 :: 		_available = _rxBufferHead - _rxBufferTail;
 	MOV	#lo_addr(__rxBufferHead), W0
 	ZE	[W0], W1
@@ -364,9 +364,9 @@ L_RX_PopBytes7:
 ;BMS.c,115 :: 		if (_available < _length)
 ; _available start address is: 0 (W0)
 	CP	W0, W11
-	BRA LTU	L__RX_PopBytes138
+	BRA LTU	L__RX_PopBytes128
 	GOTO	L_RX_PopBytes8
-L__RX_PopBytes138:
+L__RX_PopBytes128:
 ; _available end address is: 0 (W0)
 ;BMS.c,116 :: 		return 0;  // Kh?ng d? d? li?u
 	CLR	W0
@@ -379,9 +379,9 @@ L_RX_PopBytes8:
 L_RX_PopBytes9:
 ; _i start address is: 6 (W3)
 	CP	W3, W11
-	BRA LTU	L__RX_PopBytes139
+	BRA LTU	L__RX_PopBytes129
 	GOTO	L_RX_PopBytes10
-L__RX_PopBytes139:
+L__RX_PopBytes129:
 ;BMS.c,120 :: 		_buffer[_i] = _rxBuffer[_rxBufferTail];
 	ADD	W10, W3, W2
 	MOV	#lo_addr(__rxBufferTail), W0
@@ -419,9 +419,9 @@ _RX_PeekBytes:
 	MOV.B	[W0], W1
 	MOV	#lo_addr(__rxBufferTail), W0
 	CP.B	W1, [W0]
-	BRA GEU	L__RX_PeekBytes141
+	BRA GEU	L__RX_PeekBytes131
 	GOTO	L_RX_PeekBytes12
-L__RX_PeekBytes141:
+L__RX_PeekBytes131:
 ;BMS.c,130 :: 		_available = _rxBufferHead - _rxBufferTail;
 	MOV	#lo_addr(__rxBufferHead), W0
 	ZE	[W0], W1
@@ -446,9 +446,9 @@ L_RX_PeekBytes13:
 ;BMS.c,133 :: 		if (_available < _length)
 ; _available start address is: 0 (W0)
 	CP	W0, W11
-	BRA LTU	L__RX_PeekBytes142
+	BRA LTU	L__RX_PeekBytes132
 	GOTO	L_RX_PeekBytes14
-L__RX_PeekBytes142:
+L__RX_PeekBytes132:
 ; _available end address is: 0 (W0)
 ;BMS.c,134 :: 		return 0;
 	CLR	W0
@@ -467,9 +467,9 @@ L_RX_PeekBytes15:
 ; _i start address is: 6 (W3)
 ; _idx start address is: 8 (W4)
 	CP	W3, W11
-	BRA LTU	L__RX_PeekBytes143
+	BRA LTU	L__RX_PeekBytes133
 	GOTO	L_RX_PeekBytes16
-L__RX_PeekBytes143:
+L__RX_PeekBytes133:
 ;BMS.c,139 :: 		_buffer[_i] = _rxBuffer[_idx];
 	ADD	W10, W3, W2
 	ZE	W4, W1
@@ -506,15 +506,15 @@ BMS__getEndMarker:
 ;BMS.c,157 :: 		if (_commandID >= 0x90 && _commandID <= 0x99)
 	MOV.B	#144, W0
 	CP.B	W10, W0
-	BRA GEU	L_BMS__getEndMarker145
-	GOTO	L_BMS__getEndMarker116
-L_BMS__getEndMarker145:
+	BRA GEU	L_BMS__getEndMarker135
+	GOTO	L_BMS__getEndMarker106
+L_BMS__getEndMarker135:
 	MOV.B	#153, W0
 	CP.B	W10, W0
-	BRA LEU	L_BMS__getEndMarker146
-	GOTO	L_BMS__getEndMarker115
-L_BMS__getEndMarker146:
-L_BMS__getEndMarker114:
+	BRA LEU	L_BMS__getEndMarker136
+	GOTO	L_BMS__getEndMarker105
+L_BMS__getEndMarker136:
+L_BMS__getEndMarker104:
 ;BMS.c,158 :: 		return 0x7D + (_commandID - 0x90);
 	ZE	W10, W1
 	MOV	#144, W0
@@ -523,14 +523,14 @@ L_BMS__getEndMarker114:
 	ADD	W0, W1, W0
 	GOTO	L_end__getEndMarker
 ;BMS.c,157 :: 		if (_commandID >= 0x90 && _commandID <= 0x99)
-L_BMS__getEndMarker116:
-L_BMS__getEndMarker115:
+L_BMS__getEndMarker106:
+L_BMS__getEndMarker105:
 ;BMS.c,159 :: 		else if (_commandID == 0xD8)
 	MOV.B	#216, W0
 	CP.B	W10, W0
-	BRA Z	L_BMS__getEndMarker147
+	BRA Z	L_BMS__getEndMarker137
 	GOTO	L_BMS__getEndMarker22
-L_BMS__getEndMarker147:
+L_BMS__getEndMarker137:
 ;BMS.c,160 :: 		return 0xC5;
 	MOV.B	#197, W0
 	GOTO	L_end__getEndMarker
@@ -538,9 +538,9 @@ L_BMS__getEndMarker22:
 ;BMS.c,161 :: 		else if (_commandID == 0xE3)
 	MOV.B	#227, W0
 	CP.B	W10, W0
-	BRA Z	L_BMS__getEndMarker148
+	BRA Z	L_BMS__getEndMarker138
 	GOTO	L_BMS__getEndMarker24
-L_BMS__getEndMarker148:
+L_BMS__getEndMarker138:
 ;BMS.c,162 :: 		return 0x58;
 	MOV.B	#88, W0
 	GOTO	L_end__getEndMarker
@@ -600,9 +600,9 @@ BMS__sendCommandPacket:
 L_BMS__sendCommandPacket26:
 ; _i start address is: 4 (W2)
 	CP.B	W2, #13
-	BRA LTU	L_BMS__sendCommandPacket150
+	BRA LTU	L_BMS__sendCommandPacket140
 	GOTO	L_BMS__sendCommandPacket27
-L_BMS__sendCommandPacket150:
+L_BMS__sendCommandPacket140:
 ;BMS.c,186 :: 		UART1_Write(_packet[_i]);
 	ADD	W14, #10, W1
 	ZE	W2, W0
@@ -624,9 +624,9 @@ L_BMS__sendCommandPacket27:
 L_BMS__sendCommandPacket29:
 ; _i start address is: 4 (W2)
 	CP.B	W2, #13
-	BRA LTU	L_BMS__sendCommandPacket151
+	BRA LTU	L_BMS__sendCommandPacket141
 	GOTO	L_BMS__sendCommandPacket30
-L_BMS__sendCommandPacket151:
+L_BMS__sendCommandPacket141:
 ;BMS.c,192 :: 		sprintf(temp, "0x%02X ", _packet[_i]);
 	ADD	W14, #10, W1
 	ZE	W2, W0
@@ -711,14 +711,14 @@ BMS__sendSetCommandPacket:
 ;BMS.c,210 :: 		if(_commandID == 0xD9){
 	MOV.B	#217, W0
 	CP.B	W10, W0
-	BRA Z	L_BMS__sendSetCommandPacket153
+	BRA Z	L_BMS__sendSetCommandPacket143
 	GOTO	L_BMS__sendSetCommandPacket32
-L_BMS__sendSetCommandPacket153:
+L_BMS__sendSetCommandPacket143:
 ;BMS.c,211 :: 		if(_value == 0x00)
 	CP.B	W12, #0
-	BRA Z	L_BMS__sendSetCommandPacket154
+	BRA Z	L_BMS__sendSetCommandPacket144
 	GOTO	L_BMS__sendSetCommandPacket33
-L_BMS__sendSetCommandPacket154:
+L_BMS__sendSetCommandPacket144:
 ;BMS.c,212 :: 		_packet[12] = 0xC6;
 	ADD	W14, #10, W0
 	ADD	W0, #12, W1
@@ -728,9 +728,9 @@ L_BMS__sendSetCommandPacket154:
 L_BMS__sendSetCommandPacket33:
 ;BMS.c,213 :: 		else if (_value == 0x01)
 	CP.B	W12, #1
-	BRA Z	L_BMS__sendSetCommandPacket155
+	BRA Z	L_BMS__sendSetCommandPacket145
 	GOTO	L_BMS__sendSetCommandPacket35
-L_BMS__sendSetCommandPacket155:
+L_BMS__sendSetCommandPacket145:
 ;BMS.c,214 :: 		_packet[12] = 0xC7;
 	ADD	W14, #10, W0
 	ADD	W0, #12, W1
@@ -748,14 +748,14 @@ L_BMS__sendSetCommandPacket32:
 ;BMS.c,217 :: 		else if(_commandID == 0xDA){
 	MOV.B	#218, W0
 	CP.B	W10, W0
-	BRA Z	L_BMS__sendSetCommandPacket156
+	BRA Z	L_BMS__sendSetCommandPacket146
 	GOTO	L_BMS__sendSetCommandPacket38
-L_BMS__sendSetCommandPacket156:
+L_BMS__sendSetCommandPacket146:
 ;BMS.c,218 :: 		if(_value == 0x00)
 	CP.B	W12, #0
-	BRA Z	L_BMS__sendSetCommandPacket157
+	BRA Z	L_BMS__sendSetCommandPacket147
 	GOTO	L_BMS__sendSetCommandPacket39
-L_BMS__sendSetCommandPacket157:
+L_BMS__sendSetCommandPacket147:
 ;BMS.c,219 :: 		_packet[12] = 0xC7;
 	ADD	W14, #10, W0
 	ADD	W0, #12, W1
@@ -765,9 +765,9 @@ L_BMS__sendSetCommandPacket157:
 L_BMS__sendSetCommandPacket39:
 ;BMS.c,220 :: 		else if(_value == 0x01)
 	CP.B	W12, #1
-	BRA Z	L_BMS__sendSetCommandPacket158
+	BRA Z	L_BMS__sendSetCommandPacket148
 	GOTO	L_BMS__sendSetCommandPacket41
-L_BMS__sendSetCommandPacket158:
+L_BMS__sendSetCommandPacket148:
 ;BMS.c,221 :: 		_packet[12] = 0xC8;
 	ADD	W14, #10, W0
 	ADD	W0, #12, W1
@@ -799,9 +799,9 @@ L_BMS__sendSetCommandPacket37:
 L_BMS__sendSetCommandPacket44:
 ; _i start address is: 4 (W2)
 	CP.B	W2, #13
-	BRA LTU	L_BMS__sendSetCommandPacket159
+	BRA LTU	L_BMS__sendSetCommandPacket149
 	GOTO	L_BMS__sendSetCommandPacket45
-L_BMS__sendSetCommandPacket159:
+L_BMS__sendSetCommandPacket149:
 ;BMS.c,229 :: 		UART1_Write(_packet[_i]);
 	ADD	W14, #10, W1
 	ZE	W2, W0
@@ -823,9 +823,9 @@ L_BMS__sendSetCommandPacket45:
 L_BMS__sendSetCommandPacket47:
 ; _i start address is: 4 (W2)
 	CP.B	W2, #13
-	BRA LTU	L_BMS__sendSetCommandPacket160
+	BRA LTU	L_BMS__sendSetCommandPacket150
 	GOTO	L_BMS__sendSetCommandPacket48
-L_BMS__sendSetCommandPacket160:
+L_BMS__sendSetCommandPacket150:
 ;BMS.c,235 :: 		sprintf(temp, "0x%02X ", _packet[_i]);
 	ADD	W14, #10, W1
 	ZE	W2, W0
@@ -899,9 +899,9 @@ BMS__processReceivedResponsePacket:
 	MOV	W0, W10
 	CALL	_RX_PeekBytes
 	CP	W0, #13
-	BRA Z	L_BMS__processReceivedResponsePacket162
+	BRA Z	L_BMS__processReceivedResponsePacket152
 	GOTO	L_BMS__processReceivedResponsePacket50
-L_BMS__processReceivedResponsePacket162:
+L_BMS__processReceivedResponsePacket152:
 ;BMS.c,260 :: 		strcpy(_dbgStr, "Peeked Packet: ");
 	ADD	W14, #23, W0
 	MOV	#lo_addr(?lstr9_BMS), W11
@@ -917,9 +917,9 @@ L_BMS__processReceivedResponsePacket51:
 ; i start address is: 6 (W3)
 ; checksum start address is: 4 (W2)
 	CP.B	W3, #13
-	BRA LTU	L_BMS__processReceivedResponsePacket163
+	BRA LTU	L_BMS__processReceivedResponsePacket153
 	GOTO	L_BMS__processReceivedResponsePacket52
-L_BMS__processReceivedResponsePacket163:
+L_BMS__processReceivedResponsePacket153:
 ;BMS.c,263 :: 		sprintf(_byteStr, "0x%02X ", _temp[i]);
 	ADD	W14, #10, W1
 	ZE	W3, W0
@@ -959,24 +959,24 @@ L_BMS__processReceivedResponsePacket52:
 	MOV.B	[W0], W1
 	MOV.B	#165, W0
 	CP.B	W1, W0
-	BRA Z	L_BMS__processReceivedResponsePacket164
-	GOTO	L_BMS__processReceivedResponsePacket121
-L_BMS__processReceivedResponsePacket164:
+	BRA Z	L_BMS__processReceivedResponsePacket154
+	GOTO	L_BMS__processReceivedResponsePacket111
+L_BMS__processReceivedResponsePacket154:
 	ADD	W14, #10, W0
 	INC	W0
 	MOV.B	[W0], W0
 	CP.B	W0, #1
-	BRA Z	L_BMS__processReceivedResponsePacket165
-	GOTO	L_BMS__processReceivedResponsePacket120
-L_BMS__processReceivedResponsePacket165:
+	BRA Z	L_BMS__processReceivedResponsePacket155
+	GOTO	L_BMS__processReceivedResponsePacket110
+L_BMS__processReceivedResponsePacket155:
 ;BMS.c,271 :: 		(_temp[3] == 0x08) && (((_temp[2]) & 0xF0) == 0x90)) {
 	ADD	W14, #10, W0
 	ADD	W0, #3, W0
 	MOV.B	[W0], W0
 	CP.B	W0, #8
-	BRA Z	L_BMS__processReceivedResponsePacket166
-	GOTO	L_BMS__processReceivedResponsePacket119
-L_BMS__processReceivedResponsePacket166:
+	BRA Z	L_BMS__processReceivedResponsePacket156
+	GOTO	L_BMS__processReceivedResponsePacket109
+L_BMS__processReceivedResponsePacket156:
 	ADD	W14, #10, W0
 	INC2	W0
 	ZE	[W0], W1
@@ -984,10 +984,10 @@ L_BMS__processReceivedResponsePacket166:
 	AND	W1, W0, W1
 	MOV	#144, W0
 	CP	W1, W0
-	BRA Z	L_BMS__processReceivedResponsePacket167
-	GOTO	L_BMS__processReceivedResponsePacket118
-L_BMS__processReceivedResponsePacket167:
-L_BMS__processReceivedResponsePacket117:
+	BRA Z	L_BMS__processReceivedResponsePacket157
+	GOTO	L_BMS__processReceivedResponsePacket108
+L_BMS__processReceivedResponsePacket157:
+L_BMS__processReceivedResponsePacket107:
 ;BMS.c,276 :: 		RX_PopBytes(_temp, _EXPECTED_PACKET_SIZE);
 	ADD	W14, #10, W0
 	PUSH	W2
@@ -1007,9 +1007,9 @@ L_BMS__processReceivedResponsePacket57:
 ; checksum start address is: 6 (W3)
 	ZE	W2, W0
 	CP	W0, #12
-	BRA LT	L_BMS__processReceivedResponsePacket168
+	BRA LT	L_BMS__processReceivedResponsePacket158
 	GOTO	L_BMS__processReceivedResponsePacket58
-L_BMS__processReceivedResponsePacket168:
+L_BMS__processReceivedResponsePacket158:
 ;BMS.c,281 :: 		checksum += _temp[i];
 	ADD	W14, #10, W1
 	ZE	W2, W0
@@ -1030,9 +1030,9 @@ L_BMS__processReceivedResponsePacket58:
 	ADD	W14, #10, W0
 	ADD	W0, #12, W0
 	CP.B	W3, [W0]
-	BRA Z	L_BMS__processReceivedResponsePacket169
+	BRA Z	L_BMS__processReceivedResponsePacket159
 	GOTO	L_BMS__processReceivedResponsePacket60
-L_BMS__processReceivedResponsePacket169:
+L_BMS__processReceivedResponsePacket159:
 ; checksum end address is: 6 (W3)
 ;BMS.c,286 :: 		switch (_temp[2]) {
 	ADD	W14, #10, W0
@@ -1203,9 +1203,9 @@ L_BMS__processReceivedResponsePacket66:
 	MOV.B	W1, [W0]
 ;BMS.c,368 :: 		_bmsData._dischargeMOS ? "ON" : "OFF");
 	CP0.B	W1
-	BRA NZ	L_BMS__processReceivedResponsePacket170
+	BRA NZ	L_BMS__processReceivedResponsePacket160
 	GOTO	L_BMS__processReceivedResponsePacket69
-L_BMS__processReceivedResponsePacket170:
+L_BMS__processReceivedResponsePacket160:
 ; ?FLOC__BMS__processReceivedResponsePacket?T366 start address is: 4 (W2)
 	MOV	#lo_addr(?lstr_16_BMS), W2
 ; ?FLOC__BMS__processReceivedResponsePacket?T366 end address is: 4 (W2)
@@ -1219,9 +1219,9 @@ L_BMS__processReceivedResponsePacket70:
 ; ?FLOC__BMS__processReceivedResponsePacket?T366 start address is: 4 (W2)
 	MOV	#lo_addr(__bmsData+77), W0
 	CP0.B	[W0]
-	BRA NZ	L_BMS__processReceivedResponsePacket171
+	BRA NZ	L_BMS__processReceivedResponsePacket161
 	GOTO	L_BMS__processReceivedResponsePacket67
-L_BMS__processReceivedResponsePacket171:
+L_BMS__processReceivedResponsePacket161:
 ; ?FLOC__BMS__processReceivedResponsePacket?T363 start address is: 0 (W0)
 	MOV	#lo_addr(?lstr_14_BMS), W0
 ; ?FLOC__BMS__processReceivedResponsePacket?T363 end address is: 0 (W0)
@@ -1282,51 +1282,47 @@ L_BMS__processReceivedResponsePacket71:
 	GOTO	L_BMS__processReceivedResponsePacket62
 ;BMS.c,384 :: 		case 0x95: {
 L_BMS__processReceivedResponsePacket72:
-;BMS.c,392 :: 		for (j = 0; j < 3; j++){
-; j start address is: 8 (W4)
-	CLR	W4
-; j end address is: 8 (W4)
-L_BMS__processReceivedResponsePacket73:
-; j start address is: 8 (W4)
-	CP.B	W4, #3
-	BRA LTU	L_BMS__processReceivedResponsePacket172
-	GOTO	L_BMS__processReceivedResponsePacket74
-L_BMS__processReceivedResponsePacket172:
-;BMS.c,393 :: 		_bmsData._cellVoltages[j] = (_temp[5 + j + j] << 8) | _temp[6 + j + j];
-	ZE	W4, W0
-	SL	W0, #2, W1
-	MOV	#lo_addr(__bmsData+16), W0
-	ADD	W0, W1, W0
-	MOV	W0, [W14+174]
-	ZE	W4, W0
-	ADD	W0, #5, W1
-	ZE	W4, W0
-	ADD	W1, W0, W0
-	ADD	W14, #10, W3
-	ADD	W3, W0, W0
+;BMS.c,393 :: 		_bmsData._cellVoltages0 = (_temp[5] << 8) | _temp[6];
+	ADD	W14, #10, W2
+	MOV	W2, [W14+174]
+	ADD	W2, #5, W0
 	MOV.B	[W0], W0
 	ZE	W0, W0
-	SL	W0, #8, W2
-	ZE	W4, W0
-	ADD	W0, #6, W1
-	ZE	W4, W0
-	ADD	W1, W0, W0
-	ADD	W3, W0, W0
+	SL	W0, #8, W1
+	ADD	W2, #6, W0
 	ZE	[W0], W0
-	IOR	W2, W0, W0
-	PUSH	W4
+	IOR	W1, W0, W0
 	CLR	W1
 	CALL	__Long2Float
-	POP	W4
+	MOV	W0, __bmsData+16
+	MOV	W1, __bmsData+18
+;BMS.c,394 :: 		_bmsData._cellVoltages1 = (_temp[7] << 8) | _temp[8];
 	MOV	[W14+174], W2
-	MOV.D	W0, [W2]
-;BMS.c,392 :: 		for (j = 0; j < 3; j++){
-	INC.B	W4
-;BMS.c,394 :: 		}
-; j end address is: 8 (W4)
-	GOTO	L_BMS__processReceivedResponsePacket73
-L_BMS__processReceivedResponsePacket74:
-;BMS.c,397 :: 		+ _bmsData._cellVoltages[1] + _bmsData._cellVoltages[2]) / 3;
+	ADD	W2, #7, W0
+	MOV.B	[W0], W0
+	ZE	W0, W0
+	SL	W0, #8, W1
+	ADD	W2, #8, W0
+	ZE	[W0], W0
+	IOR	W1, W0, W0
+	CLR	W1
+	CALL	__Long2Float
+	MOV	W0, __bmsData+20
+	MOV	W1, __bmsData+22
+;BMS.c,395 :: 		_bmsData._cellVoltages2 = (_temp[9] << 8) | _temp[10];
+	MOV	[W14+174], W2
+	ADD	W2, #9, W0
+	MOV.B	[W0], W0
+	ZE	W0, W0
+	SL	W0, #8, W1
+	ADD	W2, #10, W0
+	ZE	[W0], W0
+	IOR	W1, W0, W0
+	CLR	W1
+	CALL	__Long2Float
+	MOV	W0, __bmsData+24
+	MOV	W1, __bmsData+26
+;BMS.c,397 :: 		+ _bmsData._cellVoltages1 + _bmsData._cellVoltages2) / 3;
 	MOV	__bmsData+16, W2
 	MOV	__bmsData+18, W3
 	MOV	__bmsData+20, W0
@@ -1343,82 +1339,11 @@ L_BMS__processReceivedResponsePacket74:
 ;BMS.c,404 :: 		break;
 	GOTO	L_BMS__processReceivedResponsePacket62
 ;BMS.c,406 :: 		case 0x96: {
-L_BMS__processReceivedResponsePacket76:
-;BMS.c,410 :: 		uint8_t cellIndex = _temp[4] - 1;
-	ADD	W14, #10, W0
-	ADD	W0, #4, W0
-	ZE	[W0], W0
-	DEC	W0
-; cellIndex start address is: 6 (W3)
-	MOV.B	W0, W3
-;BMS.c,411 :: 		if (cellIndex < MAX_CELL_COUNT) {
-	CP.B	W0, #16
-	BRA LTU	L_BMS__processReceivedResponsePacket173
-	GOTO	L_BMS__processReceivedResponsePacket77
-L_BMS__processReceivedResponsePacket173:
-;BMS.c,412 :: 		raw_value = (((uint16_t)_temp[5]) << 8) | _temp[6];
-	ADD	W14, #10, W2
-	ADD	W2, #5, W0
-	ZE	[W0], W0
-	SL	W0, #8, W1
-	ADD	W2, #6, W0
-	ZE	[W0], W0
-	IOR	W1, W0, W2
-;BMS.c,413 :: 		_bmsData._cellVoltages[cellIndex] = raw_value / 1000.0;
-	ZE	W3, W0
-	SL	W0, #2, W1
-	MOV	#lo_addr(__bmsData+16), W0
-	ADD	W0, W1, W0
-	MOV	W0, [W14+174]
-	PUSH	W3
-	MOV	W2, W0
-	CLR	W1
-	CALL	__Long2Float
-	MOV	#0, W2
-	MOV	#17530, W3
-	CALL	__Div_FP
-	POP	W3
-	MOV	[W14+174], W2
-	MOV.D	W0, [W2]
-;BMS.c,416 :: 		cellIndex + 1, _bmsData._cellVoltages[cellIndex]);
-	ZE	W3, W0
-	SL	W0, #2, W1
-	MOV	#lo_addr(__bmsData+16), W0
-	ADD	W0, W1, W2
-	ZE	W3, W0
-	INC	W0
-;BMS.c,415 :: 		sprintf(_dbgStr, "Cell %d Voltage: %.3f V\r\n",
-	ADD	W14, #23, W1
-;BMS.c,416 :: 		cellIndex + 1, _bmsData._cellVoltages[cellIndex]);
-	PUSH	W3
-	PUSH	[W2++]
-	PUSH	[W2--]
-	PUSH	W0
-;BMS.c,415 :: 		sprintf(_dbgStr, "Cell %d Voltage: %.3f V\r\n",
-	MOV	#lo_addr(?lstr_19_BMS), W0
-	PUSH	W0
-	PUSH	W1
-;BMS.c,416 :: 		cellIndex + 1, _bmsData._cellVoltages[cellIndex]);
-	CALL	_sprintf
-	SUB	#10, W15
-	POP	W3
-;BMS.c,420 :: 		if (cellIndex == _bmsData._cellCount - 1) {
-	MOV	__bmsData+52, W0
-	SUB	W0, #1, W1
-	ZE	W3, W0
-; cellIndex end address is: 6 (W3)
-	CP	W0, W1
-	BRA Z	L_BMS__processReceivedResponsePacket174
-	GOTO	L_BMS__processReceivedResponsePacket78
-L_BMS__processReceivedResponsePacket174:
-;BMS.c,422 :: 		}
-L_BMS__processReceivedResponsePacket78:
-;BMS.c,423 :: 		}
-L_BMS__processReceivedResponsePacket77:
+L_BMS__processReceivedResponsePacket73:
 ;BMS.c,424 :: 		break;
 	GOTO	L_BMS__processReceivedResponsePacket62
 ;BMS.c,426 :: 		case 0x97: {
-L_BMS__processReceivedResponsePacket79:
+L_BMS__processReceivedResponsePacket74:
 ;BMS.c,429 :: 		_bmsData._balanceStatus = _temp[4];
 	ADD	W14, #10, W0
 	ADD	W0, #4, W0
@@ -1428,7 +1353,7 @@ L_BMS__processReceivedResponsePacket79:
 ;BMS.c,431 :: 		sprintf(_dbgStr, "Balance Status: 0x%02X\r\n", _bmsData._balanceStatus);
 	ADD	W14, #23, W1
 	PUSH	__bmsData+80
-	MOV	#lo_addr(?lstr_20_BMS), W0
+	MOV	#lo_addr(?lstr_19_BMS), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1436,7 +1361,7 @@ L_BMS__processReceivedResponsePacket79:
 ;BMS.c,433 :: 		break;
 	GOTO	L_BMS__processReceivedResponsePacket62
 ;BMS.c,435 :: 		case 0x98: {
-L_BMS__processReceivedResponsePacket80:
+L_BMS__processReceivedResponsePacket75:
 ;BMS.c,438 :: 		_bmsData._errorCount = _temp[4];
 	ADD	W14, #10, W0
 	ADD	W0, #4, W0
@@ -1446,7 +1371,7 @@ L_BMS__processReceivedResponsePacket80:
 ;BMS.c,440 :: 		sprintf(_dbgStr, "Error Count: %d\r\n", _bmsData._errorCount);
 	ADD	W14, #23, W1
 	PUSH	__bmsData+82
-	MOV	#lo_addr(?lstr_21_BMS), W0
+	MOV	#lo_addr(?lstr_20_BMS), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
@@ -1454,7 +1379,7 @@ L_BMS__processReceivedResponsePacket80:
 ;BMS.c,442 :: 		break;
 	GOTO	L_BMS__processReceivedResponsePacket62
 ;BMS.c,444 :: 		case 0x99: {
-L_BMS__processReceivedResponsePacket81:
+L_BMS__processReceivedResponsePacket76:
 ;BMS.c,449 :: 		_bmsData._hardwareVersion = (((uint16_t)_temp[4]) << 8) | _temp[5];
 	ADD	W14, #10, W2
 	ADD	W2, #5, W0
@@ -1491,7 +1416,7 @@ L_BMS__processReceivedResponsePacket81:
 	ZE	[W0], W0
 	PUSH	W0
 ;BMS.c,457 :: 		sprintf(_dbgStr, "HW Version: 0x%04X, SW Version: 0x%04X, Manufacturer: %s\r\n",
-	MOV	#lo_addr(?lstr_22_BMS), W0
+	MOV	#lo_addr(?lstr_21_BMS), W0
 	PUSH	W0
 	PUSH	W1
 ;BMS.c,458 :: 		_bmsData._hardwareVersion, _bmsData._softwareVersion, _bmsData._manufacturer);
@@ -1500,7 +1425,7 @@ L_BMS__processReceivedResponsePacket81:
 ;BMS.c,460 :: 		break;
 	GOTO	L_BMS__processReceivedResponsePacket62
 ;BMS.c,462 :: 		default:
-L_BMS__processReceivedResponsePacket82:
+L_BMS__processReceivedResponsePacket77:
 ;BMS.c,464 :: 		break;
 	GOTO	L_BMS__processReceivedResponsePacket62
 ;BMS.c,465 :: 		}
@@ -1509,67 +1434,67 @@ L_BMS__processReceivedResponsePacket61:
 	MOV.B	[W2], W1
 	MOV.B	#144, W0
 	CP.B	W1, W0
-	BRA NZ	L_BMS__processReceivedResponsePacket175
+	BRA NZ	L_BMS__processReceivedResponsePacket162
 	GOTO	L_BMS__processReceivedResponsePacket63
-L_BMS__processReceivedResponsePacket175:
+L_BMS__processReceivedResponsePacket162:
 	MOV.B	[W2], W1
 	MOV.B	#145, W0
 	CP.B	W1, W0
-	BRA NZ	L_BMS__processReceivedResponsePacket176
+	BRA NZ	L_BMS__processReceivedResponsePacket163
 	GOTO	L_BMS__processReceivedResponsePacket64
-L_BMS__processReceivedResponsePacket176:
+L_BMS__processReceivedResponsePacket163:
 	MOV.B	[W2], W1
 	MOV.B	#146, W0
 	CP.B	W1, W0
-	BRA NZ	L_BMS__processReceivedResponsePacket177
+	BRA NZ	L_BMS__processReceivedResponsePacket164
 	GOTO	L_BMS__processReceivedResponsePacket65
-L_BMS__processReceivedResponsePacket177:
+L_BMS__processReceivedResponsePacket164:
 	MOV.B	[W2], W1
 	MOV.B	#147, W0
 	CP.B	W1, W0
-	BRA NZ	L_BMS__processReceivedResponsePacket178
+	BRA NZ	L_BMS__processReceivedResponsePacket165
 	GOTO	L_BMS__processReceivedResponsePacket66
-L_BMS__processReceivedResponsePacket178:
+L_BMS__processReceivedResponsePacket165:
 	MOV.B	[W2], W1
 	MOV.B	#148, W0
 	CP.B	W1, W0
-	BRA NZ	L_BMS__processReceivedResponsePacket179
+	BRA NZ	L_BMS__processReceivedResponsePacket166
 	GOTO	L_BMS__processReceivedResponsePacket71
-L_BMS__processReceivedResponsePacket179:
+L_BMS__processReceivedResponsePacket166:
 	MOV.B	[W2], W1
 	MOV.B	#149, W0
 	CP.B	W1, W0
-	BRA NZ	L_BMS__processReceivedResponsePacket180
+	BRA NZ	L_BMS__processReceivedResponsePacket167
 	GOTO	L_BMS__processReceivedResponsePacket72
-L_BMS__processReceivedResponsePacket180:
+L_BMS__processReceivedResponsePacket167:
 	MOV.B	[W2], W1
 	MOV.B	#150, W0
 	CP.B	W1, W0
-	BRA NZ	L_BMS__processReceivedResponsePacket181
-	GOTO	L_BMS__processReceivedResponsePacket76
-L_BMS__processReceivedResponsePacket181:
+	BRA NZ	L_BMS__processReceivedResponsePacket168
+	GOTO	L_BMS__processReceivedResponsePacket73
+L_BMS__processReceivedResponsePacket168:
 	MOV.B	[W2], W1
 	MOV.B	#151, W0
 	CP.B	W1, W0
-	BRA NZ	L_BMS__processReceivedResponsePacket182
-	GOTO	L_BMS__processReceivedResponsePacket79
-L_BMS__processReceivedResponsePacket182:
+	BRA NZ	L_BMS__processReceivedResponsePacket169
+	GOTO	L_BMS__processReceivedResponsePacket74
+L_BMS__processReceivedResponsePacket169:
 	MOV.B	[W2], W1
 	MOV.B	#152, W0
 	CP.B	W1, W0
-	BRA NZ	L_BMS__processReceivedResponsePacket183
-	GOTO	L_BMS__processReceivedResponsePacket80
-L_BMS__processReceivedResponsePacket183:
+	BRA NZ	L_BMS__processReceivedResponsePacket170
+	GOTO	L_BMS__processReceivedResponsePacket75
+L_BMS__processReceivedResponsePacket170:
 	MOV.B	[W2], W1
 	MOV.B	#153, W0
 	CP.B	W1, W0
-	BRA NZ	L_BMS__processReceivedResponsePacket184
-	GOTO	L_BMS__processReceivedResponsePacket81
-L_BMS__processReceivedResponsePacket184:
-	GOTO	L_BMS__processReceivedResponsePacket82
+	BRA NZ	L_BMS__processReceivedResponsePacket171
+	GOTO	L_BMS__processReceivedResponsePacket76
+L_BMS__processReceivedResponsePacket171:
+	GOTO	L_BMS__processReceivedResponsePacket77
 L_BMS__processReceivedResponsePacket62:
 ;BMS.c,466 :: 		} else {
-	GOTO	L_BMS__processReceivedResponsePacket83
+	GOTO	L_BMS__processReceivedResponsePacket78
 L_BMS__processReceivedResponsePacket60:
 ;BMS.c,468 :: 		checksum, _temp[_EXPECTED_PACKET_SIZE - 1]);
 ; checksum start address is: 6 (W3)
@@ -1585,22 +1510,22 @@ L_BMS__processReceivedResponsePacket60:
 ; checksum end address is: 6 (W3)
 	PUSH	W0
 ;BMS.c,467 :: 		sprintf(_dbgStr, "Checksum Error! Calculated: 0x%02X, Received: 0x%02X\r\n",
-	MOV	#lo_addr(?lstr_23_BMS), W0
+	MOV	#lo_addr(?lstr_22_BMS), W0
 	PUSH	W0
 	PUSH	W1
 ;BMS.c,468 :: 		checksum, _temp[_EXPECTED_PACKET_SIZE - 1]);
 	CALL	_sprintf
 	SUB	#8, W15
 ;BMS.c,470 :: 		}
-L_BMS__processReceivedResponsePacket83:
+L_BMS__processReceivedResponsePacket78:
 ;BMS.c,471 :: 		} else {
-	GOTO	L_BMS__processReceivedResponsePacket84
+	GOTO	L_BMS__processReceivedResponsePacket79
 ;BMS.c,270 :: 		if ((_temp[0] == 0xA5) && (_temp[1] == 0x01) &&
-L_BMS__processReceivedResponsePacket121:
-L_BMS__processReceivedResponsePacket120:
+L_BMS__processReceivedResponsePacket111:
+L_BMS__processReceivedResponsePacket110:
 ;BMS.c,271 :: 		(_temp[3] == 0x08) && (((_temp[2]) & 0xF0) == 0x90)) {
-L_BMS__processReceivedResponsePacket119:
-L_BMS__processReceivedResponsePacket118:
+L_BMS__processReceivedResponsePacket109:
+L_BMS__processReceivedResponsePacket108:
 ;BMS.c,474 :: 		_temp[0], _temp[1], _temp[2], _temp[3]);
 	ADD	W14, #10, W1
 	ADD	W1, #3, W0
@@ -1622,7 +1547,7 @@ L_BMS__processReceivedResponsePacket118:
 	ZE	W2, W0
 	PUSH	W0
 ;BMS.c,473 :: 		sprintf(_dbgStr, "Invalid Packet Header: 0x%02X 0x%02X 0x%02X 0x%02X\r\n",
-	MOV	#lo_addr(?lstr_24_BMS), W0
+	MOV	#lo_addr(?lstr_23_BMS), W0
 	PUSH	W0
 	PUSH	W1
 ;BMS.c,474 :: 		_temp[0], _temp[1], _temp[2], _temp[3]);
@@ -1635,7 +1560,7 @@ L_BMS__processReceivedResponsePacket118:
 	MOV	W0, W10
 	CALL	_RX_PopBytes
 ;BMS.c,477 :: 		}
-L_BMS__processReceivedResponsePacket84:
+L_BMS__processReceivedResponsePacket79:
 ;BMS.c,478 :: 		}
 L_BMS__processReceivedResponsePacket50:
 ;BMS.c,479 :: 		}
@@ -1649,94 +1574,6 @@ L_end__processReceivedResponsePacket:
 BMS__updateMinMaxCellVoltage:
 
 ;BMS.c,482 :: 		static void _updateMinMaxCellVoltage(void) {
-;BMS.c,486 :: 		_bmsData._minCellVoltage = _bmsData._cellVoltages[0];
-	MOV	__bmsData+16, W0
-	MOV	__bmsData+18, W1
-	MOV	W0, __bmsData+32
-	MOV	W1, __bmsData+34
-;BMS.c,487 :: 		_bmsData._maxCellVoltage = _bmsData._cellVoltages[0];
-	MOV	__bmsData+16, W0
-	MOV	__bmsData+18, W1
-	MOV	W0, __bmsData+12
-	MOV	W1, __bmsData+14
-;BMS.c,492 :: 		for (i = 1; i < _bmsData._cellCount; i++) {
-; i start address is: 6 (W3)
-	MOV.B	#1, W3
-; i end address is: 6 (W3)
-L_BMS__updateMinMaxCellVoltage85:
-; i start address is: 6 (W3)
-	ZE	W3, W1
-	MOV	#lo_addr(__bmsData+52), W0
-	CP	W1, [W0]
-	BRA LT	L_BMS__updateMinMaxCellVoltage186
-	GOTO	L_BMS__updateMinMaxCellVoltage86
-L_BMS__updateMinMaxCellVoltage186:
-;BMS.c,493 :: 		if (_bmsData._cellVoltages[i] < _bmsData._minCellVoltage) {
-	ZE	W3, W0
-	SL	W0, #2, W1
-	MOV	#lo_addr(__bmsData+16), W0
-	ADD	W0, W1, W2
-	MOV.D	[W2], W0
-	PUSH	W3
-	MOV	__bmsData+32, W2
-	MOV	__bmsData+34, W3
-	CALL	__Compare_Le_Fp
-	CP0	W0
-	CLR.B	W0
-	BRA GE	L_BMS__updateMinMaxCellVoltage187
-	INC.B	W0
-L_BMS__updateMinMaxCellVoltage187:
-	POP	W3
-	CP0.B	W0
-	BRA NZ	L_BMS__updateMinMaxCellVoltage188
-	GOTO	L_BMS__updateMinMaxCellVoltage88
-L_BMS__updateMinMaxCellVoltage188:
-;BMS.c,494 :: 		_bmsData._minCellVoltage = _bmsData._cellVoltages[i];
-	ZE	W3, W0
-	SL	W0, #2, W1
-	MOV	#lo_addr(__bmsData+16), W0
-	ADD	W0, W1, W2
-	MOV.D	[W2], W0
-	MOV	W0, __bmsData+32
-	MOV	W1, __bmsData+34
-;BMS.c,496 :: 		}
-L_BMS__updateMinMaxCellVoltage88:
-;BMS.c,497 :: 		if (_bmsData._cellVoltages[i] > _bmsData._maxCellVoltage) {
-	ZE	W3, W0
-	SL	W0, #2, W1
-	MOV	#lo_addr(__bmsData+16), W0
-	ADD	W0, W1, W2
-	MOV.D	[W2], W0
-	PUSH	W3
-	MOV	__bmsData+12, W2
-	MOV	__bmsData+14, W3
-	CALL	__Compare_Ge_Fp
-	CP0	W0
-	CLR.B	W0
-	BRA LE	L_BMS__updateMinMaxCellVoltage189
-	INC.B	W0
-L_BMS__updateMinMaxCellVoltage189:
-	POP	W3
-	CP0.B	W0
-	BRA NZ	L_BMS__updateMinMaxCellVoltage190
-	GOTO	L_BMS__updateMinMaxCellVoltage89
-L_BMS__updateMinMaxCellVoltage190:
-;BMS.c,498 :: 		_bmsData._maxCellVoltage = _bmsData._cellVoltages[i];
-	ZE	W3, W0
-	SL	W0, #2, W1
-	MOV	#lo_addr(__bmsData+16), W0
-	ADD	W0, W1, W2
-	MOV.D	[W2], W0
-	MOV	W0, __bmsData+12
-	MOV	W1, __bmsData+14
-;BMS.c,500 :: 		}
-L_BMS__updateMinMaxCellVoltage89:
-;BMS.c,492 :: 		for (i = 1; i < _bmsData._cellCount; i++) {
-	INC.B	W3
-;BMS.c,501 :: 		}
-; i end address is: 6 (W3)
-	GOTO	L_BMS__updateMinMaxCellVoltage85
-L_BMS__updateMinMaxCellVoltage86:
 ;BMS.c,502 :: 		}
 L_end__updateMinMaxCellVoltage:
 	RETURN
@@ -1751,20 +1588,20 @@ _BMS_SendCommandImmediate:
 ;BMS.c,526 :: 		if (!_txBusy) {
 	MOV	#lo_addr(__txBusy), W0
 	CP0.B	[W0]
-	BRA Z	L__BMS_SendCommandImmediate192
-	GOTO	L_BMS_SendCommandImmediate90
-L__BMS_SendCommandImmediate192:
+	BRA Z	L__BMS_SendCommandImmediate174
+	GOTO	L_BMS_SendCommandImmediate80
+L__BMS_SendCommandImmediate174:
 ;BMS.c,527 :: 		_txBusy = 1;
 	MOV	#lo_addr(__txBusy), W1
 	MOV.B	#1, W0
 	MOV.B	W0, [W1]
 ;BMS.c,528 :: 		while (!Immediate_IsEmpty()) {
-L_BMS_SendCommandImmediate91:
+L_BMS_SendCommandImmediate81:
 	CALL	_Immediate_IsEmpty
 	CP0.B	W0
-	BRA Z	L__BMS_SendCommandImmediate193
-	GOTO	L_BMS_SendCommandImmediate92
-L__BMS_SendCommandImmediate193:
+	BRA Z	L__BMS_SendCommandImmediate175
+	GOTO	L_BMS_SendCommandImmediate82
+L__BMS_SendCommandImmediate175:
 ;BMS.c,529 :: 		_imCmd = Immediate_PopCommand();
 	ADD	W14, #10, W0
 	MOV	W0, [W15+6]
@@ -1784,14 +1621,14 @@ L__BMS_SendCommandImmediate193:
 	POP.D	W10
 	POP	W12
 ;BMS.c,531 :: 		}
-	GOTO	L_BMS_SendCommandImmediate91
-L_BMS_SendCommandImmediate92:
+	GOTO	L_BMS_SendCommandImmediate81
+L_BMS_SendCommandImmediate82:
 ;BMS.c,533 :: 		_txBusy = 0;
 	MOV	#lo_addr(__txBusy), W1
 	CLR	W0
 	MOV.B	W0, [W1]
 ;BMS.c,534 :: 		}
-L_BMS_SendCommandImmediate90:
+L_BMS_SendCommandImmediate80:
 ;BMS.c,535 :: 		}
 L_end_BMS_SendCommandImmediate:
 	ULNK
@@ -1820,9 +1657,9 @@ _BMS_Update:
 ;BMS.c,556 :: 		if (!Immediate_IsEmpty()) {
 	CALL	_Immediate_IsEmpty
 	CP0.B	W0
-	BRA Z	L__BMS_Update196
-	GOTO	L_BMS_Update93
-L__BMS_Update196:
+	BRA Z	L__BMS_Update178
+	GOTO	L_BMS_Update83
+L__BMS_Update178:
 ;BMS.c,557 :: 		_imCmd = Immediate_PopCommand();
 	ADD	W14, #26, W0
 	MOV	W0, [W15+6]
@@ -1832,7 +1669,7 @@ L__BMS_Update196:
 	REPEAT	#8
 	MOV.B	[W0++], [W1++]
 ;BMS.c,558 :: 		DebugUART_Send_Text("Da lay duoc lenh\r\n");
-	MOV	#lo_addr(?lstr_25_BMS), W10
+	MOV	#lo_addr(?lstr_24_BMS), W10
 	CALL	_DebugUART_Send_Text
 ;BMS.c,559 :: 		_sendSetCommandPacket(_imCmd._commandID, _imCmd._payload, _imCmd._value);
 	ADD	W14, #1, W0
@@ -1841,13 +1678,13 @@ L__BMS_Update196:
 	MOV.B	[W14+0], W10
 	CALL	BMS__sendSetCommandPacket
 ;BMS.c,561 :: 		} else if (!TX_IsEmpty()) {
-	GOTO	L_BMS_Update94
-L_BMS_Update93:
+	GOTO	L_BMS_Update84
+L_BMS_Update83:
 	CALL	_TX_IsEmpty
 	CP0.B	W0
-	BRA Z	L__BMS_Update197
-	GOTO	L_BMS_Update95
-L__BMS_Update197:
+	BRA Z	L__BMS_Update179
+	GOTO	L_BMS_Update85
+L__BMS_Update179:
 ;BMS.c,562 :: 		_txCmd = TX_PopCommand();
 	ADD	W14, #26, W0
 	MOV	W0, [W15+6]
@@ -1862,8 +1699,8 @@ L__BMS_Update197:
 	MOV.B	[W14+9], W10
 	CALL	BMS__sendCommandPacket
 ;BMS.c,564 :: 		} else {
-	GOTO	L_BMS_Update96
-L_BMS_Update95:
+	GOTO	L_BMS_Update86
+L_BMS_Update85:
 ;BMS.c,566 :: 		uint8_t _defaultPayload[8] = {0};
 	ADD	W14, #18, W1
 	MOV	#___Lib_System_DefaultPage, W0
@@ -1872,144 +1709,144 @@ L_BMS_Update95:
 	REPEAT	#7
 	MOV.B	[W0++], [W1++]
 ;BMS.c,567 :: 		switch(_defaultCommandIndex) {
-	GOTO	L_BMS_Update97
+	GOTO	L_BMS_Update87
 ;BMS.c,568 :: 		case 0: _sendCommandPacket(0x90, _defaultPayload); break;
-L_BMS_Update99:
+L_BMS_Update89:
 	ADD	W14, #18, W0
 	MOV	W0, W11
 	MOV.B	#144, W10
 	CALL	BMS__sendCommandPacket
-	GOTO	L_BMS_Update98
+	GOTO	L_BMS_Update88
 ;BMS.c,569 :: 		case 1: _sendCommandPacket(0x91, _defaultPayload); break;
-L_BMS_Update100:
+L_BMS_Update90:
 	ADD	W14, #18, W0
 	MOV	W0, W11
 	MOV.B	#145, W10
 	CALL	BMS__sendCommandPacket
-	GOTO	L_BMS_Update98
+	GOTO	L_BMS_Update88
 ;BMS.c,570 :: 		case 2: _sendCommandPacket(0x92, _defaultPayload); break;
-L_BMS_Update101:
+L_BMS_Update91:
 	ADD	W14, #18, W0
 	MOV	W0, W11
 	MOV.B	#146, W10
 	CALL	BMS__sendCommandPacket
-	GOTO	L_BMS_Update98
+	GOTO	L_BMS_Update88
 ;BMS.c,571 :: 		case 3: _sendCommandPacket(0x93, _defaultPayload); break;
-L_BMS_Update102:
+L_BMS_Update92:
 	ADD	W14, #18, W0
 	MOV	W0, W11
 	MOV.B	#147, W10
 	CALL	BMS__sendCommandPacket
-	GOTO	L_BMS_Update98
+	GOTO	L_BMS_Update88
 ;BMS.c,572 :: 		case 4: _sendCommandPacket(0x94, _defaultPayload); break;
-L_BMS_Update103:
+L_BMS_Update93:
 	ADD	W14, #18, W0
 	MOV	W0, W11
 	MOV.B	#148, W10
 	CALL	BMS__sendCommandPacket
-	GOTO	L_BMS_Update98
+	GOTO	L_BMS_Update88
 ;BMS.c,573 :: 		case 5: _sendCommandPacket(0x95, _defaultPayload); break;
-L_BMS_Update104:
+L_BMS_Update94:
 	ADD	W14, #18, W0
 	MOV	W0, W11
 	MOV.B	#149, W10
 	CALL	BMS__sendCommandPacket
-	GOTO	L_BMS_Update98
+	GOTO	L_BMS_Update88
 ;BMS.c,574 :: 		case 6: _sendCommandPacket(0x96, _defaultPayload); break;
-L_BMS_Update105:
+L_BMS_Update95:
 	ADD	W14, #18, W0
 	MOV	W0, W11
 	MOV.B	#150, W10
 	CALL	BMS__sendCommandPacket
-	GOTO	L_BMS_Update98
+	GOTO	L_BMS_Update88
 ;BMS.c,575 :: 		case 7: _sendCommandPacket(0x97, _defaultPayload); break;
-L_BMS_Update106:
+L_BMS_Update96:
 	ADD	W14, #18, W0
 	MOV	W0, W11
 	MOV.B	#151, W10
 	CALL	BMS__sendCommandPacket
-	GOTO	L_BMS_Update98
+	GOTO	L_BMS_Update88
 ;BMS.c,576 :: 		case 8: _sendCommandPacket(0x98, _defaultPayload); break;
-L_BMS_Update107:
+L_BMS_Update97:
 	ADD	W14, #18, W0
 	MOV	W0, W11
 	MOV.B	#152, W10
 	CALL	BMS__sendCommandPacket
-	GOTO	L_BMS_Update98
+	GOTO	L_BMS_Update88
 ;BMS.c,577 :: 		case 9: _sendCommandPacket(0x99, _defaultPayload); break;
-L_BMS_Update108:
+L_BMS_Update98:
 	ADD	W14, #18, W0
 	MOV	W0, W11
 	MOV.B	#153, W10
 	CALL	BMS__sendCommandPacket
-	GOTO	L_BMS_Update98
+	GOTO	L_BMS_Update88
 ;BMS.c,578 :: 		default: break;
-L_BMS_Update109:
-	GOTO	L_BMS_Update98
+L_BMS_Update99:
+	GOTO	L_BMS_Update88
 ;BMS.c,579 :: 		}
-L_BMS_Update97:
+L_BMS_Update87:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #0
-	BRA NZ	L__BMS_Update198
-	GOTO	L_BMS_Update99
-L__BMS_Update198:
+	BRA NZ	L__BMS_Update180
+	GOTO	L_BMS_Update89
+L__BMS_Update180:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #1
-	BRA NZ	L__BMS_Update199
-	GOTO	L_BMS_Update100
-L__BMS_Update199:
+	BRA NZ	L__BMS_Update181
+	GOTO	L_BMS_Update90
+L__BMS_Update181:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #2
-	BRA NZ	L__BMS_Update200
-	GOTO	L_BMS_Update101
-L__BMS_Update200:
+	BRA NZ	L__BMS_Update182
+	GOTO	L_BMS_Update91
+L__BMS_Update182:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #3
-	BRA NZ	L__BMS_Update201
-	GOTO	L_BMS_Update102
-L__BMS_Update201:
+	BRA NZ	L__BMS_Update183
+	GOTO	L_BMS_Update92
+L__BMS_Update183:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #4
-	BRA NZ	L__BMS_Update202
-	GOTO	L_BMS_Update103
-L__BMS_Update202:
+	BRA NZ	L__BMS_Update184
+	GOTO	L_BMS_Update93
+L__BMS_Update184:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #5
-	BRA NZ	L__BMS_Update203
-	GOTO	L_BMS_Update104
-L__BMS_Update203:
+	BRA NZ	L__BMS_Update185
+	GOTO	L_BMS_Update94
+L__BMS_Update185:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #6
-	BRA NZ	L__BMS_Update204
-	GOTO	L_BMS_Update105
-L__BMS_Update204:
+	BRA NZ	L__BMS_Update186
+	GOTO	L_BMS_Update95
+L__BMS_Update186:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #7
-	BRA NZ	L__BMS_Update205
-	GOTO	L_BMS_Update106
-L__BMS_Update205:
+	BRA NZ	L__BMS_Update187
+	GOTO	L_BMS_Update96
+L__BMS_Update187:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #8
-	BRA NZ	L__BMS_Update206
-	GOTO	L_BMS_Update107
-L__BMS_Update206:
+	BRA NZ	L__BMS_Update188
+	GOTO	L_BMS_Update97
+L__BMS_Update188:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #9
-	BRA NZ	L__BMS_Update207
-	GOTO	L_BMS_Update108
-L__BMS_Update207:
-	GOTO	L_BMS_Update109
-L_BMS_Update98:
+	BRA NZ	L__BMS_Update189
+	GOTO	L_BMS_Update98
+L__BMS_Update189:
+	GOTO	L_BMS_Update99
+L_BMS_Update88:
 ;BMS.c,580 :: 		_defaultCommandIndex++;
 	MOV.B	#1, W1
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
@@ -2018,17 +1855,17 @@ L_BMS_Update98:
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #10
-	BRA GEU	L__BMS_Update208
-	GOTO	L_BMS_Update110
-L__BMS_Update208:
+	BRA GEU	L__BMS_Update190
+	GOTO	L_BMS_Update100
+L__BMS_Update190:
 ;BMS.c,582 :: 		_defaultCommandIndex = 0;
 	MOV	#lo_addr(BMS_Update__defaultCommandIndex_L0), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-L_BMS_Update110:
+L_BMS_Update100:
 ;BMS.c,583 :: 		}
-L_BMS_Update96:
-L_BMS_Update94:
+L_BMS_Update86:
+L_BMS_Update84:
 ;BMS.c,584 :: 		}
 L_end_BMS_Update:
 	POP	W12
@@ -2068,22 +1905,22 @@ _BMS_Init:
 	MOV	#lo_addr(__bmsData+42), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,597 :: 		_bmsData._cellVoltages[0] = 0;
+;BMS.c,597 :: 		_bmsData._cellVoltages0 = 0;
 	CLR	W0
 	CLR	W1
 	MOV	W0, __bmsData+16
 	MOV	W1, __bmsData+18
-;BMS.c,598 :: 		_bmsData._cellVoltages[1] = 0;
+;BMS.c,598 :: 		_bmsData._cellVoltages1 = 0;
 	CLR	W0
 	CLR	W1
 	MOV	W0, __bmsData+20
 	MOV	W1, __bmsData+22
-;BMS.c,599 :: 		_bmsData._cellVoltages[2] = 0;
+;BMS.c,599 :: 		_bmsData._cellVoltages2 = 0;
 	CLR	W0
 	CLR	W1
 	MOV	W0, __bmsData+24
 	MOV	W1, __bmsData+26
-;BMS.c,600 :: 		_bmsData._cellVoltages[3] = 0;
+;BMS.c,600 :: 		_bmsData._cellVoltages3 = 0;
 	CLR	W0
 	CLR	W1
 	MOV	W0, __bmsData+28
@@ -2143,12 +1980,12 @@ __UART1_Interrupt:
 
 ;BMS.c,623 :: 		void _UART1_Interrupt() iv IVT_ADDR_U1RXINTERRUPT ics ICS_AUTO {
 ;BMS.c,630 :: 		while (UART1_Data_Ready()) {
-L__UART1_Interrupt111:
+L__UART1_Interrupt101:
 	CALL	_UART1_Data_Ready
 	CP0	W0
-	BRA NZ	L___UART1_Interrupt211
-	GOTO	L__UART1_Interrupt112
-L___UART1_Interrupt211:
+	BRA NZ	L___UART1_Interrupt193
+	GOTO	L__UART1_Interrupt102
+L___UART1_Interrupt193:
 ;BMS.c,631 :: 		_byte = UART1_Read();  // ??c 1 byte t? UART1
 	CALL	_UART1_Read
 ; _byte start address is: 6 (W3)
@@ -2166,9 +2003,9 @@ L___UART1_Interrupt211:
 	MOV	#lo_addr(__rxBufferTail), W0
 	ZE	[W0], W0
 	CP	W1, W0
-	BRA NZ	L___UART1_Interrupt212
-	GOTO	L__UART1_Interrupt113
-L___UART1_Interrupt212:
+	BRA NZ	L___UART1_Interrupt194
+	GOTO	L__UART1_Interrupt103
+L___UART1_Interrupt194:
 ;BMS.c,636 :: 		_rxBuffer[_rxBufferHead] = _byte;  // Luu byte v?o buffer
 	MOV	#lo_addr(__rxBufferHead), W0
 	ZE	[W0], W1
@@ -2181,10 +2018,10 @@ L___UART1_Interrupt212:
 	MOV.B	W4, [W0]
 ; _next end address is: 8 (W4)
 ;BMS.c,638 :: 		}
-L__UART1_Interrupt113:
+L__UART1_Interrupt103:
 ;BMS.c,639 :: 		}
-	GOTO	L__UART1_Interrupt111
-L__UART1_Interrupt112:
+	GOTO	L__UART1_Interrupt101
+L__UART1_Interrupt102:
 ;BMS.c,642 :: 		IFS0bits.U1RXIF = 0;
 	BCLR	IFS0bits, #11
 ;BMS.c,643 :: 		}

@@ -468,7 +468,11 @@ typedef struct {
 
 
  float _maxCellVoltage;
- float _cellVoltages[4];
+ float _cellVoltages0;
+ float _cellVoltages1;
+ float _cellVoltages2;
+ float _cellVoltages3;
+
 
  float _minCellVoltage;
 

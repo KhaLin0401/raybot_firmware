@@ -33,7 +33,10 @@ _bmsdata
 _c1out
 _c2out
 _cellcount
-_cellvoltages
+_cellvoltages0
+_cellvoltages1
+_cellvoltages2
+_cellvoltages3
 _charge_current_limit
 _chargemos
 _compare_fp
