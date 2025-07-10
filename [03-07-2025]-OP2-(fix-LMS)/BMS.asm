@@ -1058,21 +1058,22 @@ L_BMS__processReceivedResponsePacket63:
 	CALL	__Div_FP
 	MOV	W0, __bmsData
 	MOV	W1, __bmsData+2
-;BMS.c,296 :: 		raw_signed = ((((uint16_t)(_temp[8]) << 8) | (uint16_t)_temp[9]) - 30000) / 10.0;
+;BMS.c,296 :: 		raw_signed = ((((uint16_t)(_temp[8]) << 8) | (uint16_t)_temp[9]) / 10.0f) - 3000;
 	MOV	[W14+174], W2
 	ADD	W2, #8, W0
 	ZE	[W0], W0
 	SL	W0, #8, W1
 	ADD	W2, #9, W0
 	ZE	[W0], W0
-	IOR	W1, W0, W1
-	MOV	#30000, W0
-	SUB	W1, W0, W0
+	IOR	W1, W0, W0
 	CLR	W1
 	CALL	__Long2Float
 	MOV	#0, W2
 	MOV	#16672, W3
 	CALL	__Div_FP
+	MOV	#32768, W2
+	MOV	#17723, W3
+	CALL	__Sub_FP
 	CALL	__Float2Longint
 ;BMS.c,297 :: 		_bmsData._sumCurrent = raw_signed;
 	ASR	W0, #15, W1

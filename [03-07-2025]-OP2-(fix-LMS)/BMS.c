@@ -293,7 +293,7 @@ static void _processReceivedResponsePacket(void) {
                         raw_value = (((uint16_t)_temp[4]) << 8) | _temp[5];
                         _bmsData._sumVoltage = raw_value / 10.0;
 
-                        raw_signed = ((((uint16_t)(_temp[8]) << 8) | (uint16_t)_temp[9]) - 30000) / 10.0;
+                        raw_signed = ((((uint16_t)(_temp[8]) << 8) | (uint16_t)_temp[9]) / 10.0f) - 3000;
                         _bmsData._sumCurrent = raw_signed;
 
                         // Luu s? lu?ng cell
