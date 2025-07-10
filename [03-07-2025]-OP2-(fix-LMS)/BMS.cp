@@ -840,14 +840,14 @@ static void _processReceivedResponsePacket(void) {
  raw_value = (((uint16_t)_temp[4]) << 8) | _temp[5];
  _bmsData._sumVoltage = raw_value / 10.0;
 
- raw_signed = ((((uint16_t)(_temp[8]) << 8) | (uint16_t)_temp[9]) - 30000) / 10.0f;
- _bmsData._sumCurrent = raw_signed / 10.0;
+ raw_signed = ((((uint16_t)(_temp[8]) << 8) | (uint16_t)_temp[9]) / 10.0f) - 3000;
+ _bmsData._sumCurrent = raw_signed;
 
 
  _bmsData._cellCount = 4;
 
- raw_value = (((uint16_t)_temp[10]) << 8) | _temp[11];
- _bmsData._sumSOC = raw_value / 10.0f;
+ raw_value =(uint16_t)(_temp[10] << 8 | _temp[11]);
+ _bmsData._sumSOC = (raw_value / 10.0f);
 
 
 
@@ -912,7 +912,7 @@ static void _processReceivedResponsePacket(void) {
 
 
  for (j = 0; j < 3; j++){
- _bmsData._cellVoltages[j] = (_temp[5 + j * 2] << 8) | _temp[6 + j * 2];
+ _bmsData._cellVoltages[j] = (_temp[5 + j + j] << 8) | _temp[6 + j + j];
  }
 
  _bmsData._cellVoltages[3] = (_bmsData._cellVoltages[0]
@@ -1104,7 +1104,10 @@ void BMS_Init(void) {
  _bmsData._temperature = 0;
  _bmsData._cycleCount = 0;
  _bmsData._protectionFlags = 0;
-
+ _bmsData._cellVoltages[0] = 0;
+ _bmsData._cellVoltages[1] = 0;
+ _bmsData._cellVoltages[2] = 0;
+ _bmsData._cellVoltages[3] = 0;
 
 
  _txBufferHead = 0;

@@ -1058,43 +1058,42 @@ L_BMS__processReceivedResponsePacket63:
 	CALL	__Div_FP
 	MOV	W0, __bmsData
 	MOV	W1, __bmsData+2
-;BMS.c,296 :: 		raw_signed = ((((uint16_t)(_temp[8]) << 8) | (uint16_t)_temp[9]) - 30000) / 10.0f;
+;BMS.c,296 :: 		raw_signed = ((((uint16_t)(_temp[8]) << 8) | (uint16_t)_temp[9]) / 10.0f) - 3000;
 	MOV	[W14+174], W2
 	ADD	W2, #8, W0
 	ZE	[W0], W0
 	SL	W0, #8, W1
 	ADD	W2, #9, W0
 	ZE	[W0], W0
-	IOR	W1, W0, W1
-	MOV	#30000, W0
-	SUB	W1, W0, W0
+	IOR	W1, W0, W0
 	CLR	W1
 	CALL	__Long2Float
 	MOV	#0, W2
 	MOV	#16672, W3
 	CALL	__Div_FP
+	MOV	#32768, W2
+	MOV	#17723, W3
+	CALL	__Sub_FP
 	CALL	__Float2Longint
-;BMS.c,297 :: 		_bmsData._sumCurrent = raw_signed / 10.0;
+;BMS.c,297 :: 		_bmsData._sumCurrent = raw_signed;
 	ASR	W0, #15, W1
 	SETM	W2
 	CALL	__Long2Float
-	MOV	#0, W2
-	MOV	#16672, W3
-	CALL	__Div_FP
 	MOV	W0, __bmsData+4
 	MOV	W1, __bmsData+6
 ;BMS.c,300 :: 		_bmsData._cellCount = 4;
 	MOV	#4, W0
 	MOV	W0, __bmsData+52
-;BMS.c,302 :: 		raw_value = (((uint16_t)_temp[10]) << 8) | _temp[11];
+;BMS.c,302 :: 		raw_value =(uint16_t)(_temp[10] << 8 | _temp[11]);
 	MOV	[W14+174], W2
 	ADD	W2, #10, W0
-	ZE	[W0], W0
+	MOV.B	[W0], W0
+	ZE	W0, W0
 	SL	W0, #8, W1
 	ADD	W2, #11, W0
 	ZE	[W0], W0
 	IOR	W1, W0, W0
-;BMS.c,303 :: 		_bmsData._sumSOC = raw_value / 10.0f;
+;BMS.c,303 :: 		_bmsData._sumSOC = (raw_value / 10.0f);
 	CLR	W1
 	CALL	__Long2Float
 	MOV	#0, W2
@@ -1207,40 +1206,40 @@ L_BMS__processReceivedResponsePacket66:
 	BRA NZ	L_BMS__processReceivedResponsePacket170
 	GOTO	L_BMS__processReceivedResponsePacket69
 L_BMS__processReceivedResponsePacket170:
-; ?FLOC__BMS__processReceivedResponsePacket?T367 start address is: 4 (W2)
+; ?FLOC__BMS__processReceivedResponsePacket?T366 start address is: 4 (W2)
 	MOV	#lo_addr(?lstr_16_BMS), W2
-; ?FLOC__BMS__processReceivedResponsePacket?T367 end address is: 4 (W2)
+; ?FLOC__BMS__processReceivedResponsePacket?T366 end address is: 4 (W2)
 	GOTO	L_BMS__processReceivedResponsePacket70
 L_BMS__processReceivedResponsePacket69:
-; ?FLOC__BMS__processReceivedResponsePacket?T367 start address is: 4 (W2)
+; ?FLOC__BMS__processReceivedResponsePacket?T366 start address is: 4 (W2)
 	MOV	#lo_addr(?lstr_17_BMS), W2
-; ?FLOC__BMS__processReceivedResponsePacket?T367 end address is: 4 (W2)
+; ?FLOC__BMS__processReceivedResponsePacket?T366 end address is: 4 (W2)
 L_BMS__processReceivedResponsePacket70:
 ;BMS.c,367 :: 		_bmsData._chargeMOS ? "ON" : "OFF",
-; ?FLOC__BMS__processReceivedResponsePacket?T367 start address is: 4 (W2)
+; ?FLOC__BMS__processReceivedResponsePacket?T366 start address is: 4 (W2)
 	MOV	#lo_addr(__bmsData+77), W0
 	CP0.B	[W0]
 	BRA NZ	L_BMS__processReceivedResponsePacket171
 	GOTO	L_BMS__processReceivedResponsePacket67
 L_BMS__processReceivedResponsePacket171:
-; ?FLOC__BMS__processReceivedResponsePacket?T364 start address is: 0 (W0)
+; ?FLOC__BMS__processReceivedResponsePacket?T363 start address is: 0 (W0)
 	MOV	#lo_addr(?lstr_14_BMS), W0
-; ?FLOC__BMS__processReceivedResponsePacket?T364 end address is: 0 (W0)
+; ?FLOC__BMS__processReceivedResponsePacket?T363 end address is: 0 (W0)
 	GOTO	L_BMS__processReceivedResponsePacket68
 L_BMS__processReceivedResponsePacket67:
-; ?FLOC__BMS__processReceivedResponsePacket?T364 start address is: 0 (W0)
+; ?FLOC__BMS__processReceivedResponsePacket?T363 start address is: 0 (W0)
 	MOV	#lo_addr(?lstr_15_BMS), W0
-; ?FLOC__BMS__processReceivedResponsePacket?T364 end address is: 0 (W0)
+; ?FLOC__BMS__processReceivedResponsePacket?T363 end address is: 0 (W0)
 L_BMS__processReceivedResponsePacket68:
 ;BMS.c,366 :: 		sprintf(_dbgStr, "Charge MOS: %s, Discharge MOS: %s\r\n",
-; ?FLOC__BMS__processReceivedResponsePacket?T364 start address is: 0 (W0)
+; ?FLOC__BMS__processReceivedResponsePacket?T363 start address is: 0 (W0)
 	ADD	W14, #23, W1
 ;BMS.c,368 :: 		_bmsData._dischargeMOS ? "ON" : "OFF");
 	PUSH	W2
-; ?FLOC__BMS__processReceivedResponsePacket?T367 end address is: 4 (W2)
+; ?FLOC__BMS__processReceivedResponsePacket?T366 end address is: 4 (W2)
 ;BMS.c,367 :: 		_bmsData._chargeMOS ? "ON" : "OFF",
 	PUSH	W0
-; ?FLOC__BMS__processReceivedResponsePacket?T364 end address is: 0 (W0)
+; ?FLOC__BMS__processReceivedResponsePacket?T363 end address is: 0 (W0)
 ;BMS.c,366 :: 		sprintf(_dbgStr, "Charge MOS: %s, Discharge MOS: %s\r\n",
 	MOV	#lo_addr(?lstr_13_BMS), W0
 	PUSH	W0
@@ -1293,24 +1292,28 @@ L_BMS__processReceivedResponsePacket73:
 	BRA LTU	L_BMS__processReceivedResponsePacket172
 	GOTO	L_BMS__processReceivedResponsePacket74
 L_BMS__processReceivedResponsePacket172:
-;BMS.c,393 :: 		_bmsData._cellVoltages[j] = (_temp[5 + j * 2] << 8) | _temp[6 + j * 2];
+;BMS.c,393 :: 		_bmsData._cellVoltages[j] = (_temp[5 + j + j] << 8) | _temp[6 + j + j];
 	ZE	W4, W0
 	SL	W0, #2, W1
 	MOV	#lo_addr(__bmsData+16), W0
 	ADD	W0, W1, W0
 	MOV	W0, [W14+174]
 	ZE	W4, W0
-	SL	W0, #1, W3
-	ADD	W3, #5, W0
-	ADD	W14, #10, W2
-	ADD	W2, W0, W0
+	ADD	W0, #5, W1
+	ZE	W4, W0
+	ADD	W1, W0, W0
+	ADD	W14, #10, W3
+	ADD	W3, W0, W0
 	MOV.B	[W0], W0
 	ZE	W0, W0
-	SL	W0, #8, W1
-	ADD	W3, #6, W0
-	ADD	W2, W0, W0
+	SL	W0, #8, W2
+	ZE	W4, W0
+	ADD	W0, #6, W1
+	ZE	W4, W0
+	ADD	W1, W0, W0
+	ADD	W3, W0, W0
 	ZE	[W0], W0
-	IOR	W1, W0, W0
+	IOR	W2, W0, W0
 	PUSH	W4
 	CLR	W1
 	CALL	__Long2Float
@@ -2065,47 +2068,67 @@ _BMS_Init:
 	MOV	#lo_addr(__bmsData+42), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,600 :: 		_txBufferHead = 0;
+;BMS.c,597 :: 		_bmsData._cellVoltages[0] = 0;
+	CLR	W0
+	CLR	W1
+	MOV	W0, __bmsData+16
+	MOV	W1, __bmsData+18
+;BMS.c,598 :: 		_bmsData._cellVoltages[1] = 0;
+	CLR	W0
+	CLR	W1
+	MOV	W0, __bmsData+20
+	MOV	W1, __bmsData+22
+;BMS.c,599 :: 		_bmsData._cellVoltages[2] = 0;
+	CLR	W0
+	CLR	W1
+	MOV	W0, __bmsData+24
+	MOV	W1, __bmsData+26
+;BMS.c,600 :: 		_bmsData._cellVoltages[3] = 0;
+	CLR	W0
+	CLR	W1
+	MOV	W0, __bmsData+28
+	MOV	W1, __bmsData+30
+;BMS.c,603 :: 		_txBufferHead = 0;
 	MOV	#lo_addr(__txBufferHead), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,601 :: 		_txBufferTail = 0;
+;BMS.c,604 :: 		_txBufferTail = 0;
 	MOV	#lo_addr(__txBufferTail), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,602 :: 		_immediateQueueHead = 0;
+;BMS.c,605 :: 		_immediateQueueHead = 0;
 	MOV	#lo_addr(__immediateQueueHead), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,603 :: 		_immediateQueueTail = 0;
+;BMS.c,606 :: 		_immediateQueueTail = 0;
 	MOV	#lo_addr(__immediateQueueTail), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,604 :: 		_rxBufferHead = 0;
+;BMS.c,607 :: 		_rxBufferHead = 0;
 	MOV	#lo_addr(__rxBufferHead), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,605 :: 		_rxBufferTail = 0;
+;BMS.c,608 :: 		_rxBufferTail = 0;
 	MOV	#lo_addr(__rxBufferTail), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,606 :: 		_txBusy = 0;
+;BMS.c,609 :: 		_txBusy = 0;
 	MOV	#lo_addr(__txBusy), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,608 :: 		_bmsData._charge_current_limit = 0;
+;BMS.c,611 :: 		_bmsData._charge_current_limit = 0;
 	MOV	#lo_addr(__bmsData+88), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,609 :: 		_bmsData._discharge_current_limit = 0;
+;BMS.c,612 :: 		_bmsData._discharge_current_limit = 0;
 	MOV	#lo_addr(__bmsData+89), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,611 :: 		IEC0bits.U1RXIE = 1;
+;BMS.c,614 :: 		IEC0bits.U1RXIE = 1;
 	BSET	IEC0bits, #11
-;BMS.c,612 :: 		IFS0bits.U1RXIF = 0;
+;BMS.c,615 :: 		IFS0bits.U1RXIF = 0;
 	BCLR	IFS0bits, #11
-;BMS.c,613 :: 		}
+;BMS.c,616 :: 		}
 L_end_BMS_Init:
 	RETURN
 ; end of _BMS_Init
@@ -2118,19 +2141,19 @@ __UART1_Interrupt:
 	REPEAT	#12
 	PUSH	[W0++]
 
-;BMS.c,620 :: 		void _UART1_Interrupt() iv IVT_ADDR_U1RXINTERRUPT ics ICS_AUTO {
-;BMS.c,627 :: 		while (UART1_Data_Ready()) {
+;BMS.c,623 :: 		void _UART1_Interrupt() iv IVT_ADDR_U1RXINTERRUPT ics ICS_AUTO {
+;BMS.c,630 :: 		while (UART1_Data_Ready()) {
 L__UART1_Interrupt111:
 	CALL	_UART1_Data_Ready
 	CP0	W0
 	BRA NZ	L___UART1_Interrupt211
 	GOTO	L__UART1_Interrupt112
 L___UART1_Interrupt211:
-;BMS.c,628 :: 		_byte = UART1_Read();  // ??c 1 byte t? UART1
+;BMS.c,631 :: 		_byte = UART1_Read();  // ??c 1 byte t? UART1
 	CALL	_UART1_Read
 ; _byte start address is: 6 (W3)
 	MOV.B	W0, W3
-;BMS.c,631 :: 		_next = (_rxBufferHead + 1) % _RX_BUFFER_SIZE;
+;BMS.c,634 :: 		_next = (_rxBufferHead + 1) % _RX_BUFFER_SIZE;
 	MOV	#lo_addr(__rxBufferHead), W0
 	ZE	[W0], W0
 	INC	W0
@@ -2139,32 +2162,32 @@ L___UART1_Interrupt211:
 	DIV.S	W0, W2
 ; _next start address is: 8 (W4)
 	MOV	W1, W4
-;BMS.c,632 :: 		if (_next != _rxBufferTail) {  // N?u buffer chua d?y
+;BMS.c,635 :: 		if (_next != _rxBufferTail) {  // N?u buffer chua d?y
 	MOV	#lo_addr(__rxBufferTail), W0
 	ZE	[W0], W0
 	CP	W1, W0
 	BRA NZ	L___UART1_Interrupt212
 	GOTO	L__UART1_Interrupt113
 L___UART1_Interrupt212:
-;BMS.c,633 :: 		_rxBuffer[_rxBufferHead] = _byte;  // Luu byte v?o buffer
+;BMS.c,636 :: 		_rxBuffer[_rxBufferHead] = _byte;  // Luu byte v?o buffer
 	MOV	#lo_addr(__rxBufferHead), W0
 	ZE	[W0], W1
 	MOV	#lo_addr(__rxBuffer), W0
 	ADD	W0, W1, W0
 	MOV.B	W3, [W0]
 ; _byte end address is: 6 (W3)
-;BMS.c,634 :: 		_rxBufferHead = _next;             // C?p nh?t ch? s? head
+;BMS.c,637 :: 		_rxBufferHead = _next;             // C?p nh?t ch? s? head
 	MOV	#lo_addr(__rxBufferHead), W0
 	MOV.B	W4, [W0]
 ; _next end address is: 8 (W4)
-;BMS.c,635 :: 		}
+;BMS.c,638 :: 		}
 L__UART1_Interrupt113:
-;BMS.c,636 :: 		}
+;BMS.c,639 :: 		}
 	GOTO	L__UART1_Interrupt111
 L__UART1_Interrupt112:
-;BMS.c,639 :: 		IFS0bits.U1RXIF = 0;
+;BMS.c,642 :: 		IFS0bits.U1RXIF = 0;
 	BCLR	IFS0bits, #11
-;BMS.c,640 :: 		}
+;BMS.c,643 :: 		}
 L_end__UART1_Interrupt:
 	MOV	#26, W0
 	REPEAT	#12
