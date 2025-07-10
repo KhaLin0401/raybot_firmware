@@ -105,9 +105,14 @@ main
 			DalyBms_getPackMeasurements
 				DalyBms_requestData
 					memset
-					serial_write
-					serial_flush
-					serial_read_bytes
+					_UART1_SendPush
+						DebugUART_Send_Text
+					_UART1_SendProcess
+						_UART1_SendBlocking
+							DebugUART_Send_Text
+							UART1_Write
+						DebugUART_Send_Text
+					_UART1_Rx_GetFrame
 				DalyBms_clearGet
 				_Long2Float
 				_Div_FP
@@ -201,15 +206,17 @@ main
 							JSON_GetInt
 							DalyBms_setChargeMOS
 								DalyBms_sendCommand
-									serial_read_byte
-									serial_write
-									serial_flush
+									_UART1_ClearBuffers
+										memset
+									_UART1_SendPush
+									_UART1_SendProcess
 									memset
 								DalyBms_receiveBytes
 									memset
-									serial_read_bytes
+									_UART1_Rx_GetFrame
 									DalyBms_barfRXBuffer
 										writeLog
+									memcpy
 									DalyBms_validateChecksum
 							sprintf
 						handle_discharge_config
@@ -372,5 +379,9 @@ _UART2_Rx_Receive_ISR
 	DebugUART_Send_Text
 	strncmp
 	strncpy
+_UART1_Rx_Receive_ISR
+	UART1_Read
+	DebugUART_Send_Text
+	_UART1_ValidateChecksum
 __attribute__
 	task_scheduler_clock

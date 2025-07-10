@@ -150,6 +150,12 @@ typedef struct DalyBms
 // Global BMS instance
 extern DalyBms bms;
 
+/**
+ * @brief Initialize BMS module and UART1 communication
+ * @param bms Pointer to the DalyBms object
+ */
+void DalyBms_Init(DalyBms* bms);
+
 // Logging function
 extern void writeLog(const char* format, ...);
 
@@ -291,16 +297,9 @@ bool DalyBms_setBmsReset(DalyBms* bms);
  */
 bool DalyBms_getState(DalyBms* bms);
 
-// Serial function prototypes - using unsigned int for mikroC compatibility
-void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin, bool inverse_logic);
-
-unsigned int serial_write(void* handle, const uint8_t *buffer, unsigned int size);
-
-void serial_flush(void* handle);
-
-int serial_read_byte(void* handle);
-
-unsigned int serial_read_bytes(void* handle, uint8_t *buffer, unsigned int length);
+// UART1 BMS Communication function prototypes
+// These functions are provided by the UART1 module (uart1.h)
+// and are used by the BMS module for communication with Daly BMS
 
 // Mock implementation for millis() for environments without it
 unsigned long current_millis(void);

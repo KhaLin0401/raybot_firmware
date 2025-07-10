@@ -3,6 +3,7 @@ DALY2MQTT Project
 https://github.com/softwarecrash/DALY2MQTT
 */
 #include "BMS.h" // Assuming daly.h is the converted header file you provided earlier
+#include "uart1.h" // Include UART1 module for BMS communication
 #include <string.h> // For memset, strcat, strlen
 #include <stdio.h>  // For sprintf (if needed for logging)
 #include <stdlib.h> // For atof
@@ -10,9 +11,18 @@ https://github.com/softwarecrash/DALY2MQTT
 #include <ctype.h>
 #include <stddef.h>
 #include <stdarg.h>
+#include <stdint.h>
 
 // Global BMS instance
 DalyBms bms;
+
+// MODIFICATION LOG
+// Date: [2025-01-03 HH:MM]
+// Changed by: AI Agent
+// Description: Modified BMS module to use UART1 instead of mock serial functions
+// Reason: Integration with hardware UART1 for Daly BMS communication
+// Impact: BMS communication now uses dedicated UART1 module with proper ISR handling
+// Testing: Test BMS communication with actual Daly BMS hardware
 
 // Mock implementation for bitRead if not available on your platform
 #define BIT_READ(value, bit) (((value) >> (bit)) & 1)
@@ -28,6 +38,32 @@ DalyBms bms;
 //----------------------------------------------------------------------
 
 // Constructor equivalent for C
+void DalyBms_Init(DalyBms* bms) {
+    // Initialize BMS structure
+    bms->previousTime = 0;
+    bms->requestCounter = 0;
+    bms->soft_tx = 0;
+    bms->soft_rx = 0;
+    bms->getStaticData = false;
+    bms->errorCounter = 0;
+    bms->requestCount = 0;
+    bms->frameCount = 0;
+    bms->requestCallback = NULL;
+    
+    // Clear buffers
+    memset(bms->failCodeArr, 0, sizeof(bms->failCodeArr));
+    memset(bms->my_txBuffer, 0, XFER_BUFFER_LENGTH);
+    memset(bms->my_rxBuffer, 0, XFER_BUFFER_LENGTH);
+    memset(bms->my_rxFrameBuffer, 0, sizeof(bms->my_rxFrameBuffer));
+    memset(bms->frameBuff, 0, sizeof(bms->frameBuff));
+    memset(bms->commandQueue, 0x100, sizeof(bms->commandQueue));
+    
+    // Initialize UART1 for BMS communication
+    _UART1_Init();
+    
+    // Initialize BMS data structure
+    DalyBms_clearGet(bms);
+}
 
 bool DalyBms_update(DalyBms* bms)
 {
@@ -639,6 +675,8 @@ static bool DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned i
     size_t j;
     uint8_t rxChecksum;
     int k;
+    uint8_t frame_count;
+    uint8_t received_frames;
     
     // Clear out the buffers
     memset(bms->my_rxFrameBuffer, 0x00, sizeof(bms->my_rxFrameBuffer));
@@ -663,22 +701,32 @@ static bool DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned i
     // put it on the frame
     bms->my_txBuffer[12] = txChecksum;
 
-    // send the packet
-    serial_write(bms->serial_handle, bms->my_txBuffer, XFER_BUFFER_LENGTH);
-    // first wait for transmission end
-    serial_flush(bms->serial_handle);
+    // send the packet using UART1
+    _UART1_SendPush(bms->my_txBuffer);
+    // Process TX stack immediately for blocking operation
+    _UART1_SendProcess();
     //-------------------------------------------
 
     //-----------Receive Part---------------------
-    /*uint8_t rxByteNum = */ serial_read_bytes(bms->serial_handle, bms->my_rxFrameBuffer, XFER_BUFFER_LENGTH * frameAmount);
-    for (i = 0; i < frameAmount; i++)
-    {
-        for (j = 0; j < XFER_BUFFER_LENGTH; j++)
-        {
-            bms->frameBuff[i][j] = bms->my_rxFrameBuffer[byteCounter];
-            byteCounter++;
-        }
+    // Wait for frames from UART1 RX stack
 
+    
+    frame_count = 0;
+    received_frames = 0;
+    
+    // Try to get frames from UART1 RX stack
+    while (frame_count < frameAmount && received_frames < 10) { // Max 10 attempts
+        if (_UART1_Rx_GetFrame(bms->frameBuff[frame_count])) {
+            frame_count++;
+        }
+        received_frames++;
+        // Small delay to allow ISR to process
+        Delay_ms(1);
+    }
+    
+    // Process received frames
+    for (i = 0; i < frame_count; i++)
+    {
         rxChecksum = 0x00;
         for (k = 0; k < XFER_BUFFER_LENGTH - 1; k++)
         {
@@ -725,7 +773,7 @@ static bool DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
     
     checksum = 0;
     // clear all incoming serial to avoid data collision
-    while (serial_read_byte(bms->serial_handle) > 0);
+    _UART1_ClearBuffers();
 
     // prepare the frame with static data and command ID
     bms->my_txBuffer[0] = START_BYTE;
@@ -741,10 +789,9 @@ static bool DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
     // put it on the frame
     bms->my_txBuffer[12] = checksum;
 
-    serial_write(bms->serial_handle, bms->my_txBuffer, XFER_BUFFER_LENGTH);
-    // fix the sleep Bug
-    // first wait for transmission end
-    serial_flush(bms->serial_handle);
+    _UART1_SendPush(bms->my_txBuffer);
+    // Process TX stack immediately for blocking operation
+    _UART1_SendProcess();
 
     // after send clear the transmit buffer
     memset(bms->my_txBuffer, 0x00, XFER_BUFFER_LENGTH);
@@ -754,21 +801,21 @@ static bool DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 
 static bool DalyBms_receiveBytes(DalyBms* bms)
 {
-    unsigned int rxByteNum;
+    uint8_t frame[XFER_BUFFER_LENGTH];
     
     // Clear out the input buffer
     memset(bms->my_rxBuffer, 0x00, XFER_BUFFER_LENGTH);
-    memset(bms->frameBuff, 0x00, sizeof(bms->frameBuff)); // This line seems redundant if my_rxBuffer is the primary target
+    memset(bms->frameBuff, 0x00, sizeof(bms->frameBuff));
 
-    // Read bytes from the specified serial interface
-    rxByteNum = serial_read_bytes(bms->serial_handle, bms->my_rxBuffer, XFER_BUFFER_LENGTH);
-
-    // Make sure we got the correct number of bytes
-    if (rxByteNum != XFER_BUFFER_LENGTH)
+    // Try to get frame from UART1 RX stack
+    if (!_UART1_Rx_GetFrame(frame))
     {
         DalyBms_barfRXBuffer(bms);
         return false;
     }
+
+    // Copy frame to my_rxBuffer
+    memcpy(bms->my_rxBuffer, frame, XFER_BUFFER_LENGTH);
 
     if (!DalyBms_validateChecksum(bms))
     {
@@ -813,35 +860,10 @@ static void DalyBms_clearGet(DalyBms* bms)
     // memset(&(bms->get), 0x00, sizeof(DalyBmsData)); // Be careful if you have pointers in DalyBmsData
 }
 
-// --- Mock Serial Functions (replace with your actual hardware/software serial implementation) ---
-void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin, bool inverse_logic) {
-    // Implement your serial initialization here
-}
-
-unsigned int serial_write(void* handle, const uint8_t *buffer, unsigned int size) {
-    // Implement your serial write here
-    return size;
-}
-
-void serial_flush(void* handle) {
-    // Implement your serial flush here
-}
-
-int serial_read_byte(void* handle) {
-    // Implement your serial read byte here. Return -1 if no byte available.
-    // For this mock, always return 0 for clearing the buffer, or a dummy value.
-    // In a real scenario, you'd read from hardware.
-    return -1; // No byte available
-}
-
-unsigned int serial_read_bytes(void* handle, uint8_t *buffer, unsigned int length) {
-    // Implement your serial read bytes here.
-    // For this mock, fill with dummy data or return 0 for no data.
-    // In a real scenario, you'd read from hardware.
-    // Example: fill buffer with some dummy data for testing purposes
-    // memset(buffer, 0xAA, length);
-    return 0; // Return 0 to simulate no data received by default in mock
-}
+// --- UART1 BMS Communication Functions ---
+// These functions are now handled by the UART1 module
+// The BMS module uses _UART1_SendPush(), _UART1_SendProcess(), and _UART1_Rx_GetFrame()
+// instead of the mock serial functions
 
 // Mock implementation for millis() for environments without it
 unsigned long current_millis(void) {

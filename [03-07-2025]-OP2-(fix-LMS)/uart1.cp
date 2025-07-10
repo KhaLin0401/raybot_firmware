@@ -1,5 +1,5 @@
-#line 1 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/Main.c"
-#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/robot_system.h"
+#line 1 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/uart1.c"
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 
 
@@ -42,6 +42,90 @@ typedef unsigned int uintptr_t;
 
 typedef signed long int intmax_t;
 typedef unsigned long int uintmax_t;
+#line 12 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+typedef struct {
+
+ uint8_t _rx_frame_stack[ 5 ][ 13 ];
+ volatile uint8_t _rx_head;
+ volatile uint8_t _rx_tail;
+
+
+ uint8_t _tx_frame_stack[ 3 ][ 13 ];
+ volatile uint8_t _tx_head;
+ volatile uint8_t _tx_tail;
+
+
+ uint8_t _temp_rx_buffer[ 13 ];
+ volatile uint8_t _temp_index;
+ volatile uint8_t _frame_count;
+
+
+ uint8_t _multi_frame_buffer[ 12 ][ 13 ];
+ volatile uint8_t _multi_frame_count;
+
+
+ volatile uint8_t _is_receiving;
+ volatile uint8_t _timeout_counter;
+
+} _UART1_Object;
+
+extern _UART1_Object _uart1;
+
+
+void _UART1_Init(void);
+#line 46 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+void _UART1_SendPush(const uint8_t *frame);
+
+
+int _UART1_SendBlocking(const uint8_t *frame);
+#line 53 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+uint8_t _UART1_SendProcess(void);
+#line 58 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+uint8_t _UART1_Rx_GetFrame(uint8_t *out_frame);
+
+
+uint8_t _UART1_Rx_GetMultiFrames(uint8_t *out_frames, uint8_t max_frames);
+#line 65 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+void _UART1_Rx_Receive_ISR(void);
+
+
+uint8_t _UART1_ValidateChecksum(const uint8_t *frame);
+
+
+uint8_t _UART1_CalculateChecksum(const uint8_t *frame, uint8_t length);
+
+
+void _UART1_ClearBuffers(void);
+
+
+uint8_t _UART1_IsConnected(void);
+#line 1 "d:/mikroc pro for dspic/include/string.h"
+
+
+
+
+
+void * memchr(void *p, char n, unsigned int v);
+int memcmp(void *s1, void *s2, int n);
+void * memcpy(void * d1, void * s1, int n);
+void * memmove(void * to, void * from, int n);
+void * memset(void * p1, char character, int n);
+char * strcat(char * to, char * from);
+char * strchr(char * ptr, char chr);
+int strcmp(char * s1, char * s2);
+char * strcpy(char * to, char * from);
+int strlen(char * s);
+char * strncat(char * to, char * from, int size);
+char * strncpy(char * to, char * from, int size);
+int strspn(char * str1, char * str2);
+char strcspn(char * s1, char * s2);
+int strncmp(char * s1, char * s2, char len);
+char * strpbrk(char * s1, char * s2);
+char * strrchr(char *ptr, char chr);
+char * strstr(char * s1, char * s2);
+char * strtok(char * s1, char * s2);
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/robot_system.h"
+#line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 10 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
@@ -126,30 +210,6 @@ float DistanceSensor_GetDistanceCM(DistanceSensor *sensor);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/command_handler.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 1 "d:/mikroc pro for dspic/include/string.h"
-
-
-
-
-
-void * memchr(void *p, char n, unsigned int v);
-int memcmp(void *s1, void *s2, int n);
-void * memcpy(void * d1, void * s1, int n);
-void * memmove(void * to, void * from, int n);
-void * memset(void * p1, char character, int n);
-char * strcat(char * to, char * from);
-char * strchr(char * ptr, char chr);
-int strcmp(char * s1, char * s2);
-char * strcpy(char * to, char * from);
-int strlen(char * s);
-char * strncat(char * to, char * from, int size);
-char * strncpy(char * to, char * from, int size);
-int strspn(char * str1, char * str2);
-char strcspn(char * s1, char * s2);
-int strncmp(char * s1, char * s2, char len);
-char * strpbrk(char * s1, char * s2);
-char * strrchr(char *ptr, char chr);
-char * strstr(char * s1, char * s2);
-char * strtok(char * s1, char * s2);
 #line 1 "d:/mikroc pro for dspic/include/stdio.h"
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/robot_system.h"
@@ -455,340 +515,267 @@ void update_all_sensors();
 
 void DebugUART_Init();
 void DebugUART_Send_Text(const char *text);
-#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
-#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
-#line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 1 "d:/mikroc pro for dspic/include/stdbool.h"
-
-
-
- typedef char _Bool;
-#line 31 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
-typedef enum
-{
- CELL_THRESHOLDS = 0x59,
- PACK_THRESHOLDS = 0x5A,
- VOUT_IOUT_SOC = 0x90,
- MIN_MAX_CELL_VOLTAGE = 0x91,
- MIN_MAX_TEMPERATURE = 0x92,
- DISCHARGE_CHARGE_MOS_STATUS = 0x93,
- STATUS_INFO = 0x94,
- CELL_VOLTAGES = 0x95,
- CELL_TEMPERATURE = 0x96,
- CELL_BALANCE_STATE = 0x97,
- FAILURE_CODES = 0x98,
- DISCHRG_FET = 0xD9,
- CHRG_FET = 0xDA,
- BMS_RESET = 0x00,
- READ_SOC = 0x61,
- SET_SOC = 0x21,
-} DALY_BMS_COMMAND;
-
-
-typedef struct
-{
-
- float maxCellThreshold1;
- float minCellThreshold1;
- float maxCellThreshold2;
- float minCellThreshold2;
-
-
- float maxPackThreshold1;
- float minPackThreshold1;
- float maxPackThreshold2;
- float minPackThreshold2;
-
-
- float packVoltage;
- float packCurrent;
- float packSOC;
-
-
- float maxCellmV;
- int maxCellVNum;
- float minCellmV;
- int minCellVNum;
- int cellDiff;
-
-
- int tempAverage;
-
-
-
-
- const char *chargeDischargeStatus;
-  _Bool  chargeFetState;
-  _Bool  disChargeFetState;
- int bmsHeartBeat;
- float resCapacityAh;
-
-
- unsigned int numberOfCells;
- unsigned int numOfTempSensors;
-  _Bool  chargeState;
-  _Bool  loadState;
-  _Bool  dIO[8];
- int bmsCycles;
-
-
- float cellVmV[48];
-
-
- int cellTemperature[16];
-
-
-  _Bool  cellBalanceState[48];
-  _Bool  cellBalanceActive;
-
-
-  _Bool  connectionState;
-
-} DalyBmsData;
-
-
-typedef struct DalyBms
-{
- unsigned long previousTime;
- uint8_t requestCounter;
- int soft_tx;
- int soft_rx;
-
-
- char failCodeArr[32];
-
- DalyBmsData get;
-
-
-
-
-  _Bool  getStaticData;
- unsigned int errorCounter;
- unsigned int requestCount;
- unsigned int commandQueue[5];
-
-
- void *serial_handle;
-
- uint8_t my_txBuffer[ 13 ];
- uint8_t my_rxBuffer[ 13 ];
- uint8_t my_rxFrameBuffer[ 13 *12];
- uint8_t frameBuff[12][ 13 ];
- unsigned int frameCount;
-
-
- void (*requestCallback)(void);
-
-} DalyBms;
-
-
-
-
-extern DalyBms bms;
-#line 157 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
-void DalyBms_Init(DalyBms* bms);
-
-
-extern void writeLog(const char* format, ...);
-#line 167 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_update(DalyBms* bms);
-#line 174 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
-void DalyBms_set_callback(DalyBms* bms, void (*func)(void));
-#line 181 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getPackMeasurements(DalyBms* bms);
-#line 188 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getVoltageThreshold(DalyBms* bms);
-#line 195 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getPackVoltageThreshold(DalyBms* bms);
-#line 203 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getPackTemp(DalyBms* bms);
-#line 211 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getMinMaxCellVoltage(DalyBms* bms);
-#line 218 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getStatusInfo(DalyBms* bms);
-#line 225 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getCellVoltages(DalyBms* bms);
-#line 232 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getCellTemperature(DalyBms* bms);
-#line 239 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getCellBalanceState(DalyBms* bms);
-#line 246 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getFailureCodes(DalyBms* bms);
-#line 254 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_setDischargeMOS(DalyBms* bms,  _Bool  sw);
-#line 262 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_setChargeMOS(DalyBms* bms,  _Bool  sw);
-#line 270 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_setSOC(DalyBms* bms, float sw);
-#line 277 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getDischargeChargeMosStatus(DalyBms* bms);
-#line 285 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_setBmsReset(DalyBms* bms);
-#line 298 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getState(DalyBms* bms);
-
-
-
-
-
-
-unsigned long current_millis(void);
-
-
-static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned int frameAmount);
-static  _Bool  DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID);
-static  _Bool  DalyBms_sendQueueAdd(DalyBms* bms, DALY_BMS_COMMAND cmdID);
-static  _Bool  DalyBms_receiveBytes(DalyBms* bms);
-static  _Bool  DalyBms_validateChecksum(DalyBms* bms);
-static void DalyBms_barfRXBuffer(DalyBms* bms);
-static void DalyBms_clearGet(DalyBms* bms);
-#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/lifter.h"
-#line 1 "d:/mikroc pro for dspic/include/stdio.h"
-#line 21 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/lifter.h"
-typedef enum {
-LIFTER_STATUS_DISABLED = 0,
-LIFTER_STATUS_ENABLED = 1
-} LifterStatus;
-
-typedef enum {
-LIFTER_RUN_DOWN = 0,
-LIFTER_RUN_UP = 1
-} run_mode_Status;
-
-
-typedef struct _Lifter {
-float _kp;
-float _ki;
-float _kd;
-float _targetPosition;
-float _currentPosition;
-
-
-float _error;
-float _lastError;
-float _integral;
-float _output;
-float _maxOutput;
-
-
-float _accelerationLimit;
-float _decelerationLimit;
-
-
-unsigned int _maxDuty;
-
-
-float _minPosition;
-float _maxPosition;
-
-
-int _status;
-int run_mode;
-
-
-void (*Update)(struct _Lifter *pLifter);
-} _Lifter;
-
-
-extern _Lifter lifter;
-
-
-void _Lifter_Init(_Lifter *pLifter, float kp, float ki, float kd, float targetPosition);
-void _Lifter_SetPositionLimits(_Lifter *pLifter, float minPosition, float maxPosition);
-void _Lifter_SetTargetPosition(_Lifter *pLifter, float targetPosition);
-void _Lifter_Enable(_Lifter *pLifter);
-void _Lifter_Disable(_Lifter *pLifter);
-void _Lifter_Set_maxOutput(_Lifter *pLifter, float maxOutput);
-void _Lifter_SetAccelerationLimit(_Lifter *pLifter, float accLimit);
-void _Lifter_SetDecelerationLimit(_Lifter *pLifter, float decLimit);
-void _Lifter_Update(_Lifter *pLifter);
-char _Lifter_GetInfo(_Lifter *pLifter);
-void _Lifter_Get_Run_Mode(_Lifter *pLifter);
-#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/lms.h"
-#line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 5 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/lms.h"
-typedef struct {
- uint8_t status;
- uint8_t buzzer;
-} Lms;
-
-extern Lms _lms;
-void Lms_Init(void);
-uint8_t Lms_isPressed(void);
-void Lms_Task(void);
-#line 9 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/Main.c"
-void init_hardware() {
-
- TRISAbits.TRISA0 = 1;
- TRISAbits.TRISA1 = 1;
- TRISBbits.TRISB2 = 1;
- TRISBbits.TRISB3 = 1;
- TRISCbits.TRISC0 = 1;
- TRISCbits.TRISC1 = 1;
-
-
- ADC1_Init();
-
-
- TRISAbits.TRISA9 = 1;
- AD1PCFGbits.PCFG9 = 1;
- TRISCbits.TRISC4 = 1;
- AD1PCFGbits.PCFG4 = 1;
-
-
- TRISAbits.TRISA4 = 1;
- LATA4_bit = 1;
- TRISB4_bit = 1;
- LATB4_bit = 1;
- TRISA8_bit = 0;
- LATA8_bit = 1;
-
-
- TRISC7_bit = 0;
- LATC7_bit = 1;
- TRISC6_bit = 0;
- LATC6_bit = 0;
- TRISC8_bit = 0;
- LATC8_bit = 1;
-
-
- TRISB12_bit = 0;
- LATB12_bit = 0;
- TRISB5_bit = 0;
- LATB5_bit = 0;
-
-
- Unlock_IOLOCK();
- PPS_Mapping_NoLock( 9 , _INPUT, _U1RX);
- PPS_Mapping_NoLock( 8 , _OUTPUT, _U1TX);
- PPS_Mapping_NoLock( 11 , _INPUT, _U2RX);
- PPS_Mapping_NoLock( 10 , _OUTPUT, _U2TX);
- PPS_Mapping_NoLock(25, _OUTPUT, _OC1);
- PPS_Mapping_NoLock(22, _OUTPUT, _OC2);
- PPS_Mapping_NoLock(7, _OUTPUT, _OC3);
- PPS_Mapping_NoLock(6, _OUTPUT, _OC4);
- Lock_IOLOCK();
+#line 6 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/uart1.c"
+_UART1_Object _uart1;
+#line 12 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/uart1.c"
+void _UART1_Init(void) {
+ int i;
+ int j;
+
+
+ _uart1._rx_head = 0;
+ _uart1._rx_tail = 0;
+ _uart1._tx_head = 0;
+ _uart1._tx_tail = 0;
+ _uart1._temp_index = 0;
+ _uart1._frame_count = 0;
+ _uart1._multi_frame_count = 0;
+ _uart1._is_receiving = 0;
+ _uart1._timeout_counter = 0;
+
+
+ memset(_uart1._temp_rx_buffer, 0,  13 );
+
+ for(i = 0; i <  5 ; i++) {
+ memset(_uart1._rx_frame_stack[i], 0,  13 );
+ }
+
+ for(i = 0; i <  3 ; i++) {
+ memset(_uart1._tx_frame_stack[i], 0,  13 );
+ }
+
+ for(i = 0; i <  12 ; i++) {
+ for(j = 0; j <  13 ; j++) {
+ _uart1._multi_frame_buffer[i][j] = 0;
+ }
+ }
+
+
+ IEC0bits.U1RXIE = 1;
+ IFS0bits.U1RXIF = 0;
+}
+#line 51 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/uart1.c"
+int _UART1_SendBlocking(const uint8_t *frame) {
+ int timeout;
+ int result;
+ int i;
+
+ result = 1;
+ for(i = 0; i <  13 ; i++) {
+ timeout = 1000;
+ while(U1STAbits.UTXBF && timeout > 0) {
+ timeout--;
+ }
+ if(timeout == 0) {
+ DebugUART_Send_Text("UART1 TX: Timeout waiting for TX buffer\n");
+ result = 0;
+ break;
+ }
+ UART1_Write(frame[i]);
+ }
+ return result;
+}
+#line 75 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/uart1.c"
+void _UART1_SendPush(const uint8_t *frame) {
+ uint8_t next_head;
+ int i;
+
+ next_head = (_uart1._tx_head + 1) %  3 ;
+ if(next_head == _uart1._tx_tail) {
+ DebugUART_Send_Text("UART1 TX Stack Full. Dropping frame.\n");
+ return;
+ }
+
+
+ for(i = 0; i <  13 ; i++) {
+ _uart1._tx_frame_stack[_uart1._tx_head][i] = frame[i];
+ }
+ _uart1._tx_head = next_head;
+}
+#line 95 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/uart1.c"
+uint8_t _UART1_SendProcess(void) {
+ uint8_t ret = 0;
+ uint8_t *frame;
+ int i;
+
+ if(_uart1._tx_tail != _uart1._tx_head) {
+ frame = _uart1._tx_frame_stack[_uart1._tx_tail];
+ if(_UART1_SendBlocking(frame)) {
+
+ for(i = 0; i <  13 ; i++) {
+ _uart1._tx_frame_stack[_uart1._tx_tail][i] = 0;
+ }
+ _uart1._tx_tail = (_uart1._tx_tail + 1) %  3 ;
+ ret = 1;
+ } else {
+ DebugUART_Send_Text("UART1 TX: Failed to send frame.\n");
+ }
+ }
+ return ret;
+}
+#line 119 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/uart1.c"
+uint8_t _UART1_Rx_GetFrame(uint8_t *out_frame) {
+ uint8_t ret = 0;
+ int i;
+
+ if(_uart1._rx_tail != _uart1._rx_head) {
+
+ for(i = 0; i <  13 ; i++) {
+ out_frame[i] = _uart1._rx_frame_stack[_uart1._rx_tail][i];
+ }
+
+
+ for(i = 0; i <  13 ; i++) {
+ _uart1._rx_frame_stack[_uart1._rx_tail][i] = 0;
+ }
+ _uart1._rx_tail = (_uart1._rx_tail + 1) %  5 ;
+ ret = 1;
+ }
+ return ret;
 }
 
 
-void main() {
- init_hardware();
- UART1_Init(9600);
- UART2_Init(9600);
- _UART2_Init();
+uint8_t _UART1_Rx_GetMultiFrames(uint8_t *out_frames, uint8_t max_frames) {
+ uint8_t frame_count;
+ int i;
+ int j;
 
- DebugUART_Init();
- _MotorDC_Init(&motorDC, 2.5, 0.5, 1.0, 0);
- _MotorDC_SetSafeDistance(&motorDC, 40);
- _Lifter_Init(&lifter, 1.0, 0.5, 0.1, 30);
+ frame_count = 0;
+ if(_uart1._multi_frame_count > 0) {
+ frame_count = (_uart1._multi_frame_count > max_frames) ? max_frames : _uart1._multi_frame_count;
 
- Lms_Init();
- init_distance_sensors();
- CommandHandler_Init(&cmdHandler);
-
- _F_schedule_init();
-
- while (1) {
- task_dispatch();
+ for(i = 0; i < frame_count; i++) {
+ for(j = 0; j <  13 ; j++) {
+ out_frames[i *  13  + j] = _uart1._multi_frame_buffer[i][j];
  }
+ }
+
+
+ for(i = 0; i <  12 ; i++) {
+ for(j = 0; j <  13 ; j++) {
+ _uart1._multi_frame_buffer[i][j] = 0;
+ }
+ }
+ _uart1._multi_frame_count = 0;
+ }
+
+ return frame_count;
+}
+#line 175 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/uart1.c"
+void _UART1_Rx_Receive_ISR(void) iv IVT_ADDR_U1RXINTERRUPT ics ICS_AUTO {
+ uint8_t c;
+ uint8_t next_head;
+ uint8_t checksum;
+ int i;
+
+ c = UART1_Read();
+
+
+ if(_uart1._temp_index == 0) {
+ if(c != 0xA5) {
+ IFS0bits.U1RXIF = 0;
+ return;
+ }
+ }
+
+
+ if(_uart1._temp_index <  13 ) {
+ _uart1._temp_rx_buffer[_uart1._temp_index] = c;
+ _uart1._temp_index++;
+ } else {
+ DebugUART_Send_Text("UART1 RX: Frame too long. Discarding.\n");
+ _uart1._temp_index = 0;
+ IFS0bits.U1RXIF = 0;
+ return;
+ }
+
+
+ if(_uart1._temp_index >=  13 ) {
+
+ if(_UART1_ValidateChecksum(_uart1._temp_rx_buffer)) {
+
+ next_head = (_uart1._rx_head + 1) %  5 ;
+ if(next_head == _uart1._rx_tail) {
+ DebugUART_Send_Text("UART1 RX Stack Full. Dropping frame.\n");
+ } else {
+
+ for(i = 0; i <  13 ; i++) {
+ _uart1._rx_frame_stack[_uart1._rx_head][i] = _uart1._temp_rx_buffer[i];
+ }
+ _uart1._rx_head = next_head;
+ }
+ } else {
+ DebugUART_Send_Text("UART1 RX: Invalid checksum. Discarding frame.\n");
+ }
+ _uart1._temp_index = 0;
+ }
+
+ IFS0bits.U1RXIF = 0;
+}
+
+
+uint8_t _UART1_ValidateChecksum(const uint8_t *frame) {
+ uint8_t calculated_checksum;
+ int i;
+
+ calculated_checksum = 0;
+
+ for(i = 0; i <  13  - 1; i++) {
+ calculated_checksum += frame[i];
+ }
+
+
+ return (calculated_checksum == frame[ 13  - 1]);
+}
+
+
+uint8_t _UART1_CalculateChecksum(const uint8_t *frame, uint8_t length) {
+ uint8_t checksum;
+ int i;
+
+ checksum = 0;
+ for(i = 0; i < length; i++) {
+ checksum += frame[i];
+ }
+
+ return checksum;
+}
+
+
+void _UART1_ClearBuffers(void) {
+ int i;
+ int j;
+
+ _uart1._rx_head = 0;
+ _uart1._rx_tail = 0;
+ _uart1._tx_head = 0;
+ _uart1._tx_tail = 0;
+ _uart1._temp_index = 0;
+ _uart1._frame_count = 0;
+ _uart1._multi_frame_count = 0;
+ _uart1._is_receiving = 0;
+ _uart1._timeout_counter = 0;
+
+
+ memset(_uart1._temp_rx_buffer, 0,  13 );
+
+ for(i = 0; i <  5 ; i++) {
+ memset(_uart1._rx_frame_stack[i], 0,  13 );
+ }
+
+ for(i = 0; i <  3 ; i++) {
+ memset(_uart1._tx_frame_stack[i], 0,  13 );
+ }
+
+ for(i = 0; i <  12 ; i++) {
+ for(j = 0; j <  13 ; j++) {
+ _uart1._multi_frame_buffer[i][j] = 0;
+ }
+ }
+}
+
+
+uint8_t _UART1_IsConnected(void) {
+
+ return ((_uart1._rx_tail != _uart1._rx_head) || (_uart1._temp_index > 0));
 }

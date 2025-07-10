@@ -169,56 +169,51 @@ typedef struct DalyBms
 
 
 extern DalyBms bms;
+#line 157 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+void DalyBms_Init(DalyBms* bms);
 
 
 extern void writeLog(const char* format, ...);
-#line 161 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 167 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_update(DalyBms* bms);
-#line 168 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 174 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 void DalyBms_set_callback(DalyBms* bms, void (*func)(void));
-#line 175 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 181 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackMeasurements(DalyBms* bms);
-#line 182 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 188 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getVoltageThreshold(DalyBms* bms);
-#line 189 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 195 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackVoltageThreshold(DalyBms* bms);
-#line 197 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 203 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackTemp(DalyBms* bms);
-#line 205 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 211 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getMinMaxCellVoltage(DalyBms* bms);
-#line 212 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 218 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getStatusInfo(DalyBms* bms);
-#line 219 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 225 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellVoltages(DalyBms* bms);
-#line 226 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 232 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellTemperature(DalyBms* bms);
-#line 233 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 239 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellBalanceState(DalyBms* bms);
-#line 240 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 246 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getFailureCodes(DalyBms* bms);
-#line 248 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 254 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setDischargeMOS(DalyBms* bms,  _Bool  sw);
-#line 256 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 262 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setChargeMOS(DalyBms* bms,  _Bool  sw);
-#line 264 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 270 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setSOC(DalyBms* bms, float sw);
-#line 271 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 277 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getDischargeChargeMosStatus(DalyBms* bms);
-#line 279 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 285 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setBmsReset(DalyBms* bms);
-#line 292 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 298 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getState(DalyBms* bms);
 
 
-void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin,  _Bool  inverse_logic);
 
-unsigned int serial_write(void* handle, const uint8_t *buffer, unsigned int size);
 
-void serial_flush(void* handle);
-
-int serial_read_byte(void* handle);
-
-unsigned int serial_read_bytes(void* handle, uint8_t *buffer, unsigned int length);
 
 
 unsigned long current_millis(void);
@@ -231,6 +226,65 @@ static  _Bool  DalyBms_receiveBytes(DalyBms* bms);
 static  _Bool  DalyBms_validateChecksum(DalyBms* bms);
 static void DalyBms_barfRXBuffer(DalyBms* bms);
 static void DalyBms_clearGet(DalyBms* bms);
+#line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+#line 1 "d:/mikroc pro for dspic/include/stdint.h"
+#line 12 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+typedef struct {
+
+ uint8_t _rx_frame_stack[ 5 ][ 13 ];
+ volatile uint8_t _rx_head;
+ volatile uint8_t _rx_tail;
+
+
+ uint8_t _tx_frame_stack[ 3 ][ 13 ];
+ volatile uint8_t _tx_head;
+ volatile uint8_t _tx_tail;
+
+
+ uint8_t _temp_rx_buffer[ 13 ];
+ volatile uint8_t _temp_index;
+ volatile uint8_t _frame_count;
+
+
+ uint8_t _multi_frame_buffer[ 12 ][ 13 ];
+ volatile uint8_t _multi_frame_count;
+
+
+ volatile uint8_t _is_receiving;
+ volatile uint8_t _timeout_counter;
+
+} _UART1_Object;
+
+extern _UART1_Object _uart1;
+
+
+void _UART1_Init(void);
+#line 46 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+void _UART1_SendPush(const uint8_t *frame);
+
+
+int _UART1_SendBlocking(const uint8_t *frame);
+#line 53 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+uint8_t _UART1_SendProcess(void);
+#line 58 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+uint8_t _UART1_Rx_GetFrame(uint8_t *out_frame);
+
+
+uint8_t _UART1_Rx_GetMultiFrames(uint8_t *out_frames, uint8_t max_frames);
+#line 65 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart1.h"
+void _UART1_Rx_Receive_ISR(void);
+
+
+uint8_t _UART1_ValidateChecksum(const uint8_t *frame);
+
+
+uint8_t _UART1_CalculateChecksum(const uint8_t *frame, uint8_t length);
+
+
+void _UART1_ClearBuffers(void);
+
+
+uint8_t _UART1_IsConnected(void);
 #line 1 "d:/mikroc pro for dspic/include/string.h"
 
 
@@ -352,9 +406,37 @@ typedef unsigned int wchar_t;
 
 
 typedef void * va_list[1];
-#line 15 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 1 "d:/mikroc pro for dspic/include/stdint.h"
+#line 17 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
 DalyBms bms;
-#line 32 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 41 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+void DalyBms_Init(DalyBms* bms) {
+
+ bms->previousTime = 0;
+ bms->requestCounter = 0;
+ bms->soft_tx = 0;
+ bms->soft_rx = 0;
+ bms->getStaticData =  0 ;
+ bms->errorCounter = 0;
+ bms->requestCount = 0;
+ bms->frameCount = 0;
+ bms->requestCallback =  ((void *)0) ;
+
+
+ memset(bms->failCodeArr, 0, sizeof(bms->failCodeArr));
+ memset(bms->my_txBuffer, 0,  13 );
+ memset(bms->my_rxBuffer, 0,  13 );
+ memset(bms->my_rxFrameBuffer, 0, sizeof(bms->my_rxFrameBuffer));
+ memset(bms->frameBuff, 0, sizeof(bms->frameBuff));
+ memset(bms->commandQueue, 0x100, sizeof(bms->commandQueue));
+
+
+ _UART1_Init();
+
+
+ DalyBms_clearGet(bms);
+}
+
  _Bool  DalyBms_update(DalyBms* bms)
 {
  if (current_millis() - bms->previousTime >=  150 )
@@ -965,6 +1047,8 @@ static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigne
  size_t j;
  uint8_t rxChecksum;
  int k;
+ uint8_t frame_count;
+ uint8_t received_frames;
 
 
  memset(bms->my_rxFrameBuffer, 0x00, sizeof(bms->my_rxFrameBuffer));
@@ -990,21 +1074,31 @@ static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigne
  bms->my_txBuffer[12] = txChecksum;
 
 
- serial_write(bms->serial_handle, bms->my_txBuffer,  13 );
+ _UART1_SendPush(bms->my_txBuffer);
 
- serial_flush(bms->serial_handle);
+ _UART1_SendProcess();
 
 
 
- serial_read_bytes(bms->serial_handle, bms->my_rxFrameBuffer,  13  * frameAmount);
- for (i = 0; i < frameAmount; i++)
- {
- for (j = 0; j <  13 ; j++)
- {
- bms->frameBuff[i][j] = bms->my_rxFrameBuffer[byteCounter];
- byteCounter++;
+
+
+
+ frame_count = 0;
+ received_frames = 0;
+
+
+ while (frame_count < frameAmount && received_frames < 10) {
+ if (_UART1_Rx_GetFrame(bms->frameBuff[frame_count])) {
+ frame_count++;
+ }
+ received_frames++;
+
+ Delay_ms(1);
  }
 
+
+ for (i = 0; i < frame_count; i++)
+ {
  rxChecksum = 0x00;
  for (k = 0; k <  13  - 1; k++)
  {
@@ -1051,7 +1145,7 @@ static  _Bool  DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 
  checksum = 0;
 
- while (serial_read_byte(bms->serial_handle) > 0);
+ _UART1_ClearBuffers();
 
 
  bms->my_txBuffer[0] =  0xA5 ;
@@ -1067,10 +1161,9 @@ static  _Bool  DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 
  bms->my_txBuffer[12] = checksum;
 
- serial_write(bms->serial_handle, bms->my_txBuffer,  13 );
+ _UART1_SendPush(bms->my_txBuffer);
 
-
- serial_flush(bms->serial_handle);
+ _UART1_SendProcess();
 
 
  memset(bms->my_txBuffer, 0x00,  13 );
@@ -1080,21 +1173,21 @@ static  _Bool  DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID)
 
 static  _Bool  DalyBms_receiveBytes(DalyBms* bms)
 {
- unsigned int rxByteNum;
+ uint8_t frame[ 13 ];
 
 
  memset(bms->my_rxBuffer, 0x00,  13 );
  memset(bms->frameBuff, 0x00, sizeof(bms->frameBuff));
 
 
- rxByteNum = serial_read_bytes(bms->serial_handle, bms->my_rxBuffer,  13 );
-
-
- if (rxByteNum !=  13 )
+ if (!_UART1_Rx_GetFrame(frame))
  {
  DalyBms_barfRXBuffer(bms);
  return  0 ;
  }
+
+
+ memcpy(bms->my_rxBuffer, frame,  13 );
 
  if (!DalyBms_validateChecksum(bms))
  {
@@ -1140,34 +1233,9 @@ static void DalyBms_clearGet(DalyBms* bms)
 }
 
 
-void serial_begin(void* handle, long baud, int config, int rx_pin, int tx_pin,  _Bool  inverse_logic) {
-
-}
-
-unsigned int serial_write(void* handle, const uint8_t *buffer, unsigned int size) {
-
- return size;
-}
-
-void serial_flush(void* handle) {
-
-}
-
-int serial_read_byte(void* handle) {
 
 
 
- return -1;
-}
-
-unsigned int serial_read_bytes(void* handle, uint8_t *buffer, unsigned int length) {
-
-
-
-
-
- return 0;
-}
 
 
 unsigned long current_millis(void) {

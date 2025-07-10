@@ -28,7 +28,8 @@ File8=BMS.c
 File9=uart2.c
 File10=Lms.c
 File11=Box.c
-Count=12
+File12=uart1.c
+Count=13
 [BINARIES]
 Count=0
 [IMAGES]
@@ -83,7 +84,8 @@ File7=BMS.h
 File8=uart2.h
 File9=Lms.h
 File10=Box.h
-Count=11
+File11=uart1.h
+Count=12
 [PLDS]
 Count=0
 [Useses]
@@ -107,8 +109,7 @@ Count=16
 [EXPANDED_NODES]
 0=Main.mcpds
 1=Sources
-14=Header Files
-Count=3
+Count=2
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries
@@ -120,4 +121,4 @@ Count=3
 760=Time
 776=UART
 800=Additional Libraries
-Count=10
+Count=11
