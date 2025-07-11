@@ -199,7 +199,6 @@ main
 					_Div_FP
 					_Sub_FP
 					_Float2Longint
-					_AddSub_FP
 				Immediate_IsEmpty
 				Immediate_PopCommand
 					memset

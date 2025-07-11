@@ -382,25 +382,47 @@ static void _processReceivedResponsePacket(void) {
                         break;
                     }
                     case 0x95: {
-                        // G?i 0x95: Th?ng tin MOSFET
-                        // Byte 4: Tr?ng th?i MOSFET s?c (1 = ON, 0 = OFF)
-                        // Bytes 5-6: Th?i gian s?c c?n l?i
-                        // Byte 7: Tr?ng th?i MOSFET x? (1 = ON, 0 = OFF)
-                        // Bytes 8-9: Th?i gian x? c?n l?i
-                        // _bmsData._chargeMOS = _temp[4];
-                        // _bmsData._dischargeMOS = _temp[7];
+                        // G?i 0x95: Th?ng tin di?n ?p cell (3 cell m?i frame)
+                        // M?i frame ch?a 3 cell, c?n 2 frame ?? ??c ?? 4 cell
                         
-                        _bmsData._cellVoltages0 = (_temp[5] << 8) | _temp[6];
-                        _bmsData._cellVoltages1 = (_temp[7] << 8) | _temp[8];
-                        _bmsData._cellVoltages2 = (_temp[9] << 8) | _temp[10];
-                        _bmsData._cellVoltages3 = (_bmsData._cellVoltages0 + 
-                        _bmsData._cellVoltages1 + _bmsData._cellVoltages2) / 3;
-
-                        // sprintf(_dbgStr, "Charge MOS: %s, Discharge MOS: %s\r\n",
-                        //         _bmsData._chargeMOS ? "ON" : "OFF",
-                        //         _bmsData._dischargeMOS ? "ON" : "OFF");
-
-                        //DebugUART_Send_Text(_dbgStr);
+                        uint8_t frameIndex = _temp[4];
+                        
+                        if (frameIndex == 0) {
+                            // Frame ??u ti?n: l?u 3 cell ??u ti?n tr?c ti?p v?o c?c bi?n c? s?n
+                            _bmsData._cellVoltages0 = (_temp[5] << 8) | _temp[6];
+                            _bmsData._cellVoltages1 = (_temp[7] << 8) | _temp[8];
+                            _bmsData._cellVoltages2 = (_temp[9] << 8) | _temp[10];
+                            
+                            _bmsData._cell95FrameCount = 1; // ??nh d?u ?? nh?n frame th? 2
+                            _bmsData._cell95FrameValid = 0; // Ch?u c?p nh?t khi c? ?? 4 cell
+                            
+                            sprintf(_dbgStr, "Frame 0x95 #1: Cell1=%.3fV, Cell2=%.3fV, Cell3=%.3fV\r\n",
+                                    _bmsData._cellVoltages0/1000.0, _bmsData._cellVoltages1/1000.0, _bmsData._cellVoltages2/1000.0);
+                            DebugUART_Send_Text(_dbgStr);
+                        } else if (frameIndex == 1) {
+                            // Frame th? 2: l?u cell th? 4 v? k?t h?p d? li?u
+                            _bmsData._cellVoltages3 = (_temp[5] << 8) | _temp[6];
+                            
+                            // Reset ??m frame
+                            _bmsData._cell95FrameCount = 0;
+                            _bmsData._cell95FrameValid = 1; // ??nh d?u d? li?u ?? h?p l?
+                            
+                            // T?nh min/max cell voltage
+                            // _bmsData._minCellVoltage = _bmsData._cellVoltages0;
+                            // _bmsData._maxCellVoltage = _bmsData._cellVoltages0;
+                            
+                            // if (_bmsData._cellVoltages1 < _bmsData._minCellVoltage) _bmsData._minCellVoltage = _bmsData._cellVoltages1;
+                            // if (_bmsData._cellVoltages2 < _bmsData._minCellVoltage) _bmsData._minCellVoltage = _bmsData._cellVoltages2;
+                            // if (_bmsData._cellVoltages3 < _bmsData._minCellVoltage) _bmsData._minCellVoltage = _bmsData._cellVoltages3;
+                            
+                            // if (_bmsData._cellVoltages1 > _bmsData._maxCellVoltage) _bmsData._maxCellVoltage = _bmsData._cellVoltages1;
+                            // if (_bmsData._cellVoltages2 > _bmsData._maxCellVoltage) _bmsData._maxCellVoltage = _bmsData._cellVoltages2;
+                            // if (_bmsData._cellVoltages3 > _bmsData._maxCellVoltage) _bmsData._maxCellVoltage = _bmsData._cellVoltages3;
+                            
+                            // sprintf(_dbgStr, "Frame 0x95 #2: Cell4=%.3fV, Min=%.3fV, Max=%.3fV\r\n",
+                            //         _bmsData._cellVoltages3/1000.0, _bmsData._minCellVoltage/1000.0, _bmsData._maxCellVoltage/1000.0);
+                            // DebugUART_Send_Text(_dbgStr);
+                        }
                         break;
                     }
                     case 0x96: {
@@ -610,6 +632,10 @@ void BMS_Init(void) {
 
     _bmsData._charge_current_limit = 0;
     _bmsData._discharge_current_limit = 0;
+    
+    // Kh?i t?o bi?n theo d?i frame 0x95
+    _bmsData._cell95FrameCount = 0;
+    _bmsData._cell95FrameValid = 0;
 
     IEC0bits.U1RXIE = 1;
     IFS0bits.U1RXIF = 0;

@@ -52,6 +52,10 @@ typedef struct {
     char *_manufacturer;    // Nh? s?n xu?t
     uint8_t _charge_current_limit;
     uint8_t _discharge_current_limit;
+    
+    // Bi?n theo d?i frame 0x95 cho 4 cell pin
+    uint8_t _cell95FrameCount;  // ??m s? frame 0x95 ?? nh?n (0 ho?c 1)
+    uint8_t _cell95FrameValid;     // ??nh d?u d? li?u 4 cell ?? h?p l? (0/1)
 } BMSData;
 
 // ??nh nghia h?ng s? MAX_CELL_COUNT

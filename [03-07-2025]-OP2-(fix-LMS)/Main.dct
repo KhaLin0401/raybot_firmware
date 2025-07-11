@@ -32,6 +32,8 @@ _balancestatus
 _bmsdata
 _c1out
 _c2out
+_cell95framecount
+_cell95framevalid
 _cellcount
 _cellvoltages0
 _cellvoltages1

@@ -604,6 +604,10 @@ typedef struct {
  char *_manufacturer;
  uint8_t _charge_current_limit;
  uint8_t _discharge_current_limit;
+
+
+ uint8_t _cell95FrameCount;
+ uint8_t _cell95FrameValid;
 } BMSData;
 
 
