@@ -384,11 +384,10 @@ static void _processReceivedResponsePacket(void) {
                     case 0x95: {
                         // G?i 0x95: Th?ng tin di?n ?p cell (3 cell m?i frame)
                         // M?i frame ch?a 3 cell, c?n 2 frame ?? ??c ?? 4 cell
+                        // Frame ??u ti?n lu?n ??n tr??c, frame th? 2 ??n sau
                         
-                        uint8_t frameIndex = _temp[4];
-                        
-                        if (frameIndex == 0) {
-                            // Frame ??u ti?n: l?u 3 cell ??u ti?n tr?c ti?p v?o c?c bi?n c? s?n
+                        if (_bmsData._cell95FrameCount == 0) {
+                            // Frame ??u ti?n: l?u 3 cell ??u ti?n
                             _bmsData._cellVoltages0 = (_temp[5] << 8) | _temp[6];
                             _bmsData._cellVoltages1 = (_temp[7] << 8) | _temp[8];
                             _bmsData._cellVoltages2 = (_temp[9] << 8) | _temp[10];
@@ -396,10 +395,10 @@ static void _processReceivedResponsePacket(void) {
                             _bmsData._cell95FrameCount = 1; // ??nh d?u ?? nh?n frame th? 2
                             _bmsData._cell95FrameValid = 0; // Ch?u c?p nh?t khi c? ?? 4 cell
                             
-                            sprintf(_dbgStr, "Frame 0x95 #1: Cell1=%.3fV, Cell2=%.3fV, Cell3=%.3fV\r\n",
-                                    _bmsData._cellVoltages0/1000.0, _bmsData._cellVoltages1/1000.0, _bmsData._cellVoltages2/1000.0);
-                            DebugUART_Send_Text(_dbgStr);
-                        } else if (frameIndex == 1) {
+                            // sprintf(_dbgStr, "Frame 0x95 #1: Cell1=%.3fV, Cell2=%.3fV, Cell3=%.3fV\r\n",
+                            //         _bmsData._cellVoltages0/1000.0, _bmsData._cellVoltages1/1000.0, _bmsData._cellVoltages2/1000.0);
+                            // DebugUART_Send_Text(_dbgStr);
+                        } else {
                             // Frame th? 2: l?u cell th? 4 v? k?t h?p d? li?u
                             _bmsData._cellVoltages3 = (_temp[5] << 8) | _temp[6];
                             
@@ -407,17 +406,6 @@ static void _processReceivedResponsePacket(void) {
                             _bmsData._cell95FrameCount = 0;
                             _bmsData._cell95FrameValid = 1; // ??nh d?u d? li?u ?? h?p l?
                             
-                            // T?nh min/max cell voltage
-                            // _bmsData._minCellVoltage = _bmsData._cellVoltages0;
-                            // _bmsData._maxCellVoltage = _bmsData._cellVoltages0;
-                            
-                            // if (_bmsData._cellVoltages1 < _bmsData._minCellVoltage) _bmsData._minCellVoltage = _bmsData._cellVoltages1;
-                            // if (_bmsData._cellVoltages2 < _bmsData._minCellVoltage) _bmsData._minCellVoltage = _bmsData._cellVoltages2;
-                            // if (_bmsData._cellVoltages3 < _bmsData._minCellVoltage) _bmsData._minCellVoltage = _bmsData._cellVoltages3;
-                            
-                            // if (_bmsData._cellVoltages1 > _bmsData._maxCellVoltage) _bmsData._maxCellVoltage = _bmsData._cellVoltages1;
-                            // if (_bmsData._cellVoltages2 > _bmsData._maxCellVoltage) _bmsData._maxCellVoltage = _bmsData._cellVoltages2;
-                            // if (_bmsData._cellVoltages3 > _bmsData._maxCellVoltage) _bmsData._maxCellVoltage = _bmsData._cellVoltages3;
                             
                             // sprintf(_dbgStr, "Frame 0x95 #2: Cell4=%.3fV, Min=%.3fV, Max=%.3fV\r\n",
                             //         _bmsData._cellVoltages3/1000.0, _bmsData._minCellVoltage/1000.0, _bmsData._maxCellVoltage/1000.0);

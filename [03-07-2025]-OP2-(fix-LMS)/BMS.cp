@@ -915,9 +915,8 @@ static void _processReceivedResponsePacket(void) {
 
 
 
- uint8_t frameIndex = _temp[4];
 
- if (frameIndex == 0) {
+ if (_bmsData._cell95FrameCount == 0) {
 
  _bmsData._cellVoltages0 = (_temp[5] << 8) | _temp[6];
  _bmsData._cellVoltages1 = (_temp[7] << 8) | _temp[8];
@@ -926,22 +925,26 @@ static void _processReceivedResponsePacket(void) {
  _bmsData._cell95FrameCount = 1;
  _bmsData._cell95FrameValid = 0;
 
- sprintf(_dbgStr, "Frame 0x95 #1: Cell1=%.3fV, Cell2=%.3fV, Cell3=%.3fV\r\n",
- _bmsData._cellVoltages0/1000.0, _bmsData._cellVoltages1/1000.0, _bmsData._cellVoltages2/1000.0);
- DebugUART_Send_Text(_dbgStr);
- } else if (frameIndex == 1) {
+
+
+
+ } else {
 
  _bmsData._cellVoltages3 = (_temp[5] << 8) | _temp[6];
 
 
  _bmsData._cell95FrameCount = 0;
  _bmsData._cell95FrameValid = 1;
-#line 425 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+
+
+
+
+
  }
  break;
  }
  case 0x96: {
-#line 446 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 434 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
  break;
  }
  case 0x97: {
@@ -1001,7 +1004,7 @@ static void _processReceivedResponsePacket(void) {
 
 
 static void _updateMinMaxCellVoltage(void) {
-#line 524 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 512 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
 }
 
 
@@ -1010,7 +1013,7 @@ static void _updateMinMaxCellVoltage(void) {
 
 
 void BMS_SendCommandImmediate(uint8_t _commandID, uint8_t * _payload, uint8_t _value) {
-#line 545 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 533 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
  ImmediateCommand _imCmd;
  Immediate_PushCommand(_commandID, _payload, _value);
 
