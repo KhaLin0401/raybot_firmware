@@ -167,6 +167,16 @@ extern void writeLog(const char* format, ...);
 bool DalyBms_update(DalyBms* bms);
 
 /**
+ * @brief Update BMS data using sequential command calls with DalyBms_sendCommand
+ * @details This function calls DalyBms_sendCommand directly in a sequential loop
+ * to continuously fetch data from the BMS. It processes all commands in order:
+ * 0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x59, 0x5A
+ * @param bms Pointer to the DalyBms object
+ * @return True if successful, false otherwise
+ */
+bool DalyBms_updateSequential(DalyBms* bms);
+
+/**
  * @brief callback function
  * @param bms Pointer to the DalyBms object
  * @param func Function pointer to the callback function

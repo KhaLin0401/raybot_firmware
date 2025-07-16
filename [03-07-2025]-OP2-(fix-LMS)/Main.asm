@@ -9,10 +9,6 @@ _init_hardware:
 	BSET.B	TRISAbits, #0
 ;Main.c,12 :: 		TRISAbits.TRISA1 = 1;
 	BSET.B	TRISAbits, #1
-;Main.c,13 :: 		TRISBbits.TRISB2 = 1;
-	BSET.B	TRISBbits, #2
-;Main.c,14 :: 		TRISBbits.TRISB3 = 1;
-	BSET.B	TRISBbits, #3
 ;Main.c,15 :: 		TRISCbits.TRISC0 = 1;
 	BSET.B	TRISCbits, #0
 ;Main.c,16 :: 		TRISCbits.TRISC1 = 1;
@@ -64,22 +60,22 @@ _init_hardware:
 ;Main.c,51 :: 		PPS_Mapping_NoLock(RX1, _INPUT, _U1RX); // RP13 -> U1RX
 	MOV.B	#13, W12
 	MOV.B	#1, W11
-	MOV.B	#9, W10
+	MOV.B	#8, W10
 	CALL	_PPS_Mapping_NoLock
 ;Main.c,52 :: 		PPS_Mapping_NoLock(TX1, _OUTPUT, _U1TX); // RP14 -> U1TX
 	MOV.B	#3, W12
 	CLR	W11
-	MOV.B	#8, W10
+	MOV.B	#9, W10
 	CALL	_PPS_Mapping_NoLock
 ;Main.c,53 :: 		PPS_Mapping_NoLock(RX2, _INPUT, _U2RX);  // RP15 -> U2RX
 	MOV.B	#15, W12
 	MOV.B	#1, W11
-	MOV.B	#11, W10
+	MOV.B	#3, W10
 	CALL	_PPS_Mapping_NoLock
 ;Main.c,54 :: 		PPS_Mapping_NoLock(TX2, _OUTPUT, _U2TX);  // RP12 -> U2TX
 	MOV.B	#5, W12
 	CLR	W11
-	MOV.B	#10, W10
+	MOV.B	#2, W10
 	CALL	_PPS_Mapping_NoLock
 ;Main.c,55 :: 		PPS_Mapping_NoLock(25, _OUTPUT, _OC1);    // RP25 -> PWM1
 	MOV.B	#18, W12

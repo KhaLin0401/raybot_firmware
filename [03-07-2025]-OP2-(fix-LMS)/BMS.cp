@@ -176,39 +176,41 @@ void DalyBms_Init(DalyBms* bms);
 extern void writeLog(const char* format, ...);
 #line 167 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_update(DalyBms* bms);
-#line 174 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 177 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+ _Bool  DalyBms_updateSequential(DalyBms* bms);
+#line 184 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 void DalyBms_set_callback(DalyBms* bms, void (*func)(void));
-#line 181 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 191 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackMeasurements(DalyBms* bms);
-#line 188 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 198 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getVoltageThreshold(DalyBms* bms);
-#line 195 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 205 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackVoltageThreshold(DalyBms* bms);
-#line 203 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 213 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getPackTemp(DalyBms* bms);
-#line 211 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 221 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getMinMaxCellVoltage(DalyBms* bms);
-#line 218 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 228 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getStatusInfo(DalyBms* bms);
-#line 225 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 235 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellVoltages(DalyBms* bms);
-#line 232 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 242 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellTemperature(DalyBms* bms);
-#line 239 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 249 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getCellBalanceState(DalyBms* bms);
-#line 246 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 256 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getFailureCodes(DalyBms* bms);
-#line 254 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 264 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setDischargeMOS(DalyBms* bms,  _Bool  sw);
-#line 262 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 272 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setChargeMOS(DalyBms* bms,  _Bool  sw);
-#line 270 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 280 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setSOC(DalyBms* bms, float sw);
-#line 277 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 287 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getDischargeChargeMosStatus(DalyBms* bms);
-#line 285 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 295 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_setBmsReset(DalyBms* bms);
-#line 298 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 308 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
  _Bool  DalyBms_getState(DalyBms* bms);
 
 
@@ -523,6 +525,452 @@ void DalyBms_Init(DalyBms* bms) {
  bms->previousTime = current_millis();
  }
  return  1 ;
+}
+
+
+
+
+
+
+
+
+
+
+ _Bool  DalyBms_updateSequential(DalyBms* bms)
+{
+ static unsigned int commandIndex = 0;
+ static unsigned long lastCommandTime = 0;
+ const unsigned long COMMAND_DELAY = 100;
+
+
+ if (current_millis() - lastCommandTime < COMMAND_DELAY)
+ {
+ return  1 ;
+ }
+
+
+ DALY_BMS_COMMAND commandSequence[] = {
+ VOUT_IOUT_SOC,
+ MIN_MAX_CELL_VOLTAGE,
+ MIN_MAX_TEMPERATURE,
+ DISCHARGE_CHARGE_MOS_STATUS,
+ STATUS_INFO,
+ CELL_VOLTAGES,
+ CELL_TEMPERATURE,
+ CELL_BALANCE_STATE,
+ FAILURE_CODES,
+ CELL_THRESHOLDS,
+ PACK_THRESHOLDS
+ };
+
+ const unsigned int TOTAL_COMMANDS = sizeof(commandSequence) / sizeof(commandSequence[0]);
+
+
+ if (commandIndex < TOTAL_COMMANDS)
+ {
+ DALY_BMS_COMMAND currentCommand = commandSequence[commandIndex];
+
+
+ if (DalyBms_sendCommand(bms, currentCommand))
+ {
+
+ if (DalyBms_receiveBytes(bms))
+ {
+
+ switch (currentCommand)
+ {
+ case VOUT_IOUT_SOC:
+ DalyBms_processPackMeasurements(bms);
+ break;
+ case MIN_MAX_CELL_VOLTAGE:
+ DalyBms_processMinMaxCellVoltage(bms);
+ break;
+ case MIN_MAX_TEMPERATURE:
+ DalyBms_processPackTemp(bms);
+ break;
+ case DISCHARGE_CHARGE_MOS_STATUS:
+ DalyBms_processDischargeChargeMosStatus(bms);
+ break;
+ case STATUS_INFO:
+ DalyBms_processStatusInfo(bms);
+ break;
+ case CELL_VOLTAGES:
+ DalyBms_processCellVoltages(bms);
+ break;
+ case CELL_TEMPERATURE:
+ DalyBms_processCellTemperature(bms);
+ break;
+ case CELL_BALANCE_STATE:
+ DalyBms_processCellBalanceState(bms);
+ break;
+ case FAILURE_CODES:
+ DalyBms_processFailureCodes(bms);
+ break;
+ case CELL_THRESHOLDS:
+ DalyBms_processVoltageThreshold(bms);
+ break;
+ case PACK_THRESHOLDS:
+ DalyBms_processPackVoltageThreshold(bms);
+ break;
+ default:
+ break;
+ }
+
+
+ bms->get.connectionState =  1 ;
+ bms->errorCounter = 0;
+ }
+ else
+ {
+
+ bms->errorCounter++;
+ if (bms->errorCounter >=  10 )
+ {
+ bms->get.connectionState =  0 ;
+ bms->errorCounter = 0;
+ }
+ }
+ }
+ else
+ {
+
+ bms->errorCounter++;
+ }
+
+
+ commandIndex++;
+ }
+ else
+ {
+
+ commandIndex = 0;
+
+
+ if (bms->requestCallback !=  ((void *)0) )
+ {
+ bms->requestCallback();
+ }
+ }
+
+ lastCommandTime = current_millis();
+ return  1 ;
+}
+
+
+static void DalyBms_processPackMeasurements(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == VOUT_IOUT_SOC)
+ {
+
+ if (((float)(((bms->my_rxBuffer[8] << 8) | bms->my_rxBuffer[9]) - 30000) / 10.0f) != -3000.f &&
+ ((float)((bms->my_rxBuffer[10] << 8) | bms->my_rxBuffer[11]) / 10.0f) <= 100.f)
+ {
+ bms->get.packVoltage = ((float)((bms->my_rxBuffer[4] << 8) | bms->my_rxBuffer[5]) / 10.0f);
+ bms->get.packCurrent = ((float)(((bms->my_rxBuffer[8] << 8) | bms->my_rxBuffer[9]) - 30000) / 10.0f);
+ bms->get.packSOC = ((float)((bms->my_rxBuffer[10] << 8) | bms->my_rxBuffer[11]) / 10.0f);
+ }
+ }
+}
+
+static void DalyBms_processMinMaxCellVoltage(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == MIN_MAX_CELL_VOLTAGE)
+ {
+ bms->get.maxCellmV = (float)((bms->my_rxBuffer[4] << 8) | bms->my_rxBuffer[5]);
+ bms->get.maxCellVNum = bms->my_rxBuffer[6];
+ bms->get.minCellmV = (float)((bms->my_rxBuffer[7] << 8) | bms->my_rxBuffer[8]);
+ bms->get.minCellVNum = bms->my_rxBuffer[9];
+ bms->get.cellDiff = (bms->get.maxCellmV - bms->get.minCellmV);
+ }
+}
+
+static void DalyBms_processPackTemp(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == MIN_MAX_TEMPERATURE)
+ {
+ bms->get.tempAverage = ((bms->my_rxBuffer[4] - 40) + (bms->my_rxBuffer[6] - 40)) / 2;
+ }
+}
+
+static void DalyBms_processDischargeChargeMosStatus(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == DISCHARGE_CHARGE_MOS_STATUS)
+ {
+ char msgbuff[16];
+ float tmpAh;
+
+ switch (bms->my_rxBuffer[4])
+ {
+ case 0:
+ bms->get.chargeDischargeStatus = "Stationary";
+ break;
+ case 1:
+ bms->get.chargeDischargeStatus = "Charge";
+ break;
+ case 2:
+ bms->get.chargeDischargeStatus = "Discharge";
+ break;
+ default:
+ bms->get.chargeDischargeStatus = "Unknown";
+ break;
+ }
+
+ bms->get.chargeFetState =  (((bms->my_rxBuffer[5]) >> (0)) & 1) ;
+ bms->get.disChargeFetState =  (((bms->my_rxBuffer[6]) >> (0)) & 1) ;
+ bms->get.bmsHeartBeat = bms->my_rxBuffer[7];
+
+ tmpAh = (float)(((uint32_t)bms->my_rxBuffer[8] << 0x18) |
+ ((uint32_t)bms->my_rxBuffer[9] << 0x10) |
+ ((uint32_t)bms->my_rxBuffer[10] << 0x08) |
+ (uint32_t)bms->my_rxBuffer[11]) * 0.001;
+ sprintf(msgbuff, "%.1f", tmpAh);
+ bms->get.resCapacityAh = atof(msgbuff);
+ }
+}
+
+static void DalyBms_processStatusInfo(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == STATUS_INFO)
+ {
+ size_t i;
+
+ bms->get.numberOfCells = bms->my_rxBuffer[4];
+ bms->get.numOfTempSensors = bms->my_rxBuffer[5];
+ bms->get.chargeState =  (((bms->my_rxBuffer[6]) >> (0)) & 1) ;
+ bms->get.loadState =  (((bms->my_rxBuffer[7]) >> (0)) & 1) ;
+
+
+ for (i = 0; i < 8; i++)
+ {
+ bms->get.dIO[i] =  (((bms->my_rxBuffer[8]) >> (i)) & 1) ;
+ }
+
+ bms->get.bmsCycles = ((uint16_t)bms->my_rxBuffer[9] << 0x08) | (uint16_t)bms->my_rxBuffer[10];
+ }
+}
+
+static void DalyBms_processCellVoltages(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == CELL_VOLTAGES)
+ {
+ unsigned int cellNo = 0;
+ size_t i;
+
+ if (bms->get.numberOfCells >=  1  && bms->get.numberOfCells <=  48 )
+ {
+ for (i = 0; i < 3 && cellNo < bms->get.numberOfCells && cellNo <  48 ; i++)
+ {
+ bms->get.cellVmV[cellNo] = (float)((bms->my_rxBuffer[5 + (i * 2)] << 8) | bms->my_rxBuffer[6 + (i * 2)]);
+ cellNo++;
+ }
+ }
+ }
+}
+
+static void DalyBms_processCellTemperature(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == CELL_TEMPERATURE)
+ {
+ unsigned int sensorNo = 0;
+ size_t i;
+
+ if (bms->get.numOfTempSensors >=  1  && bms->get.numOfTempSensors <=  16 )
+ {
+ for (i = 0; i < 7 && sensorNo < bms->get.numOfTempSensors && sensorNo <  16 ; i++)
+ {
+ bms->get.cellTemperature[sensorNo] = (bms->my_rxBuffer[5 + i] - 40);
+ sensorNo++;
+ }
+ }
+ }
+}
+
+static void DalyBms_processCellBalanceState(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == CELL_BALANCE_STATE)
+ {
+ int cellBalance = 0;
+ int cellBit = 0;
+ size_t i, j;
+
+ if (bms->get.numberOfCells >=  1  && bms->get.numberOfCells <=  48 )
+ {
+ for (i = 0; i < 6; i++)
+ {
+ for (j = 0; j < 8; j++)
+ {
+ if (cellBit <  48 )
+ {
+ bms->get.cellBalanceState[cellBit] =  (((bms->my_rxBuffer[i + 4]) >> (j)) & 1) ;
+ if ( (((bms->my_rxBuffer[i + 4]) >> (j)) & 1) )
+ {
+ cellBalance++;
+ }
+ }
+ cellBit++;
+ if (cellBit >=  48 )
+ break;
+ }
+ if (cellBit >=  48 )
+ break;
+ }
+
+ bms->get.cellBalanceActive = (cellBalance > 0);
+ }
+ }
+}
+
+static void DalyBms_processFailureCodes(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == FAILURE_CODES)
+ {
+ size_t len;
+
+ bms->failCodeArr[0] = '\0';
+
+
+ if ( (((bms->my_rxBuffer[4]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Cell volt high level 2,");
+ else if ( (((bms->my_rxBuffer[4]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Cell volt high level 1,");
+ if ( (((bms->my_rxBuffer[4]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Cell volt low level 2,");
+ else if ( (((bms->my_rxBuffer[4]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Cell volt low level 1,");
+ if ( (((bms->my_rxBuffer[4]) >> (5)) & 1) )
+ strcat(bms->failCodeArr, "Sum volt high level 2,");
+ else if ( (((bms->my_rxBuffer[4]) >> (4)) & 1) )
+ strcat(bms->failCodeArr, "Sum volt high level 1,");
+ if ( (((bms->my_rxBuffer[4]) >> (7)) & 1) )
+ strcat(bms->failCodeArr, "Sum volt low level 2,");
+ else if ( (((bms->my_rxBuffer[4]) >> (6)) & 1) )
+ strcat(bms->failCodeArr, "Sum volt low level 1,");
+
+ if ( (((bms->my_rxBuffer[5]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Chg temp high level 2,");
+ else if ( (((bms->my_rxBuffer[5]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Chg temp high level 1,");
+ if ( (((bms->my_rxBuffer[5]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Chg temp low level 2,");
+ else if ( (((bms->my_rxBuffer[5]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Chg temp low level 1,");
+ if ( (((bms->my_rxBuffer[5]) >> (5)) & 1) )
+ strcat(bms->failCodeArr, "Dischg temp high level 2,");
+ else if ( (((bms->my_rxBuffer[5]) >> (4)) & 1) )
+ strcat(bms->failCodeArr, "Dischg temp high level 1,");
+ if ( (((bms->my_rxBuffer[5]) >> (7)) & 1) )
+ strcat(bms->failCodeArr, "Dischg temp low level 2,");
+ else if ( (((bms->my_rxBuffer[5]) >> (6)) & 1) )
+ strcat(bms->failCodeArr, "Dischg temp low level 1,");
+
+ if ( (((bms->my_rxBuffer[6]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Chg overcurrent level 2,");
+ else if ( (((bms->my_rxBuffer[6]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Chg overcurrent level 1,");
+ if ( (((bms->my_rxBuffer[6]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Dischg overcurrent level 2,");
+ else if ( (((bms->my_rxBuffer[6]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Dischg overcurrent level 1,");
+ if ( (((bms->my_rxBuffer[6]) >> (5)) & 1) )
+ strcat(bms->failCodeArr, "SOC high level 2,");
+ else if ( (((bms->my_rxBuffer[6]) >> (4)) & 1) )
+ strcat(bms->failCodeArr, "SOC high level 1,");
+ if ( (((bms->my_rxBuffer[6]) >> (7)) & 1) )
+ strcat(bms->failCodeArr, "SOC Low level 2,");
+ else if ( (((bms->my_rxBuffer[6]) >> (6)) & 1) )
+ strcat(bms->failCodeArr, "SOC Low level 1,");
+
+ if ( (((bms->my_rxBuffer[7]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Diff volt level 2,");
+ else if ( (((bms->my_rxBuffer[7]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Diff volt level 1,");
+ if ( (((bms->my_rxBuffer[7]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Diff temp level 2,");
+ else if ( (((bms->my_rxBuffer[7]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Diff temp level 1,");
+
+ if ( (((bms->my_rxBuffer[8]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Chg MOS temp high alarm,");
+ if ( (((bms->my_rxBuffer[8]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Dischg MOS temp high alarm,");
+ if ( (((bms->my_rxBuffer[8]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Chg MOS temp sensor err,");
+ if ( (((bms->my_rxBuffer[8]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Dischg MOS temp sensor err,");
+ if ( (((bms->my_rxBuffer[8]) >> (4)) & 1) )
+ strcat(bms->failCodeArr, "Chg MOS adhesion err,");
+ if ( (((bms->my_rxBuffer[8]) >> (5)) & 1) )
+ strcat(bms->failCodeArr, "Dischg MOS adhesion err,");
+ if ( (((bms->my_rxBuffer[8]) >> (6)) & 1) )
+ strcat(bms->failCodeArr, "Chg MOS open circuit err,");
+ if ( (((bms->my_rxBuffer[8]) >> (7)) & 1) )
+ strcat(bms->failCodeArr, " Discrg MOS open circuit err,");
+
+ if ( (((bms->my_rxBuffer[9]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "AFE collect chip err,");
+ if ( (((bms->my_rxBuffer[9]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Voltage collect dropped,");
+ if ( (((bms->my_rxBuffer[9]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Cell temp sensor err,");
+ if ( (((bms->my_rxBuffer[9]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "EEPROM err,");
+ if ( (((bms->my_rxBuffer[9]) >> (4)) & 1) )
+ strcat(bms->failCodeArr, "RTC err,");
+ if ( (((bms->my_rxBuffer[9]) >> (5)) & 1) )
+ strcat(bms->failCodeArr, "Precharge failure,");
+ if ( (((bms->my_rxBuffer[9]) >> (6)) & 1) )
+ strcat(bms->failCodeArr, "Communication failure,");
+ if ( (((bms->my_rxBuffer[9]) >> (7)) & 1) )
+ strcat(bms->failCodeArr, "Internal communication failure,");
+
+ if ( (((bms->my_rxBuffer[10]) >> (0)) & 1) )
+ strcat(bms->failCodeArr, "Current module fault,");
+ if ( (((bms->my_rxBuffer[10]) >> (1)) & 1) )
+ strcat(bms->failCodeArr, "Sum voltage detect fault,");
+ if ( (((bms->my_rxBuffer[10]) >> (2)) & 1) )
+ strcat(bms->failCodeArr, "Short circuit protect fault,");
+ if ( (((bms->my_rxBuffer[10]) >> (3)) & 1) )
+ strcat(bms->failCodeArr, "Low volt forbidden chg fault,");
+
+ len = strlen(bms->failCodeArr);
+ if (len > 0 && bms->failCodeArr[len - 1] == ',')
+ {
+ bms->failCodeArr[len - 1] = '\0';
+ }
+ }
+}
+
+static void DalyBms_processVoltageThreshold(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == CELL_THRESHOLDS)
+ {
+ bms->get.maxCellThreshold1 = (float)((bms->my_rxBuffer[4] << 8) | bms->my_rxBuffer[5]);
+ bms->get.maxCellThreshold2 = (float)((bms->my_rxBuffer[6] << 8) | bms->my_rxBuffer[7]);
+ bms->get.minCellThreshold1 = (float)((bms->my_rxBuffer[8] << 8) | bms->my_rxBuffer[9]);
+ bms->get.minCellThreshold2 = (float)((bms->my_rxBuffer[10] << 8) | bms->my_rxBuffer[11]);
+ }
+}
+
+static void DalyBms_processPackVoltageThreshold(DalyBms* bms)
+{
+
+ if (bms->my_rxBuffer[2] == PACK_THRESHOLDS)
+ {
+ bms->get.maxPackThreshold1 = (float)((bms->my_rxBuffer[4] << 8) | bms->my_rxBuffer[5]);
+ bms->get.maxPackThreshold2 = (float)((bms->my_rxBuffer[6] << 8) | bms->my_rxBuffer[7]);
+ bms->get.minPackThreshold1 = (float)((bms->my_rxBuffer[8] << 8) | bms->my_rxBuffer[9]);
+ bms->get.minPackThreshold2 = (float)((bms->my_rxBuffer[10] << 8) | bms->my_rxBuffer[11]);
+ }
 }
 
  _Bool  DalyBms_getVoltageThreshold(DalyBms* bms)

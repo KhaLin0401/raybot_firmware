@@ -10,8 +10,8 @@ void init_hardware() {
     // C?u h�nh c�c ch�n l�m input
     TRISAbits.TRISA0 = 1;
     TRISAbits.TRISA1 = 1;
-    TRISBbits.TRISB2 = 1;
-    TRISBbits.TRISB3 = 1;
+   // TRISBbits.TRISB2 = 1;
+   // TRISBbits.TRISB3 = 1;
     TRISCbits.TRISC0 = 1;
     TRISCbits.TRISC1 = 1;
 

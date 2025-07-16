@@ -3545,11 +3545,10 @@ L_BMS_DalyBms_requestData199:
 ; frame_count start address is: 8 (W4)
 	INC.B	W3
 ;BMS.c,724 :: 		Delay_ms(1);
-	MOV	#2666, W7
+	MOV	#1333, W7
 L_BMS_DalyBms_requestData200:
 	DEC	W7
 	BRA NZ	L_BMS_DalyBms_requestData200
-	NOP
 	NOP
 ;BMS.c,725 :: 		}
 ; received_frames end address is: 6 (W3)
