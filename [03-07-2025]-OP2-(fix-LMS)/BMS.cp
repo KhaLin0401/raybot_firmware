@@ -919,8 +919,8 @@ static void _processReceivedResponsePacket(void) {
  _bmsData._cellVoltages0 = (_temp[5] << 8) | _temp[6];
  _bmsData._cellVoltages1 = (_temp[7] << 8) | _temp[8];
  _bmsData._cellVoltages2 = (_temp[9] << 8) | _temp[10];
- _bmsData._cellVoltages3 = (_bmsData._cellVoltages0
- + _bmsData._cellVoltages1 + _bmsData._cellVoltages2) / 3;
+ _bmsData._cellVoltages3 = (_bmsData._cellVoltages0 +
+ _bmsData._cellVoltages1 + _bmsData._cellVoltages2) / 3;
 
 
 
@@ -990,7 +990,6 @@ static void _processReceivedResponsePacket(void) {
 
 
 static void _updateMinMaxCellVoltage(void) {
- uint8_t i;
 #line 502 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
 }
 

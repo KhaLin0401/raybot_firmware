@@ -1322,7 +1322,7 @@ L_BMS__processReceivedResponsePacket72:
 	CALL	__Long2Float
 	MOV	W0, __bmsData+24
 	MOV	W1, __bmsData+26
-;BMS.c,397 :: 		+ _bmsData._cellVoltages1 + _bmsData._cellVoltages2) / 3;
+;BMS.c,397 :: 		_bmsData._cellVoltages1 + _bmsData._cellVoltages2) / 3;
 	MOV	__bmsData+16, W2
 	MOV	__bmsData+18, W3
 	MOV	__bmsData+20, W0
