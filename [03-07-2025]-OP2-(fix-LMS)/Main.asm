@@ -74,12 +74,12 @@ _init_hardware:
 ;Main.c,53 :: 		PPS_Mapping_NoLock(RX2, _INPUT, _U2RX);  // RP15 -> U2RX
 	MOV.B	#15, W12
 	MOV.B	#1, W11
-	MOV.B	#3, W10
+	MOV.B	#11, W10
 	CALL	_PPS_Mapping_NoLock
 ;Main.c,54 :: 		PPS_Mapping_NoLock(TX2, _OUTPUT, _U2TX);  // RP12 -> U2TX
 	MOV.B	#5, W12
 	CLR	W11
-	MOV.B	#2, W10
+	MOV.B	#10, W10
 	CALL	_PPS_Mapping_NoLock
 ;Main.c,55 :: 		PPS_Mapping_NoLock(25, _OUTPUT, _OC1);    // RP25 -> PWM1
 	MOV.B	#18, W12

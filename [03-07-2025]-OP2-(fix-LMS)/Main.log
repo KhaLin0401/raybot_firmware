@@ -83,11 +83,11 @@ diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 22	123	Compiled Successfully	Lms.c
 diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 181	123	Compiled Successfully	Box.c
-diagnostics: 0	127	All files Compiled in 2843 ms	 
+diagnostics: 0	127	All files Compiled in 1672 ms	 
 hint: 0	1144	Used RX (bytes): 32 (100%)   Free RX (bytes): 0 (0%)	Used RX (bytes): 32 (100%)   Free RX (bytes): 0 (0%)
 hint: 0	1144	Static RAM (bytes): 5705   Dynamic RAM (bytes): 2486	Static RAM (bytes): 5705   Dynamic RAM (bytes): 2486
 hint: 0	1144	Used ROM (bytes): 27125 (62%)  Free ROM (bytes): 16903 (38%)	Used ROM (bytes): 27125 (62%)  Free ROM (bytes): 16903 (38%)
 diagnostics: 0	125	Project Linked Successfully	Main.mcpds
-diagnostics: 0	128	Linked in 313 ms	 
-diagnostics: 0	129	Project 'Main.mcpds' completed: 3250 ms	 
-diagnostics: 0	103	Finished successfully: 16 Jul 2025, 19:55:12	Main.mcpds
+diagnostics: 0	128	Linked in 234 ms	 
+diagnostics: 0	129	Project 'Main.mcpds' completed: 1984 ms	 
+diagnostics: 0	103	Finished successfully: 18 Jul 2025, 18:26:05	Main.mcpds
