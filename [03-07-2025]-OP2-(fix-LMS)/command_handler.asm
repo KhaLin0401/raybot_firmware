@@ -11,38 +11,38 @@ command_handler_strip_newline:
 L_command_handler_strip_newline0:
 ; len start address is: 4 (W2)
 	CP	W2, #0
-	BRA GT	L_command_handler_strip_newline157
-	GOTO	L_command_handler_strip_newline113
-L_command_handler_strip_newline157:
+	BRA GT	L_command_handler_strip_newline146
+	GOTO	L_command_handler_strip_newline105
+L_command_handler_strip_newline146:
 	SUB	W2, #1, W0
 	ADD	W10, W0, W0
 	MOV.B	[W0], W0
 	CP.B	W0, #13
-	BRA NZ	L_command_handler_strip_newline158
-	GOTO	L_command_handler_strip_newline112
-L_command_handler_strip_newline158:
+	BRA NZ	L_command_handler_strip_newline147
+	GOTO	L_command_handler_strip_newline104
+L_command_handler_strip_newline147:
 	SUB	W2, #1, W0
 	ADD	W10, W0, W0
 	MOV.B	[W0], W0
 	CP.B	W0, #10
-	BRA NZ	L_command_handler_strip_newline159
-	GOTO	L_command_handler_strip_newline111
-L_command_handler_strip_newline159:
+	BRA NZ	L_command_handler_strip_newline148
+	GOTO	L_command_handler_strip_newline103
+L_command_handler_strip_newline148:
 	SUB	W2, #1, W0
 	ADD	W10, W0, W0
 	MOV.B	[W0], W1
 	MOV.B	#32, W0
 	CP.B	W1, W0
-	BRA NZ	L_command_handler_strip_newline160
-	GOTO	L_command_handler_strip_newline110
-L_command_handler_strip_newline160:
+	BRA NZ	L_command_handler_strip_newline149
+	GOTO	L_command_handler_strip_newline102
+L_command_handler_strip_newline149:
 ; len end address is: 4 (W2)
 	GOTO	L_command_handler_strip_newline1
-L_command_handler_strip_newline112:
+L_command_handler_strip_newline104:
 ; len start address is: 4 (W2)
-L_command_handler_strip_newline111:
-L_command_handler_strip_newline110:
-L_command_handler_strip_newline108:
+L_command_handler_strip_newline103:
+L_command_handler_strip_newline102:
+L_command_handler_strip_newline100:
 ;command_handler.c,45 :: 		str[len - 1] = '\0';
 	SUB	W2, #1, W0
 	ADD	W10, W0, W1
@@ -55,7 +55,7 @@ L_command_handler_strip_newline108:
 	GOTO	L_command_handler_strip_newline0
 L_command_handler_strip_newline1:
 ;command_handler.c,44 :: 		while (len > 0 && (str[len - 1] == '\r' || str[len - 1] == '\n' || str[len - 1] == ' ')) {
-L_command_handler_strip_newline113:
+L_command_handler_strip_newline105:
 ;command_handler.c,48 :: 		}
 L_end_strip_newline:
 	RETURN
@@ -78,38 +78,38 @@ L_command_handler_trim_whitespace6:
 ; len start address is: 8 (W4)
 ; start start address is: 6 (W3)
 	CP	W3, W4
-	BRA LT	L_command_handler_trim_whitespace162
-	GOTO	L_command_handler_trim_whitespace120
-L_command_handler_trim_whitespace162:
+	BRA LT	L_command_handler_trim_whitespace151
+	GOTO	L_command_handler_trim_whitespace112
+L_command_handler_trim_whitespace151:
 	ADD	W10, W3, W0
 	MOV.B	[W0], W1
 	MOV.B	#32, W0
 	CP.B	W1, W0
-	BRA NZ	L_command_handler_trim_whitespace163
-	GOTO	L_command_handler_trim_whitespace119
-L_command_handler_trim_whitespace163:
+	BRA NZ	L_command_handler_trim_whitespace152
+	GOTO	L_command_handler_trim_whitespace111
+L_command_handler_trim_whitespace152:
 	ADD	W10, W3, W0
 	MOV.B	[W0], W0
 	CP.B	W0, #9
-	BRA NZ	L_command_handler_trim_whitespace164
-	GOTO	L_command_handler_trim_whitespace118
-L_command_handler_trim_whitespace164:
+	BRA NZ	L_command_handler_trim_whitespace153
+	GOTO	L_command_handler_trim_whitespace110
+L_command_handler_trim_whitespace153:
 	GOTO	L_command_handler_trim_whitespace7
-L_command_handler_trim_whitespace119:
-L_command_handler_trim_whitespace118:
-L_command_handler_trim_whitespace116:
+L_command_handler_trim_whitespace111:
+L_command_handler_trim_whitespace110:
+L_command_handler_trim_whitespace108:
 ;command_handler.c,56 :: 		start++;
 	INC	W3
 ;command_handler.c,57 :: 		}
 	GOTO	L_command_handler_trim_whitespace6
 L_command_handler_trim_whitespace7:
 ;command_handler.c,55 :: 		while (start < len && (str[start]==' ' || str[start]=='\t')) {
-L_command_handler_trim_whitespace120:
+L_command_handler_trim_whitespace112:
 ;command_handler.c,58 :: 		if (start > 0) {
 	CP	W3, #0
-	BRA GT	L_command_handler_trim_whitespace165
+	BRA GT	L_command_handler_trim_whitespace154
 	GOTO	L_command_handler_trim_whitespace12
-L_command_handler_trim_whitespace165:
+L_command_handler_trim_whitespace154:
 ;command_handler.c,59 :: 		for (i = start; i < len; i++) {
 ; i start address is: 4 (W2)
 	MOV	W3, W2
@@ -121,9 +121,9 @@ L_command_handler_trim_whitespace13:
 ; start start address is: 6 (W3)
 ; len start address is: 8 (W4)
 	CP	W2, W4
-	BRA LT	L_command_handler_trim_whitespace166
+	BRA LT	L_command_handler_trim_whitespace155
 	GOTO	L_command_handler_trim_whitespace14
-L_command_handler_trim_whitespace166:
+L_command_handler_trim_whitespace155:
 ;command_handler.c,60 :: 		str[i - start] = str[i];
 	SUB	W2, W3, W0
 	ADD	W10, W0, W1
@@ -153,30 +153,30 @@ L_command_handler_trim_whitespace12:
 L_command_handler_trim_whitespace16:
 ; len start address is: 4 (W2)
 	CP	W2, #0
-	BRA GT	L_command_handler_trim_whitespace167
-	GOTO	L_command_handler_trim_whitespace123
-L_command_handler_trim_whitespace167:
+	BRA GT	L_command_handler_trim_whitespace156
+	GOTO	L_command_handler_trim_whitespace115
+L_command_handler_trim_whitespace156:
 	SUB	W2, #1, W0
 	ADD	W10, W0, W0
 	MOV.B	[W0], W1
 	MOV.B	#32, W0
 	CP.B	W1, W0
-	BRA NZ	L_command_handler_trim_whitespace168
-	GOTO	L_command_handler_trim_whitespace122
-L_command_handler_trim_whitespace168:
+	BRA NZ	L_command_handler_trim_whitespace157
+	GOTO	L_command_handler_trim_whitespace114
+L_command_handler_trim_whitespace157:
 	SUB	W2, #1, W0
 	ADD	W10, W0, W0
 	MOV.B	[W0], W0
 	CP.B	W0, #9
-	BRA NZ	L_command_handler_trim_whitespace169
-	GOTO	L_command_handler_trim_whitespace121
-L_command_handler_trim_whitespace169:
+	BRA NZ	L_command_handler_trim_whitespace158
+	GOTO	L_command_handler_trim_whitespace113
+L_command_handler_trim_whitespace158:
 ; len end address is: 4 (W2)
 	GOTO	L_command_handler_trim_whitespace17
-L_command_handler_trim_whitespace122:
-; len start address is: 4 (W2)
-L_command_handler_trim_whitespace121:
 L_command_handler_trim_whitespace114:
+; len start address is: 4 (W2)
+L_command_handler_trim_whitespace113:
+L_command_handler_trim_whitespace106:
 ;command_handler.c,67 :: 		str[len - 1] = '\0';
 	SUB	W2, #1, W0
 	ADD	W10, W0, W1
@@ -189,7 +189,7 @@ L_command_handler_trim_whitespace114:
 	GOTO	L_command_handler_trim_whitespace16
 L_command_handler_trim_whitespace17:
 ;command_handler.c,66 :: 		while (len > 0 && (str[len - 1]==' ' || str[len - 1]=='\t')) {
-L_command_handler_trim_whitespace123:
+L_command_handler_trim_whitespace115:
 ;command_handler.c,70 :: 		}
 L_end_trim_whitespace:
 	RETURN
@@ -312,9 +312,9 @@ _CommandHandler_ParseJSON:
 	MOV.B	[W11], W1
 	MOV.B	#62, W0
 	CP.B	W1, W0
-	BRA NZ	L__CommandHandler_ParseJSON174
+	BRA NZ	L__CommandHandler_ParseJSON163
 	GOTO	L_CommandHandler_ParseJSON22
-L__CommandHandler_ParseJSON174:
+L__CommandHandler_ParseJSON163:
 ;command_handler.c,117 :: 		return;
 	GOTO	L_end_CommandHandler_ParseJSON
 L_CommandHandler_ParseJSON22:
@@ -354,9 +354,9 @@ L_CommandHandler_ParseJSON22:
 	CALL	_JSON_GetString
 	POP	W10
 	CP0	W0
-	BRA Z	L__CommandHandler_ParseJSON175
+	BRA Z	L__CommandHandler_ParseJSON164
 	GOTO	L_CommandHandler_ParseJSON23
-L__CommandHandler_ParseJSON175:
+L__CommandHandler_ParseJSON164:
 ;command_handler.c,134 :: 		sprintf(handler->response_buffer, ">{\"id\":\"\",\"error\":\"Invalid JSON: missing id\"}\r\n");
 	MOV	#34, W0
 	ADD	W10, W0, W1
@@ -389,9 +389,9 @@ L_CommandHandler_ParseJSON23:
 	CALL	_JSON_GetInt
 	POP	W10
 	CP0	W0
-	BRA Z	L__CommandHandler_ParseJSON176
+	BRA Z	L__CommandHandler_ParseJSON165
 	GOTO	L_CommandHandler_ParseJSON24
-L__CommandHandler_ParseJSON176:
+L__CommandHandler_ParseJSON165:
 ;command_handler.c,142 :: 		sprintf(handler->response_buffer, ">{\"id\":\"%s\",\"error\":\"Invalid JSON: missing type\"}\r\n", _id);
 	MOV	#132, W2
 	ADD	W14, W2, W2
@@ -420,9 +420,9 @@ L_CommandHandler_ParseJSON24:
 	CALL	_JSON_GetObject
 	POP	W10
 	CP0	W0
-	BRA Z	L__CommandHandler_ParseJSON177
+	BRA Z	L__CommandHandler_ParseJSON166
 	GOTO	L_CommandHandler_ParseJSON25
-L__CommandHandler_ParseJSON177:
+L__CommandHandler_ParseJSON166:
 ;command_handler.c,149 :: 		sprintf(handler->response_buffer, ">{\"id\":\"%s\",\"error\":\"Invalid JSON: missing data\"}\r\n", _id);
 	MOV	#132, W2
 	ADD	W14, W2, W2
@@ -517,24 +517,24 @@ L_CommandHandler_ParseJSON32:
 L_CommandHandler_ParseJSON26:
 	MOV	[W14+164], W0
 	CP	W0, #0
-	BRA NZ	L__CommandHandler_ParseJSON178
+	BRA NZ	L__CommandHandler_ParseJSON167
 	GOTO	L_CommandHandler_ParseJSON28
-L__CommandHandler_ParseJSON178:
+L__CommandHandler_ParseJSON167:
 	MOV	[W14+164], W0
 	CP	W0, #1
-	BRA NZ	L__CommandHandler_ParseJSON179
+	BRA NZ	L__CommandHandler_ParseJSON168
 	GOTO	L_CommandHandler_ParseJSON29
-L__CommandHandler_ParseJSON179:
+L__CommandHandler_ParseJSON168:
 	MOV	[W14+164], W0
 	CP	W0, #2
-	BRA NZ	L__CommandHandler_ParseJSON180
+	BRA NZ	L__CommandHandler_ParseJSON169
 	GOTO	L_CommandHandler_ParseJSON30
-L__CommandHandler_ParseJSON180:
+L__CommandHandler_ParseJSON169:
 	MOV	[W14+164], W0
 	CP	W0, #3
-	BRA NZ	L__CommandHandler_ParseJSON181
+	BRA NZ	L__CommandHandler_ParseJSON170
 	GOTO	L_CommandHandler_ParseJSON31
-L__CommandHandler_ParseJSON181:
+L__CommandHandler_ParseJSON170:
 	GOTO	L_CommandHandler_ParseJSON32
 L_CommandHandler_ParseJSON27:
 ;command_handler.c,182 :: 		}
@@ -556,9 +556,9 @@ _CommandHandler_Execute:
 ;command_handler.c,192 :: 		int i = 0;
 ;command_handler.c,194 :: 		if (handler == NULL) {
 	CP	W10, #0
-	BRA Z	L__CommandHandler_Execute183
+	BRA Z	L__CommandHandler_Execute172
 	GOTO	L_CommandHandler_Execute33
-L__CommandHandler_Execute183:
+L__CommandHandler_Execute172:
 ; found end address is: 8 (W4)
 ;command_handler.c,195 :: 		DEBUG_PRINT("CH DEBUG: Handler pointer is NULL. Exiting.\n");
 	MOV	#lo_addr(?lstr_11_command_handler), W10
@@ -570,9 +570,9 @@ L_CommandHandler_Execute33:
 ;command_handler.c,198 :: 		if (cmd == NULL) {
 ; found start address is: 8 (W4)
 	CP	W11, #0
-	BRA Z	L__CommandHandler_Execute184
+	BRA Z	L__CommandHandler_Execute173
 	GOTO	L_CommandHandler_Execute34
-L__CommandHandler_Execute184:
+L__CommandHandler_Execute173:
 ; found end address is: 8 (W4)
 ;command_handler.c,199 :: 		DEBUG_PRINT("CH DEBUG: Command string is NULL. Exiting.\n");
 	MOV	#lo_addr(?lstr_12_command_handler), W10
@@ -588,9 +588,9 @@ L_CommandHandler_Execute34:
 	MOV.B	[W11], W1
 	MOV.B	#62, W0
 	CP.B	W1, W0
-	BRA Z	L__CommandHandler_Execute185
+	BRA Z	L__CommandHandler_Execute174
 	GOTO	L_CommandHandler_Execute35
-L__CommandHandler_Execute185:
+L__CommandHandler_Execute174:
 ; found end address is: 8 (W4)
 ;command_handler.c,216 :: 		CommandHandler_ParseJSON(handler, cmd);
 	PUSH	W10
@@ -607,9 +607,9 @@ L_CommandHandler_Execute35:
 	CALL	_strcpy
 ;command_handler.c,229 :: 		if (!found) {
 	CP0	W4
-	BRA Z	L__CommandHandler_Execute186
+	BRA Z	L__CommandHandler_Execute175
 	GOTO	L_CommandHandler_Execute37
-L__CommandHandler_Execute186:
+L__CommandHandler_Execute175:
 ; found end address is: 8 (W4)
 ;command_handler.c,231 :: 		handle_unknown_command(handler);
 	PUSH	W10
@@ -629,62 +629,64 @@ _handle_get_bat_info:
 	LNK	#14
 
 ;command_handler.c,244 :: 		void handle_get_bat_info(CommandHandler *handler) {
-;command_handler.c,249 :: 		(int)bms.get.packSOC, (int)bms.errorCounter, (int) 90, (int)1);
-	MOV	_bms+404, W0
+;command_handler.c,249 :: 		(int)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
+	MOV	__bmsData+196, W0
 	MOV	W0, [W14+12]
 	PUSH	W10
-	MOV	_bms+82, W0
-	MOV	_bms+84, W1
+	MOV	__bmsData+8, W0
+	MOV	__bmsData+10, W1
 	CALL	__Float2Longint
 	MOV	W0, [W14+10]
-;command_handler.c,248 :: 		(int)bms.get.cellVmV[0], (int)bms.get.cellVmV[1], (int)bms.get.cellVmV[2], bms.get.cellVmV[3],
-	MOV	_bms+136, W0
-	MOV	_bms+138, W1
+;command_handler.c,248 :: 		(int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1], (int)_bmsData._cellVoltages[2], 0,
+	MOV	__bmsData+28, W0
+	MOV	__bmsData+30, W1
 	CALL	__Float2Longint
 	MOV	W0, [W14+8]
-	MOV	_bms+132, W0
-	MOV	_bms+134, W1
+	MOV	__bmsData+24, W0
+	MOV	__bmsData+26, W1
 	CALL	__Float2Longint
 	MOV	W0, [W14+6]
-	MOV	_bms+128, W0
-	MOV	_bms+130, W1
+	MOV	__bmsData+20, W0
+	MOV	__bmsData+22, W1
 	CALL	__Float2Longint
 	MOV	W0, [W14+4]
-;command_handler.c,247 :: 		(int)bms.get.packCurrent,(int) bms.get.tempAverage, (int)bms.get.packVoltage,
-	MOV	_bms+74, W0
-	MOV	_bms+76, W1
+;command_handler.c,247 :: 		(int)_bmsData._sumCurrent,(int) _bmsData._temperature, (int)_bmsData._sumVoltage,
+	MOV	__bmsData, W0
+	MOV	__bmsData+2, W1
 	CALL	__Float2Longint
 	MOV	W0, [W14+2]
-	MOV	_bms+100, W0
+	MOV	__bmsData+84, W0
+	MOV	__bmsData+86, W1
+	CALL	__Float2Longint
 	MOV	W0, [W14+0]
-	MOV	_bms+78, W0
-	MOV	_bms+80, W1
+	MOV	__bmsData+4, W0
+	MOV	__bmsData+6, W1
 	CALL	__Float2Longint
 	POP	W10
 ;command_handler.c,245 :: 		sprintf(handler->response_buffer,
 	MOV	#34, W1
-	ADD	W10, W1, W9
-;command_handler.c,249 :: 		(int)bms.get.packSOC, (int)bms.errorCounter, (int) 90, (int)1);
+	ADD	W10, W1, W7
+;command_handler.c,249 :: 		(int)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
 	MOV	#1, W1
 	PUSH	W1
-	MOV	#90, W8
-	MOV	[W14+12], W7
-	MOV	[W14+10], W6
+	MOV	#1, W3
+	MOV	[W14+12], W2
+	MOV	[W14+10], W1
+	PUSH	W3
+	PUSH	W2
+	PUSH	W1
+;command_handler.c,248 :: 		(int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1], (int)_bmsData._cellVoltages[2], 0,
+	CLR	W6
 	MOV	[W14+8], W5
 	MOV	[W14+6], W4
 	MOV	[W14+4], W3
 	MOV	[W14+2], W2
 	MOV	[W14+0], W1
-	PUSH	W8
-	PUSH	W7
 	PUSH	W6
-;command_handler.c,248 :: 		(int)bms.get.cellVmV[0], (int)bms.get.cellVmV[1], (int)bms.get.cellVmV[2], bms.get.cellVmV[3],
-	PUSH	_bms+140
-	PUSH	_bms+142
 	PUSH	W5
 	PUSH	W4
 	PUSH	W3
-;command_handler.c,247 :: 		(int)bms.get.packCurrent,(int) bms.get.tempAverage, (int)bms.get.packVoltage,
+;command_handler.c,247 :: 		(int)_bmsData._sumCurrent,(int) _bmsData._temperature, (int)_bmsData._sumVoltage,
 	PUSH	W2
 	PUSH	W1
 	PUSH	W0
@@ -692,10 +694,10 @@ _handle_get_bat_info:
 	MOV	#lo_addr(?lstr_13_command_handler), W0
 	PUSH	W0
 ;command_handler.c,245 :: 		sprintf(handler->response_buffer,
-	PUSH	W9
-;command_handler.c,249 :: 		(int)bms.get.packSOC, (int)bms.errorCounter, (int) 90, (int)1);
+	PUSH	W7
+;command_handler.c,249 :: 		(int)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
 	CALL	_sprintf
-	SUB	#28, W15
+	SUB	#26, W15
 ;command_handler.c,250 :: 		}
 L_end_handle_get_bat_info:
 	ULNK
@@ -705,22 +707,23 @@ L_end_handle_get_bat_info:
 _handle_get_chg_info:
 
 ;command_handler.c,278 :: 		void handle_get_chg_info(CommandHandler *handler){
-;command_handler.c,281 :: 		(int) 1, (int) bms.get.chargeFetState);
-	MOV	#lo_addr(_bms+104), W0
+;command_handler.c,281 :: 		(int) _bmsData._charge_current_limit, (int) _bmsData._chargeMOS);
+	MOV	#lo_addr(__bmsData+190), W0
+	ZE	[W0], W3
+	MOV	#lo_addr(__bmsData+240), W0
 	ZE	[W0], W2
 ;command_handler.c,279 :: 		sprintf(handler->response_buffer,
 	MOV	#34, W0
 	ADD	W10, W0, W1
-;command_handler.c,281 :: 		(int) 1, (int) bms.get.chargeFetState);
+;command_handler.c,281 :: 		(int) _bmsData._charge_current_limit, (int) _bmsData._chargeMOS);
+	PUSH	W3
 	PUSH	W2
-	MOV	#1, W0
-	PUSH	W0
 ;command_handler.c,280 :: 		">{\"type\":0,\"state_type\":1,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
 	MOV	#lo_addr(?lstr_14_command_handler), W0
 	PUSH	W0
 ;command_handler.c,279 :: 		sprintf(handler->response_buffer,
 	PUSH	W1
-;command_handler.c,281 :: 		(int) 1, (int) bms.get.chargeFetState);
+;command_handler.c,281 :: 		(int) _bmsData._charge_current_limit, (int) _bmsData._chargeMOS);
 	CALL	_sprintf
 	SUB	#8, W15
 ;command_handler.c,282 :: 		}
@@ -803,19 +806,23 @@ L_end_handle_set_chg_en:
 _handle_get_dis_info:
 
 ;command_handler.c,295 :: 		void handle_get_dis_info(CommandHandler *handler){
+;command_handler.c,298 :: 		(int) _bmsData._discharge_current_limit, (int) _bmsData._dischargeMOS);
+	MOV	#lo_addr(__bmsData+191), W0
+	ZE	[W0], W3
+	MOV	#lo_addr(__bmsData+241), W0
+	ZE	[W0], W2
 ;command_handler.c,296 :: 		sprintf(handler->response_buffer,
 	MOV	#34, W0
 	ADD	W10, W0, W1
-;command_handler.c,298 :: 		(int) 1, (int) bms.get.chargeDischargeStatus);
-	PUSH	_bms+102
-	MOV	#1, W0
-	PUSH	W0
+;command_handler.c,298 :: 		(int) _bmsData._discharge_current_limit, (int) _bmsData._dischargeMOS);
+	PUSH	W3
+	PUSH	W2
 ;command_handler.c,297 :: 		">{\"type\":0,\"state_type\":2,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
 	MOV	#lo_addr(?lstr_19_command_handler), W0
 	PUSH	W0
 ;command_handler.c,296 :: 		sprintf(handler->response_buffer,
 	PUSH	W1
-;command_handler.c,298 :: 		(int) 1, (int) bms.get.chargeDischargeStatus);
+;command_handler.c,298 :: 		(int) _bmsData._discharge_current_limit, (int) _bmsData._dischargeMOS);
 	CALL	_sprintf
 	SUB	#8, W15
 ;command_handler.c,299 :: 		}
@@ -1097,20 +1104,20 @@ _handle_get_lifter_info:
 	CALL	__Compare_Ge_Fp
 	CP0	W0
 	CLR.B	W0
-	BRA LE	L__handle_get_lifter_info209
+	BRA LE	L__handle_get_lifter_info198
 	INC.B	W0
-L__handle_get_lifter_info209:
+L__handle_get_lifter_info198:
 	POP	W10
 	CP0.B	W0
-	BRA NZ	L__handle_get_lifter_info210
-	GOTO	L__handle_get_lifter_info149
-L__handle_get_lifter_info210:
+	BRA NZ	L__handle_get_lifter_info199
+	GOTO	L__handle_get_lifter_info138
+L__handle_get_lifter_info199:
 	MOV	_lifter+58, W0
 	CP	W0, #1
-	BRA Z	L__handle_get_lifter_info211
-	GOTO	L__handle_get_lifter_info148
-L__handle_get_lifter_info211:
-L__handle_get_lifter_info147:
+	BRA Z	L__handle_get_lifter_info200
+	GOTO	L__handle_get_lifter_info137
+L__handle_get_lifter_info200:
+L__handle_get_lifter_info136:
 ;command_handler.c,356 :: 		(int)lifter._currentPosition,(int) lifter._targetPosition, 1 ,lifter._status);
 	PUSH	W10
 	MOV	_lifter+12, W0
@@ -1142,14 +1149,14 @@ L__handle_get_lifter_info147:
 ;command_handler.c,357 :: 		}
 	GOTO	L_handle_get_lifter_info41
 ;command_handler.c,353 :: 		if(lifter._output > 0 && lifter._status == 1){
-L__handle_get_lifter_info149:
-L__handle_get_lifter_info148:
+L__handle_get_lifter_info138:
+L__handle_get_lifter_info137:
 ;command_handler.c,358 :: 		else if(lifter._status == 0) {
 	MOV	_lifter+58, W0
 	CP	W0, #0
-	BRA Z	L__handle_get_lifter_info212
+	BRA Z	L__handle_get_lifter_info201
 	GOTO	L_handle_get_lifter_info42
-L__handle_get_lifter_info212:
+L__handle_get_lifter_info201:
 ;command_handler.c,361 :: 		(int)lifter._currentPosition, (int)lifter._targetPosition, 0 ,lifter._status);
 	PUSH	W10
 	MOV	_lifter+12, W0
@@ -1348,9 +1355,9 @@ _handle_get_motor_info:
 	CALL	__MotorDC_GetStatus
 	POP	W10
 	CP.B	W0, #0
-	BRA Z	L__handle_get_motor_info221
+	BRA Z	L__handle_get_motor_info210
 	GOTO	L_handle_get_motor_info44
-L__handle_get_motor_info221:
+L__handle_get_motor_info210:
 ;command_handler.c,408 :: 		_MotorDC_GetDirection(&motorDC),(int)_MotorDC_GetCurrentSpeed(&motorDC), 0 ,_MotorDC_GetStatus(&motorDC));
 	PUSH	W10
 	MOV	#lo_addr(_motorDC), W10
@@ -1393,19 +1400,19 @@ L_handle_get_motor_info44:
 	CALL	__MotorDC_GetStatus
 	POP	W10
 	CP.B	W0, #1
-	BRA Z	L__handle_get_motor_info222
-	GOTO	L__handle_get_motor_info152
-L__handle_get_motor_info222:
+	BRA Z	L__handle_get_motor_info211
+	GOTO	L__handle_get_motor_info141
+L__handle_get_motor_info211:
 	PUSH	W10
 	MOV	#lo_addr(_motorDC), W10
 	CALL	__MotorDC_GetCurrentSpeed
 	CALL	__Float2Longint
 	POP	W10
 	CP	W0, #10
-	BRA LT	L__handle_get_motor_info223
-	GOTO	L__handle_get_motor_info151
-L__handle_get_motor_info223:
-L__handle_get_motor_info150:
+	BRA LT	L__handle_get_motor_info212
+	GOTO	L__handle_get_motor_info140
+L__handle_get_motor_info212:
+L__handle_get_motor_info139:
 ;command_handler.c,413 :: 		_MotorDC_GetDirection(&motorDC),(int)_MotorDC_GetCurrentSpeed(&motorDC), 0 ,_MotorDC_GetStatus(&motorDC));
 	PUSH	W10
 	MOV	#lo_addr(_motorDC), W10
@@ -1442,8 +1449,8 @@ L__handle_get_motor_info150:
 ;command_handler.c,414 :: 		}
 	GOTO	L_handle_get_motor_info49
 ;command_handler.c,410 :: 		else if (_MotorDC_GetStatus(&motorDC) == 1 && (int)_MotorDC_GetCurrentSpeed(&motorDC) < 10){
-L__handle_get_motor_info152:
-L__handle_get_motor_info151:
+L__handle_get_motor_info141:
+L__handle_get_motor_info140:
 ;command_handler.c,418 :: 		_MotorDC_GetDirection(&motorDC),(int)_MotorDC_GetCurrentSpeed(&motorDC), 1 ,_MotorDC_GetStatus(&motorDC));
 	PUSH	W10
 	MOV	#lo_addr(_motorDC), W10
@@ -1517,19 +1524,19 @@ _handle_set_motor_dir:
 	ADD	W10, W0, W0
 	MOV	[W0], W0
 	CP	W0, #0
-	BRA NZ	L__handle_set_motor_dir226
-	GOTO	L__handle_set_motor_dir155
-L__handle_set_motor_dir226:
+	BRA NZ	L__handle_set_motor_dir215
+	GOTO	L__handle_set_motor_dir144
+L__handle_set_motor_dir215:
 	MOV	#32, W0
 	ADD	W10, W0, W0
 	MOV	[W0], W0
 	CP	W0, #1
-	BRA NZ	L__handle_set_motor_dir227
-	GOTO	L__handle_set_motor_dir154
-L__handle_set_motor_dir227:
+	BRA NZ	L__handle_set_motor_dir216
+	GOTO	L__handle_set_motor_dir143
+L__handle_set_motor_dir216:
 	GOTO	L_handle_set_motor_dir52
-L__handle_set_motor_dir155:
-L__handle_set_motor_dir154:
+L__handle_set_motor_dir144:
+L__handle_set_motor_dir143:
 ;command_handler.c,429 :: 		_MotorDC_SetDirection(&motorDC, (MotorDirection)handler->command_value);
 	MOV	#32, W0
 	ADD	W10, W0, W0
@@ -1936,9 +1943,9 @@ _handle_set_update_status:
 	ADD	W10, W0, W0
 	MOV	[W0], W0
 	CP	W0, #1
-	BRA Z	L__handle_set_update_status247
+	BRA Z	L__handle_set_update_status236
 	GOTO	L_handle_set_update_status54
-L__handle_set_update_status247:
+L__handle_set_update_status236:
 ;command_handler.c,523 :: 		task_resume(_task_update_to_server);
 	MOV	#lo_addr(__task_update_to_server), W0
 	PUSH	W10
@@ -1960,9 +1967,9 @@ L_handle_set_update_status54:
 	ADD	W10, W0, W0
 	MOV	[W0], W0
 	CP	W0, #0
-	BRA Z	L__handle_set_update_status248
+	BRA Z	L__handle_set_update_status237
 	GOTO	L_handle_set_update_status56
-L__handle_set_update_status248:
+L__handle_set_update_status237:
 ;command_handler.c,526 :: 		task_stop(_task_update_to_server);
 	MOV	#lo_addr(__task_update_to_server), W0
 	PUSH	W10
@@ -2002,9 +2009,9 @@ _handle_charge_config:
 	POP	W12
 ;command_handler.c,534 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
 	CP0	W0
-	BRA NZ	L__handle_charge_config250
-	GOTO	L__handle_charge_config126
-L__handle_charge_config250:
+	BRA NZ	L__handle_charge_config239
+	GOTO	L__handle_charge_config118
+L__handle_charge_config239:
 	ADD	W14, #2, W0
 	PUSH	W12
 	PUSH	W10
@@ -2015,43 +2022,37 @@ L__handle_charge_config250:
 	POP	W10
 	POP	W12
 	CP0	W0
-	BRA NZ	L__handle_charge_config251
-	GOTO	L__handle_charge_config125
-L__handle_charge_config251:
-L__handle_charge_config124:
+	BRA NZ	L__handle_charge_config240
+	GOTO	L__handle_charge_config117
+L__handle_charge_config240:
+L__handle_charge_config116:
 ;command_handler.c,536 :: 		if (enable == 0)
 	MOV	[W14+2], W0
 	CP	W0, #0
-	BRA Z	L__handle_charge_config252
+	BRA Z	L__handle_charge_config241
 	GOTO	L_handle_charge_config60
-L__handle_charge_config252:
-;command_handler.c,537 :: 		DalyBms_setChargeMOS(&bms, 0);
-	PUSH	W12
-	PUSH	W10
-	CLR	W11
-	MOV	#lo_addr(_bms), W10
-	CALL	_DalyBms_setChargeMOS
-	POP	W10
-	POP	W12
+L__handle_charge_config241:
+;command_handler.c,538 :: 		LATB4_bit = 0;
+	BCLR	LATB4_bit, BitPos(LATB4_bit+0)
+;command_handler.c,539 :: 		LATA8_bit = 0;
+	BCLR	LATA8_bit, BitPos(LATA8_bit+0)
+;command_handler.c,540 :: 		}
 	GOTO	L_handle_charge_config61
 L_handle_charge_config60:
-;command_handler.c,538 :: 		else if (enable == 1)
+;command_handler.c,541 :: 		else if (enable == 1)
 	MOV	[W14+2], W0
 	CP	W0, #1
-	BRA Z	L__handle_charge_config253
+	BRA Z	L__handle_charge_config242
 	GOTO	L_handle_charge_config62
-L__handle_charge_config253:
-;command_handler.c,539 :: 		DalyBms_setChargeMOS(&bms, 1);
-	PUSH	W12
-	PUSH	W10
-	MOV.B	#1, W11
-	MOV	#lo_addr(_bms), W10
-	CALL	_DalyBms_setChargeMOS
-	POP	W10
-	POP	W12
+L__handle_charge_config242:
+;command_handler.c,543 :: 		LATB4_bit = 1;
+	BSET	LATB4_bit, BitPos(LATB4_bit+0)
+;command_handler.c,544 :: 		LATA8_bit = 1;
+	BSET	LATA8_bit, BitPos(LATA8_bit+0)
+;command_handler.c,545 :: 		}
 	GOTO	L_handle_charge_config63
 L_handle_charge_config62:
-;command_handler.c,541 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+;command_handler.c,548 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
@@ -2060,12 +2061,12 @@ L_handle_charge_config62:
 	PUSH	W1
 	CALL	_sprintf
 	SUB	#6, W15
-;command_handler.c,542 :: 		return;
+;command_handler.c,549 :: 		return;
 	GOTO	L_end_handle_charge_config
-;command_handler.c,543 :: 		}
+;command_handler.c,550 :: 		}
 L_handle_charge_config63:
 L_handle_charge_config61:
-;command_handler.c,544 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
+;command_handler.c,551 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
@@ -2074,12 +2075,12 @@ L_handle_charge_config61:
 	PUSH	W1
 	CALL	_sprintf
 	SUB	#6, W15
-;command_handler.c,545 :: 		} else {
+;command_handler.c,552 :: 		} else {
 	GOTO	L_handle_charge_config64
 ;command_handler.c,534 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
-L__handle_charge_config126:
-L__handle_charge_config125:
-;command_handler.c,546 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+L__handle_charge_config118:
+L__handle_charge_config117:
+;command_handler.c,553 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
@@ -2088,9 +2089,9 @@ L__handle_charge_config125:
 	PUSH	W1
 	CALL	_sprintf
 	SUB	#6, W15
-;command_handler.c,547 :: 		}
+;command_handler.c,554 :: 		}
 L_handle_charge_config64:
-;command_handler.c,548 :: 		}
+;command_handler.c,555 :: 		}
 L_end_handle_charge_config:
 	POP	W11
 	ULNK
@@ -2098,10 +2099,19 @@ L_end_handle_charge_config:
 ; end of _handle_charge_config
 
 _handle_discharge_config:
-	LNK	#4
 
-;command_handler.c,551 :: 		void handle_discharge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
-;command_handler.c,553 :: 		if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
+;command_handler.c,558 :: 		void handle_discharge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
+;command_handler.c,575 :: 		}
+L_end_handle_discharge_config:
+	RETURN
+; end of _handle_discharge_config
+
+_handle_lifter_config:
+	LNK	#6
+
+;command_handler.c,577 :: 		void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
+;command_handler.c,580 :: 		if (JSON_GetInt(dataParser, "target_position", &target_position) &&
+	PUSH	W10
 	PUSH	W11
 	ADD	W14, #0, W0
 	PUSH	W12
@@ -2112,153 +2122,40 @@ _handle_discharge_config:
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
-;command_handler.c,554 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
+;command_handler.c,581 :: 		JSON_GetInt(dataParser, "max_output", &max_output) &&
 	CP0	W0
-	BRA NZ	L__handle_discharge_config255
-	GOTO	L__handle_discharge_config129
-L__handle_discharge_config255:
-	ADD	W14, #2, W0
-	PUSH	W12
-	PUSH	W10
-	MOV	W0, W12
-	MOV	W11, W10
-	MOV	#lo_addr(?lstr_77_command_handler), W11
-	CALL	_JSON_GetInt
-	POP	W10
-	POP	W12
-	CP0	W0
-	BRA NZ	L__handle_discharge_config256
-	GOTO	L__handle_discharge_config128
-L__handle_discharge_config256:
-L__handle_discharge_config127:
-;command_handler.c,556 :: 		if (enable == 0)
-	MOV	[W14+2], W0
-	CP	W0, #0
-	BRA Z	L__handle_discharge_config257
-	GOTO	L_handle_discharge_config68
-L__handle_discharge_config257:
-;command_handler.c,557 :: 		DalyBms_setDischargeMOS(&bms, 0);
-	PUSH	W12
-	PUSH	W10
-	CLR	W11
-	MOV	#lo_addr(_bms), W10
-	CALL	_DalyBms_setDischargeMOS
-	POP	W10
-	POP	W12
-	GOTO	L_handle_discharge_config69
-L_handle_discharge_config68:
-;command_handler.c,558 :: 		else if (enable == 1)
-	MOV	[W14+2], W0
-	CP	W0, #1
-	BRA Z	L__handle_discharge_config258
-	GOTO	L_handle_discharge_config70
-L__handle_discharge_config258:
-;command_handler.c,559 :: 		DalyBms_setDischargeMOS(&bms, 1);
-	PUSH	W12
-	PUSH	W10
-	MOV.B	#1, W11
-	MOV	#lo_addr(_bms), W10
-	CALL	_DalyBms_setDischargeMOS
-	POP	W10
-	POP	W12
-	GOTO	L_handle_discharge_config71
-L_handle_discharge_config70:
-;command_handler.c,561 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
-	MOV	#34, W0
-	ADD	W10, W0, W1
-	PUSH	W12
-	MOV	#lo_addr(?lstr_78_command_handler), W0
-	PUSH	W0
-	PUSH	W1
-	CALL	_sprintf
-	SUB	#6, W15
-;command_handler.c,562 :: 		return;
-	GOTO	L_end_handle_discharge_config
-;command_handler.c,563 :: 		}
-L_handle_discharge_config71:
-L_handle_discharge_config69:
-;command_handler.c,564 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
-	MOV	#34, W0
-	ADD	W10, W0, W1
-	PUSH	W12
-	MOV	#lo_addr(?lstr_79_command_handler), W0
-	PUSH	W0
-	PUSH	W1
-	CALL	_sprintf
-	SUB	#6, W15
-;command_handler.c,565 :: 		} else {
-	GOTO	L_handle_discharge_config72
-;command_handler.c,554 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
-L__handle_discharge_config129:
-L__handle_discharge_config128:
-;command_handler.c,566 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
-	MOV	#34, W0
-	ADD	W10, W0, W1
-	PUSH	W12
-	MOV	#lo_addr(?lstr_80_command_handler), W0
-	PUSH	W0
-	PUSH	W1
-	CALL	_sprintf
-	SUB	#6, W15
-;command_handler.c,567 :: 		}
-L_handle_discharge_config72:
-;command_handler.c,568 :: 		}
-L_end_handle_discharge_config:
-	POP	W11
-	ULNK
-	RETURN
-; end of _handle_discharge_config
-
-_handle_lifter_config:
-	LNK	#6
-
-;command_handler.c,570 :: 		void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
-;command_handler.c,573 :: 		if (JSON_GetInt(dataParser, "target_position", &target_position) &&
-	PUSH	W10
-	PUSH	W11
-	ADD	W14, #0, W0
-	PUSH	W12
-	PUSH.D	W10
-	MOV	W0, W12
-	MOV	W11, W10
-	MOV	#lo_addr(?lstr_81_command_handler), W11
-	CALL	_JSON_GetInt
-	POP.D	W10
-	POP	W12
-;command_handler.c,574 :: 		JSON_GetInt(dataParser, "max_output", &max_output) &&
-	CP0	W0
-	BRA NZ	L__handle_lifter_config260
-	GOTO	L__handle_lifter_config137
-L__handle_lifter_config260:
+	BRA NZ	L__handle_lifter_config245
+	GOTO	L__handle_lifter_config126
+L__handle_lifter_config245:
 	ADD	W14, #4, W0
 	PUSH	W12
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_82_command_handler), W11
+	MOV	#lo_addr(?lstr_77_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
 	CP0	W0
-	BRA NZ	L__handle_lifter_config261
-	GOTO	L__handle_lifter_config136
-L__handle_lifter_config261:
-;command_handler.c,575 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
+	BRA NZ	L__handle_lifter_config246
+	GOTO	L__handle_lifter_config125
+L__handle_lifter_config246:
+;command_handler.c,582 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
 	ADD	W14, #2, W0
 	PUSH	W12
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_83_command_handler), W11
+	MOV	#lo_addr(?lstr_78_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
 	CP0	W0
-	BRA NZ	L__handle_lifter_config262
-	GOTO	L__handle_lifter_config135
-L__handle_lifter_config262:
-L__handle_lifter_config132:
-;command_handler.c,580 :: 		_Lifter_SetTargetPosition(&lifter, target_position);
+	BRA NZ	L__handle_lifter_config247
+	GOTO	L__handle_lifter_config124
+L__handle_lifter_config247:
+L__handle_lifter_config121:
+;command_handler.c,587 :: 		_Lifter_SetTargetPosition(&lifter, target_position);
 	PUSH	W12
 	PUSH	W10
 	MOV	[W14+0], W0
@@ -2271,37 +2168,37 @@ L__handle_lifter_config132:
 	CALL	__Lifter_SetTargetPosition
 	POP	W10
 	POP	W12
-;command_handler.c,581 :: 		if (max_output > 100 || max_output < 0)
+;command_handler.c,588 :: 		if (max_output > 100 || max_output < 0)
 	MOV	#100, W1
 	ADD	W14, #4, W0
 	CP	W1, [W0]
-	BRA GE	L__handle_lifter_config263
-	GOTO	L__handle_lifter_config134
-L__handle_lifter_config263:
+	BRA GE	L__handle_lifter_config248
+	GOTO	L__handle_lifter_config123
+L__handle_lifter_config248:
 	MOV	[W14+4], W0
 	CP	W0, #0
-	BRA GE	L__handle_lifter_config264
-	GOTO	L__handle_lifter_config133
-L__handle_lifter_config264:
-	GOTO	L_handle_lifter_config78
-L__handle_lifter_config134:
-L__handle_lifter_config133:
-;command_handler.c,582 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+	BRA GE	L__handle_lifter_config249
+	GOTO	L__handle_lifter_config122
+L__handle_lifter_config249:
+	GOTO	L_handle_lifter_config70
+L__handle_lifter_config123:
+L__handle_lifter_config122:
+;command_handler.c,589 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
 	PUSH	W10
 	PUSH	W12
-	MOV	#lo_addr(?lstr_84_command_handler), W0
+	MOV	#lo_addr(?lstr_79_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
 	SUB	#6, W15
 	POP	W10
 	POP	W12
-	GOTO	L_handle_lifter_config79
-L_handle_lifter_config78:
-;command_handler.c,584 :: 		_Lifter_Set_maxOutput(&lifter, max_output);
+	GOTO	L_handle_lifter_config71
+L_handle_lifter_config70:
+;command_handler.c,591 :: 		_Lifter_Set_maxOutput(&lifter, max_output);
 	PUSH	W12
 	PUSH	W10
 	MOV	[W14+4], W0
@@ -2314,101 +2211,101 @@ L_handle_lifter_config78:
 	CALL	__Lifter_Set_maxOutput
 	POP	W10
 	POP	W12
-;command_handler.c,585 :: 		}
-L_handle_lifter_config79:
-;command_handler.c,586 :: 		if (enable == 0)
+;command_handler.c,592 :: 		}
+L_handle_lifter_config71:
+;command_handler.c,593 :: 		if (enable == 0)
 	MOV	[W14+2], W0
 	CP	W0, #0
-	BRA Z	L__handle_lifter_config265
-	GOTO	L_handle_lifter_config80
-L__handle_lifter_config265:
-;command_handler.c,587 :: 		_Lifter_Disable(&lifter);
+	BRA Z	L__handle_lifter_config250
+	GOTO	L_handle_lifter_config72
+L__handle_lifter_config250:
+;command_handler.c,594 :: 		_Lifter_Disable(&lifter);
 	PUSH	W12
 	PUSH	W10
 	MOV	#lo_addr(_lifter), W10
 	CALL	__Lifter_Disable
 	POP	W10
 	POP	W12
-	GOTO	L_handle_lifter_config81
-L_handle_lifter_config80:
-;command_handler.c,588 :: 		else if (enable == 1)
+	GOTO	L_handle_lifter_config73
+L_handle_lifter_config72:
+;command_handler.c,595 :: 		else if (enable == 1)
 	MOV	[W14+2], W0
 	CP	W0, #1
-	BRA Z	L__handle_lifter_config266
-	GOTO	L_handle_lifter_config82
-L__handle_lifter_config266:
-;command_handler.c,589 :: 		_Lifter_Enable(&lifter);
+	BRA Z	L__handle_lifter_config251
+	GOTO	L_handle_lifter_config74
+L__handle_lifter_config251:
+;command_handler.c,596 :: 		_Lifter_Enable(&lifter);
 	PUSH	W12
 	PUSH	W10
 	MOV	#lo_addr(_lifter), W10
 	CALL	__Lifter_Enable
 	POP	W10
 	POP	W12
-	GOTO	L_handle_lifter_config83
-L_handle_lifter_config82:
-;command_handler.c,591 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+	GOTO	L_handle_lifter_config75
+L_handle_lifter_config74:
+;command_handler.c,598 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_85_command_handler), W0
+	MOV	#lo_addr(?lstr_80_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
 	SUB	#6, W15
-;command_handler.c,592 :: 		_Lifter_Disable(&lifter);
+;command_handler.c,599 :: 		_Lifter_Disable(&lifter);
 	MOV	#lo_addr(_lifter), W10
 	CALL	__Lifter_Disable
-;command_handler.c,593 :: 		return;
+;command_handler.c,600 :: 		return;
 	GOTO	L_end_handle_lifter_config
-;command_handler.c,594 :: 		}
-L_handle_lifter_config83:
-L_handle_lifter_config81:
-;command_handler.c,595 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
+;command_handler.c,601 :: 		}
+L_handle_lifter_config75:
+L_handle_lifter_config73:
+;command_handler.c,602 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_86_command_handler), W0
+	MOV	#lo_addr(?lstr_81_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
 	SUB	#6, W15
-;command_handler.c,596 :: 		}
-	GOTO	L_handle_lifter_config84
-;command_handler.c,574 :: 		JSON_GetInt(dataParser, "max_output", &max_output) &&
-L__handle_lifter_config137:
-L__handle_lifter_config136:
-;command_handler.c,575 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
-L__handle_lifter_config135:
-;command_handler.c,597 :: 		else if (JSON_GetInt(dataParser, "target_position", &target_position) &&
+;command_handler.c,603 :: 		}
+	GOTO	L_handle_lifter_config76
+;command_handler.c,581 :: 		JSON_GetInt(dataParser, "max_output", &max_output) &&
+L__handle_lifter_config126:
+L__handle_lifter_config125:
+;command_handler.c,582 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
+L__handle_lifter_config124:
+;command_handler.c,604 :: 		else if (JSON_GetInt(dataParser, "target_position", &target_position) &&
 	ADD	W14, #0, W0
 	PUSH	W12
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_87_command_handler), W11
+	MOV	#lo_addr(?lstr_82_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
-;command_handler.c,598 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
+;command_handler.c,605 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
 	CP0	W0
-	BRA NZ	L__handle_lifter_config267
-	GOTO	L__handle_lifter_config139
-L__handle_lifter_config267:
+	BRA NZ	L__handle_lifter_config252
+	GOTO	L__handle_lifter_config128
+L__handle_lifter_config252:
 	ADD	W14, #2, W0
 	PUSH	W12
 	PUSH	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_88_command_handler), W11
+	MOV	#lo_addr(?lstr_83_command_handler), W11
 	CALL	_JSON_GetInt
 	POP	W10
 	POP	W12
 	CP0	W0
-	BRA NZ	L__handle_lifter_config268
-	GOTO	L__handle_lifter_config138
-L__handle_lifter_config268:
-L__handle_lifter_config130:
-;command_handler.c,603 :: 		_Lifter_SetTargetPosition(&lifter, target_position);
+	BRA NZ	L__handle_lifter_config253
+	GOTO	L__handle_lifter_config127
+L__handle_lifter_config253:
+L__handle_lifter_config119:
+;command_handler.c,610 :: 		_Lifter_SetTargetPosition(&lifter, target_position);
 	PUSH	W12
 	PUSH	W10
 	MOV	[W14+0], W0
@@ -2421,80 +2318,80 @@ L__handle_lifter_config130:
 	CALL	__Lifter_SetTargetPosition
 	POP	W10
 	POP	W12
-;command_handler.c,604 :: 		if (enable == 0)
+;command_handler.c,611 :: 		if (enable == 0)
 	MOV	[W14+2], W0
 	CP	W0, #0
-	BRA Z	L__handle_lifter_config269
-	GOTO	L_handle_lifter_config88
-L__handle_lifter_config269:
-;command_handler.c,605 :: 		_Lifter_Disable(&lifter);
+	BRA Z	L__handle_lifter_config254
+	GOTO	L_handle_lifter_config80
+L__handle_lifter_config254:
+;command_handler.c,612 :: 		_Lifter_Disable(&lifter);
 	PUSH	W12
 	PUSH	W10
 	MOV	#lo_addr(_lifter), W10
 	CALL	__Lifter_Disable
 	POP	W10
 	POP	W12
-	GOTO	L_handle_lifter_config89
-L_handle_lifter_config88:
-;command_handler.c,606 :: 		else if (enable == 1)
+	GOTO	L_handle_lifter_config81
+L_handle_lifter_config80:
+;command_handler.c,613 :: 		else if (enable == 1)
 	MOV	[W14+2], W0
 	CP	W0, #1
-	BRA Z	L__handle_lifter_config270
-	GOTO	L_handle_lifter_config90
-L__handle_lifter_config270:
-;command_handler.c,607 :: 		_Lifter_Enable(&lifter);
+	BRA Z	L__handle_lifter_config255
+	GOTO	L_handle_lifter_config82
+L__handle_lifter_config255:
+;command_handler.c,614 :: 		_Lifter_Enable(&lifter);
 	PUSH	W12
 	PUSH	W10
 	MOV	#lo_addr(_lifter), W10
 	CALL	__Lifter_Enable
 	POP	W10
 	POP	W12
-	GOTO	L_handle_lifter_config91
-L_handle_lifter_config90:
-;command_handler.c,609 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+	GOTO	L_handle_lifter_config83
+L_handle_lifter_config82:
+;command_handler.c,616 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_89_command_handler), W0
+	MOV	#lo_addr(?lstr_84_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
 	SUB	#6, W15
-;command_handler.c,610 :: 		_Lifter_Disable(&lifter);
+;command_handler.c,617 :: 		_Lifter_Disable(&lifter);
 	MOV	#lo_addr(_lifter), W10
 	CALL	__Lifter_Disable
-;command_handler.c,611 :: 		return;
+;command_handler.c,618 :: 		return;
 	GOTO	L_end_handle_lifter_config
-;command_handler.c,612 :: 		}
-L_handle_lifter_config91:
-L_handle_lifter_config89:
-;command_handler.c,613 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
-	MOV	#34, W0
-	ADD	W10, W0, W1
-	PUSH	W12
-	MOV	#lo_addr(?lstr_90_command_handler), W0
-	PUSH	W0
-	PUSH	W1
-	CALL	_sprintf
-	SUB	#6, W15
-;command_handler.c,614 :: 		}
-	GOTO	L_handle_lifter_config92
-;command_handler.c,598 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
-L__handle_lifter_config139:
-L__handle_lifter_config138:
-;command_handler.c,617 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
-	MOV	#34, W0
-	ADD	W10, W0, W1
-	PUSH	W12
-	MOV	#lo_addr(?lstr_91_command_handler), W0
-	PUSH	W0
-	PUSH	W1
-	CALL	_sprintf
-	SUB	#6, W15
-;command_handler.c,618 :: 		}
-L_handle_lifter_config92:
-L_handle_lifter_config84:
 ;command_handler.c,619 :: 		}
+L_handle_lifter_config83:
+L_handle_lifter_config81:
+;command_handler.c,620 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
+	MOV	#34, W0
+	ADD	W10, W0, W1
+	PUSH	W12
+	MOV	#lo_addr(?lstr_85_command_handler), W0
+	PUSH	W0
+	PUSH	W1
+	CALL	_sprintf
+	SUB	#6, W15
+;command_handler.c,621 :: 		}
+	GOTO	L_handle_lifter_config84
+;command_handler.c,605 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
+L__handle_lifter_config128:
+L__handle_lifter_config127:
+;command_handler.c,624 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+	MOV	#34, W0
+	ADD	W10, W0, W1
+	PUSH	W12
+	MOV	#lo_addr(?lstr_86_command_handler), W0
+	PUSH	W0
+	PUSH	W1
+	CALL	_sprintf
+	SUB	#6, W15
+;command_handler.c,625 :: 		}
+L_handle_lifter_config84:
+L_handle_lifter_config76:
+;command_handler.c,626 :: 		}
 L_end_handle_lifter_config:
 	POP	W11
 	POP	W10
@@ -2505,66 +2402,66 @@ L_end_handle_lifter_config:
 _handle_motorDC_config:
 	LNK	#6
 
-;command_handler.c,621 :: 		void handle_motorDC_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
-;command_handler.c,623 :: 		if (JSON_GetInt(dataParser, "direction", &direction) &&
+;command_handler.c,628 :: 		void handle_motorDC_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
+;command_handler.c,630 :: 		if (JSON_GetInt(dataParser, "direction", &direction) &&
 	PUSH	W11
 	ADD	W14, #0, W0
 	PUSH	W12
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_92_command_handler), W11
+	MOV	#lo_addr(?lstr_87_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
-;command_handler.c,624 :: 		JSON_GetInt(dataParser, "speed", &speed) &&
+;command_handler.c,631 :: 		JSON_GetInt(dataParser, "speed", &speed) &&
 	CP0	W0
-	BRA NZ	L__handle_motorDC_config272
-	GOTO	L__handle_motorDC_config146
-L__handle_motorDC_config272:
+	BRA NZ	L__handle_motorDC_config257
+	GOTO	L__handle_motorDC_config135
+L__handle_motorDC_config257:
 	ADD	W14, #2, W0
 	PUSH	W12
 	PUSH.D	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_93_command_handler), W11
+	MOV	#lo_addr(?lstr_88_command_handler), W11
 	CALL	_JSON_GetInt
 	POP.D	W10
 	POP	W12
 	CP0	W0
-	BRA NZ	L__handle_motorDC_config273
-	GOTO	L__handle_motorDC_config145
-L__handle_motorDC_config273:
-;command_handler.c,625 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
+	BRA NZ	L__handle_motorDC_config258
+	GOTO	L__handle_motorDC_config134
+L__handle_motorDC_config258:
+;command_handler.c,632 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
 	ADD	W14, #4, W0
 	PUSH	W12
 	PUSH	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_94_command_handler), W11
+	MOV	#lo_addr(?lstr_89_command_handler), W11
 	CALL	_JSON_GetInt
 	POP	W10
 	POP	W12
 	CP0	W0
-	BRA NZ	L__handle_motorDC_config274
-	GOTO	L__handle_motorDC_config144
-L__handle_motorDC_config274:
-L__handle_motorDC_config141:
-;command_handler.c,626 :: 		if (direction == 0 || direction == 1)
+	BRA NZ	L__handle_motorDC_config259
+	GOTO	L__handle_motorDC_config133
+L__handle_motorDC_config259:
+L__handle_motorDC_config130:
+;command_handler.c,633 :: 		if (direction == 0 || direction == 1)
 	MOV	[W14+0], W0
 	CP	W0, #0
-	BRA NZ	L__handle_motorDC_config275
-	GOTO	L__handle_motorDC_config143
-L__handle_motorDC_config275:
+	BRA NZ	L__handle_motorDC_config260
+	GOTO	L__handle_motorDC_config132
+L__handle_motorDC_config260:
 	MOV	[W14+0], W0
 	CP	W0, #1
-	BRA NZ	L__handle_motorDC_config276
-	GOTO	L__handle_motorDC_config142
-L__handle_motorDC_config276:
-	GOTO	L_handle_motorDC_config98
-L__handle_motorDC_config143:
-L__handle_motorDC_config142:
-;command_handler.c,627 :: 		_MotorDC_SetDirection(&motorDC, direction);
+	BRA NZ	L__handle_motorDC_config261
+	GOTO	L__handle_motorDC_config131
+L__handle_motorDC_config261:
+	GOTO	L_handle_motorDC_config90
+L__handle_motorDC_config132:
+L__handle_motorDC_config131:
+;command_handler.c,634 :: 		_MotorDC_SetDirection(&motorDC, direction);
 	PUSH	W12
 	PUSH	W10
 	MOV.B	[W14+0], W11
@@ -2572,22 +2469,22 @@ L__handle_motorDC_config142:
 	CALL	__MotorDC_SetDirection
 	POP	W10
 	POP	W12
-	GOTO	L_handle_motorDC_config99
-L_handle_motorDC_config98:
-;command_handler.c,629 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+	GOTO	L_handle_motorDC_config91
+L_handle_motorDC_config90:
+;command_handler.c,636 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_95_command_handler), W0
+	MOV	#lo_addr(?lstr_90_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
 	SUB	#6, W15
-;command_handler.c,630 :: 		return;
+;command_handler.c,637 :: 		return;
 	GOTO	L_end_handle_motorDC_config
-;command_handler.c,631 :: 		}
-L_handle_motorDC_config99:
-;command_handler.c,633 :: 		_MotorDC_SetTargetSpeed(&motorDC, speed);
+;command_handler.c,638 :: 		}
+L_handle_motorDC_config91:
+;command_handler.c,640 :: 		_MotorDC_SetTargetSpeed(&motorDC, speed);
 	PUSH	W12
 	PUSH	W10
 	MOV	[W14+2], W0
@@ -2600,80 +2497,80 @@ L_handle_motorDC_config99:
 	CALL	__MotorDC_SetTargetSpeed
 	POP	W10
 	POP	W12
-;command_handler.c,634 :: 		if (enable == 1){
+;command_handler.c,641 :: 		if (enable == 1){
 	MOV	[W14+4], W0
 	CP	W0, #1
-	BRA Z	L__handle_motorDC_config277
-	GOTO	L_handle_motorDC_config100
-L__handle_motorDC_config277:
-;command_handler.c,635 :: 		_MotorDC_Enable(&motorDC);
+	BRA Z	L__handle_motorDC_config262
+	GOTO	L_handle_motorDC_config92
+L__handle_motorDC_config262:
+;command_handler.c,642 :: 		_MotorDC_Enable(&motorDC);
 	PUSH	W12
 	PUSH	W10
 	MOV	#lo_addr(_motorDC), W10
 	CALL	__MotorDC_Enable
 	POP	W10
 	POP	W12
-;command_handler.c,636 :: 		}
-	GOTO	L_handle_motorDC_config101
-L_handle_motorDC_config100:
-;command_handler.c,638 :: 		else if (enable == 0){
+;command_handler.c,643 :: 		}
+	GOTO	L_handle_motorDC_config93
+L_handle_motorDC_config92:
+;command_handler.c,645 :: 		else if (enable == 0){
 	MOV	[W14+4], W0
 	CP	W0, #0
-	BRA Z	L__handle_motorDC_config278
-	GOTO	L_handle_motorDC_config102
-L__handle_motorDC_config278:
-;command_handler.c,640 :: 		_MotorDC_Disable(&motorDC);
+	BRA Z	L__handle_motorDC_config263
+	GOTO	L_handle_motorDC_config94
+L__handle_motorDC_config263:
+;command_handler.c,647 :: 		_MotorDC_Disable(&motorDC);
 	PUSH	W12
 	PUSH	W10
 	MOV	#lo_addr(_motorDC), W10
 	CALL	__MotorDC_Disable
 	POP	W10
 	POP	W12
-;command_handler.c,641 :: 		}
-	GOTO	L_handle_motorDC_config103
-L_handle_motorDC_config102:
-;command_handler.c,643 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+;command_handler.c,648 :: 		}
+	GOTO	L_handle_motorDC_config95
+L_handle_motorDC_config94:
+;command_handler.c,650 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_96_command_handler), W0
+	MOV	#lo_addr(?lstr_91_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
 	SUB	#6, W15
-;command_handler.c,644 :: 		return;
+;command_handler.c,651 :: 		return;
 	GOTO	L_end_handle_motorDC_config
-;command_handler.c,645 :: 		}
-L_handle_motorDC_config103:
-L_handle_motorDC_config101:
-;command_handler.c,646 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
-	MOV	#34, W0
-	ADD	W10, W0, W1
-	PUSH	W12
-	MOV	#lo_addr(?lstr_97_command_handler), W0
-	PUSH	W0
-	PUSH	W1
-	CALL	_sprintf
-	SUB	#6, W15
-;command_handler.c,648 :: 		} else {
-	GOTO	L_handle_motorDC_config104
-;command_handler.c,624 :: 		JSON_GetInt(dataParser, "speed", &speed) &&
-L__handle_motorDC_config146:
-L__handle_motorDC_config145:
-;command_handler.c,625 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
-L__handle_motorDC_config144:
-;command_handler.c,649 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
-	MOV	#34, W0
-	ADD	W10, W0, W1
-	PUSH	W12
-	MOV	#lo_addr(?lstr_98_command_handler), W0
-	PUSH	W0
-	PUSH	W1
-	CALL	_sprintf
-	SUB	#6, W15
-;command_handler.c,651 :: 		}
-L_handle_motorDC_config104:
 ;command_handler.c,652 :: 		}
+L_handle_motorDC_config95:
+L_handle_motorDC_config93:
+;command_handler.c,653 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
+	MOV	#34, W0
+	ADD	W10, W0, W1
+	PUSH	W12
+	MOV	#lo_addr(?lstr_92_command_handler), W0
+	PUSH	W0
+	PUSH	W1
+	CALL	_sprintf
+	SUB	#6, W15
+;command_handler.c,655 :: 		} else {
+	GOTO	L_handle_motorDC_config96
+;command_handler.c,631 :: 		JSON_GetInt(dataParser, "speed", &speed) &&
+L__handle_motorDC_config135:
+L__handle_motorDC_config134:
+;command_handler.c,632 :: 		JSON_GetInt(dataParser, "enable", &enable)) {
+L__handle_motorDC_config133:
+;command_handler.c,656 :: 		sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+	MOV	#34, W0
+	ADD	W10, W0, W1
+	PUSH	W12
+	MOV	#lo_addr(?lstr_93_command_handler), W0
+	PUSH	W0
+	PUSH	W1
+	CALL	_sprintf
+	SUB	#6, W15
+;command_handler.c,658 :: 		}
+L_handle_motorDC_config96:
+;command_handler.c,659 :: 		}
 L_end_handle_motorDC_config:
 	POP	W11
 	ULNK
@@ -2683,48 +2580,48 @@ L_end_handle_motorDC_config:
 _handle_ping_command:
 	LNK	#2
 
-;command_handler.c,654 :: 		void handle_ping_command(CommandHandler *handler, JSON_Parser *dataParser, char *id){
-;command_handler.c,656 :: 		if (JSON_GetInt(dataParser, "type", &type)){
+;command_handler.c,661 :: 		void handle_ping_command(CommandHandler *handler, JSON_Parser *dataParser, char *id){
+;command_handler.c,663 :: 		if (JSON_GetInt(dataParser, "type", &type)){
 	PUSH	W11
 	ADD	W14, #0, W0
 	PUSH	W12
 	PUSH	W10
 	MOV	W0, W12
 	MOV	W11, W10
-	MOV	#lo_addr(?lstr_99_command_handler), W11
+	MOV	#lo_addr(?lstr_94_command_handler), W11
 	CALL	_JSON_GetInt
 	POP	W10
 	POP	W12
 	CP0	W0
-	BRA NZ	L__handle_ping_command280
-	GOTO	L_handle_ping_command105
-L__handle_ping_command280:
-;command_handler.c,657 :: 		if (type == 4){
+	BRA NZ	L__handle_ping_command265
+	GOTO	L_handle_ping_command97
+L__handle_ping_command265:
+;command_handler.c,664 :: 		if (type == 4){
 	MOV	[W14+0], W0
 	CP	W0, #4
-	BRA Z	L__handle_ping_command281
-	GOTO	L_handle_ping_command106
-L__handle_ping_command281:
-;command_handler.c,658 :: 		sprintf(handler->response_buffer, ">{\"type\":4,\"id\":\"%s\",\"dev_id\":\"pic\"}\r\n", id);
+	BRA Z	L__handle_ping_command266
+	GOTO	L_handle_ping_command98
+L__handle_ping_command266:
+;command_handler.c,665 :: 		sprintf(handler->response_buffer, ">{\"type\":4,\"id\":\"%s\",\"dev_id\":\"pic\"}\r\n", id);
 	MOV	#34, W0
 	ADD	W10, W0, W1
 	PUSH	W12
-	MOV	#lo_addr(?lstr_100_command_handler), W0
+	MOV	#lo_addr(?lstr_95_command_handler), W0
 	PUSH	W0
 	PUSH	W1
 	CALL	_sprintf
 	SUB	#6, W15
-;command_handler.c,659 :: 		return;
+;command_handler.c,666 :: 		return;
 	GOTO	L_end_handle_ping_command
-;command_handler.c,660 :: 		}
-L_handle_ping_command106:
-;command_handler.c,661 :: 		}
-	GOTO	L_handle_ping_command107
-L_handle_ping_command105:
-;command_handler.c,662 :: 		else return;
+;command_handler.c,667 :: 		}
+L_handle_ping_command98:
+;command_handler.c,668 :: 		}
+	GOTO	L_handle_ping_command99
+L_handle_ping_command97:
+;command_handler.c,669 :: 		else return;
 	GOTO	L_end_handle_ping_command
-L_handle_ping_command107:
-;command_handler.c,663 :: 		}
+L_handle_ping_command99:
+;command_handler.c,670 :: 		}
 L_end_handle_ping_command:
 	POP	W11
 	ULNK
@@ -2733,23 +2630,23 @@ L_end_handle_ping_command:
 
 _handle_get_box_status:
 
-;command_handler.c,664 :: 		void handle_get_box_status(CommandHandler *handler){
-;command_handler.c,666 :: 		(int) Box_t.limit_switch_state);
+;command_handler.c,671 :: 		void handle_get_box_status(CommandHandler *handler){
+;command_handler.c,673 :: 		(int) Box_t.limit_switch_state);
 	MOV	#lo_addr(_Box_t+4), W0
 	ZE	[W0], W2
-;command_handler.c,665 :: 		sprintf(handler->response_buffer, ">{\"type\":0,\"state_type\":7,\"data\":{\"object\":%d}}\r\n",
+;command_handler.c,672 :: 		sprintf(handler->response_buffer, ">{\"type\":0,\"state_type\":7,\"data\":{\"object\":%d}}\r\n",
 	MOV	#34, W0
 	ADD	W10, W0, W1
-;command_handler.c,666 :: 		(int) Box_t.limit_switch_state);
+;command_handler.c,673 :: 		(int) Box_t.limit_switch_state);
 	PUSH	W2
-;command_handler.c,665 :: 		sprintf(handler->response_buffer, ">{\"type\":0,\"state_type\":7,\"data\":{\"object\":%d}}\r\n",
-	MOV	#lo_addr(?lstr_101_command_handler), W0
+;command_handler.c,672 :: 		sprintf(handler->response_buffer, ">{\"type\":0,\"state_type\":7,\"data\":{\"object\":%d}}\r\n",
+	MOV	#lo_addr(?lstr_96_command_handler), W0
 	PUSH	W0
 	PUSH	W1
-;command_handler.c,666 :: 		(int) Box_t.limit_switch_state);
+;command_handler.c,673 :: 		(int) Box_t.limit_switch_state);
 	CALL	_sprintf
 	SUB	#6, W15
-;command_handler.c,667 :: 		}
+;command_handler.c,674 :: 		}
 L_end_handle_get_box_status:
 	RETURN
 ; end of _handle_get_box_status

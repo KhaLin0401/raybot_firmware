@@ -7,12 +7,12 @@ _init_distance_sensors:
 	PUSH	W11
 	PUSH	W12
 	CLR	W12
-	MOV.B	#4, W11
+	CLR	W11
 	MOV	#lo_addr(_sensor_front), W10
 	CALL	_DistanceSensor_Init
 ;robot_system.c,27 :: 		DistanceSensor_Init(&sensor_rear, SENS4, SENSOR_GP2Y0A21YK0F);
 	CLR	W12
-	MOV.B	#5, W11
+	MOV.B	#2, W11
 	MOV	#lo_addr(_sensor_rear), W10
 	CALL	_DistanceSensor_Init
 ;robot_system.c,28 :: 		DistanceSensor_Init(&sensor_lifter, SENS5, SENSOR_GP2Y0A02YK0F);

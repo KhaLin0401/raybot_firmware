@@ -122,19 +122,15 @@ _main:
 	PUSH	W11
 	PUSH	W12
 	CALL	_init_hardware
-;Main.c,65 :: 		UART1_Init(9600);
-	MOV	#9600, W10
-	MOV	#0, W11
-	CALL	_UART1_Init
-;Main.c,66 :: 		UART2_Init(9600);
+;Main.c,65 :: 		UART2_Init(9600);
 	MOV	#9600, W10
 	MOV	#0, W11
 	CALL	_UART2_Init
-;Main.c,67 :: 		_UART2_Init();
+;Main.c,66 :: 		_UART2_Init();
 	CALL	__UART2_Init
-;Main.c,69 :: 		DebugUART_Init();
+;Main.c,68 :: 		DebugUART_Init();
 	CALL	_DebugUART_Init
-;Main.c,70 :: 		_MotorDC_Init(&motorDC, 2.5, 0.5, 1.0, 0);
+;Main.c,69 :: 		_MotorDC_Init(&motorDC, 2.5, 0.5, 1.0, 0);
 	MOV	#0, W11
 	MOV	#16416, W12
 	MOV	#lo_addr(_motorDC), W10
@@ -149,12 +145,12 @@ _main:
 	PUSH.D	W0
 	CALL	__MotorDC_Init
 	SUB	#12, W15
-;Main.c,71 :: 		_MotorDC_SetSafeDistance(&motorDC, 40);
+;Main.c,70 :: 		_MotorDC_SetSafeDistance(&motorDC, 40);
 	MOV	#0, W11
 	MOV	#16928, W12
 	MOV	#lo_addr(_motorDC), W10
 	CALL	__MotorDC_SetSafeDistance
-;Main.c,72 :: 		_Lifter_Init(&lifter, 1.0, 0.5, 0.1, 30);
+;Main.c,71 :: 		_Lifter_Init(&lifter, 1.0, 0.5, 0.1, 30);
 	MOV	#0, W11
 	MOV	#16256, W12
 	MOV	#lo_addr(_lifter), W10
@@ -169,22 +165,24 @@ _main:
 	PUSH.D	W0
 	CALL	__Lifter_Init
 	SUB	#12, W15
-;Main.c,74 :: 		Lms_Init();
+;Main.c,72 :: 		BMS_Init();
+	CALL	_BMS_Init
+;Main.c,73 :: 		Lms_Init();
 	CALL	_Lms_Init
-;Main.c,75 :: 		init_distance_sensors();
+;Main.c,74 :: 		init_distance_sensors();
 	CALL	_init_distance_sensors
-;Main.c,76 :: 		CommandHandler_Init(&cmdHandler);
+;Main.c,75 :: 		CommandHandler_Init(&cmdHandler);
 	MOV	#lo_addr(_cmdHandler), W10
 	CALL	_CommandHandler_Init
-;Main.c,78 :: 		_F_schedule_init();
+;Main.c,77 :: 		_F_schedule_init();
 	CALL	__F_schedule_init
-;Main.c,80 :: 		while (1) {
+;Main.c,79 :: 		while (1) {
 L_main0:
-;Main.c,81 :: 		task_dispatch(); // Gọi Scheduler của MikroE
+;Main.c,80 :: 		task_dispatch(); // Gọi Scheduler của MikroE
 	CALL	_task_dispatch
-;Main.c,82 :: 		}
+;Main.c,81 :: 		}
 	GOTO	L_main0
-;Main.c,83 :: 		}
+;Main.c,82 :: 		}
 L_end_main:
 	POP	W12
 	POP	W11

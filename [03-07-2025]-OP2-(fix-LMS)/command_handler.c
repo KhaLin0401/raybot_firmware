@@ -244,9 +244,9 @@ void CommandHandler_Execute(CommandHandler *handler, const char *cmd) {
 void handle_get_bat_info(CommandHandler *handler) {
     sprintf(handler->response_buffer,
     ">{\"type\":0,\"state_type\":0,\"data\":{\"current\":%d,\"temp\":%d,\"voltage\":%d,\"cell_voltages\":[%d,%d,%d,%d],\"percent\":%d,\"fault\":%d,\"health\":%d,\"status\":%d}}\r\n",
-    (int)bms.get.packCurrent,(int) bms.get.tempAverage, (int)bms.get.packVoltage,
-    (int)bms.get.cellVmV[0], (int)bms.get.cellVmV[1], (int)bms.get.cellVmV[2], bms.get.cellVmV[3],
-    (int)bms.get.packSOC, (int)bms.errorCounter, (int) 90, (int)1);
+    (int)_bmsData._sumCurrent,(int) _bmsData._temperature, (int)_bmsData._sumVoltage,
+    (int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1], (int)_bmsData._cellVoltages[2], 0,
+    (int)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
 }
 // void handle_get_bat_current(CommandHandler *handler) {
 //     sprintf(handler->response_buffer, "BAT_CURRENT=%d\r\n",bms._sumCurrent);
@@ -277,8 +277,8 @@ void handle_get_bat_info(CommandHandler *handler) {
 /* ========== Charging ========== */
 void handle_get_chg_info(CommandHandler *handler){
     sprintf(handler->response_buffer,
-    ">{\"type\":0,\"state_type\":1,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
-    (int) 1, (int) bms.get.chargeFetState);
+        ">{\"type\":0,\"state_type\":1,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
+        (int) _bmsData._charge_current_limit, (int) _bmsData._chargeMOS);
 }
 void handle_get_chg_cur_lim(CommandHandler *handler) {
     sprintf(handler->response_buffer, "CHG_CUR_LIM=3000\r\n");
@@ -294,8 +294,8 @@ void handle_set_chg_en(CommandHandler *handler) {
 }
 void handle_get_dis_info(CommandHandler *handler){
     sprintf(handler->response_buffer,
-    ">{\"type\":0,\"state_type\":2,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
-    (int) 1, (int) bms.get.chargeDischargeStatus);
+        ">{\"type\":0,\"state_type\":2,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
+        (int) _bmsData._discharge_current_limit, (int) _bmsData._dischargeMOS);
 }
 void handle_get_dis_cur_lim(CommandHandler *handler) {
     sprintf(handler->response_buffer, "DIS_CUR_LIM=5000\r\n");
@@ -534,9 +534,16 @@ void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char
         JSON_GetInt(dataParser, "enable", &enable)) {
         //bms._charge_current_limit = current_limit;
         if (enable == 0)
-            DalyBms_setChargeMOS(&bms, 0);
+        {
+            LATB4_bit = 0;
+            LATA8_bit = 0;
+        }
         else if (enable == 1)
-            DalyBms_setChargeMOS(&bms, 1);
+        {
+            LATB4_bit = 1;
+            LATA8_bit = 1;
+        }
+
         else {
             sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
             return;
@@ -549,22 +556,22 @@ void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char
 
 
 void handle_discharge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
-    int current_limit, enable;
-    if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
-        JSON_GetInt(dataParser, "enable", &enable)) {
-        //bms._discharge_current_limit = current_limit;
-        if (enable == 0)
-            DalyBms_setDischargeMOS(&bms, 0);
-        else if (enable == 1)
-            DalyBms_setDischargeMOS(&bms, 1);
-        else {
-            sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
-            return;
-        }
-        sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
-    } else {
-        sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
-    }
+    // int current_limit, enable;
+    // if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
+    //     JSON_GetInt(dataParser, "enable", &enable)) {
+    //     //bms._discharge_current_limit = current_limit;
+    //     if (enable == 0)
+    //         DalyBms_setDischargeMOS(&bms, 0);
+    //     else if (enable == 1)
+    //         DalyBms_setDischargeMOS(&bms, 1);
+    //     else {
+    //         sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+    //         return;
+    //     }
+    //     sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
+    // } else {
+    //     sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+    // }
 }
 
 void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){

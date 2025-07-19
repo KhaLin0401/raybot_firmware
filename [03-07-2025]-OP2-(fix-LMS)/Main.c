@@ -62,7 +62,6 @@ void init_hardware() {
 
 void main() {
     init_hardware();
-    UART1_Init(9600);
     UART2_Init(9600);
     _UART2_Init();
 
@@ -70,7 +69,7 @@ void main() {
     _MotorDC_Init(&motorDC, 2.5, 0.5, 1.0, 0);
     _MotorDC_SetSafeDistance(&motorDC, 40);
     _Lifter_Init(&lifter, 1.0, 0.5, 0.1, 30);
-    //DalyBms_init(&bms);
+    BMS_Init();
     Lms_Init();
     init_distance_sensors();
     CommandHandler_Init(&cmdHandler);

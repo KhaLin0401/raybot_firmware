@@ -88,6 +88,7 @@ extern uint8_t _task_update_BMS;
 
 
 void _F_schedule_init(void);
+unsigned long GetMillis(void);
 void _F_process_uart_command(void);
 void _F_update_system_status(void);
 void _F_update_to_server(void);
@@ -469,8 +470,8 @@ DistanceSensor sensor_lifter;
 DistanceSensor sensor_box;
 #line 25 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/robot_system.c"
 void init_distance_sensors() {
- DistanceSensor_Init(&sensor_front,  4 , SENSOR_GP2Y0A21YK0F);
- DistanceSensor_Init(&sensor_rear,  5 , SENSOR_GP2Y0A21YK0F);
+ DistanceSensor_Init(&sensor_front,  0 , SENSOR_GP2Y0A21YK0F);
+ DistanceSensor_Init(&sensor_rear,  2 , SENSOR_GP2Y0A21YK0F);
  DistanceSensor_Init(&sensor_lifter,  6 , SENSOR_GP2Y0A02YK0F);
  DistanceSensor_Init(&sensor_box,  7 , SENSOR_GP2Y0A21YK0F);
 

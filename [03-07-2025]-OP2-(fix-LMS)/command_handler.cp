@@ -162,6 +162,7 @@ extern uint8_t _task_update_BMS;
 
 
 void _F_schedule_init(void);
+unsigned long GetMillis(void);
 void _F_process_uart_command(void);
 void _F_update_system_status(void);
 void _F_update_to_server(void);
@@ -560,14 +561,11 @@ void _Lifter_Get_Run_Mode(_Lifter *pLifter);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/json_parser.h"
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
-#line 1 "d:/mikroc pro for dspic/include/stdbool.h"
-
-
-
- typedef char _Bool;
-#line 31 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
-typedef enum
-{
+#line 1 "d:/mikroc pro for dspic/include/string.h"
+#line 17 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+typedef enum {
+ START_BYTE = 0xA5,
+ HOST_ADDRESS = 0x40,
  CELL_THRESHOLDS = 0x59,
  PACK_THRESHOLDS = 0x5A,
  VOUT_IOUT_SOC = 0x90,
@@ -583,169 +581,67 @@ typedef enum
  CHRG_FET = 0xDA,
  BMS_RESET = 0x00,
  READ_SOC = 0x61,
- SET_SOC = 0x21,
-} DALY_BMS_COMMAND;
+ SET_SOC = 0x21
+} BMS_Command;
 
 
-typedef struct
-{
+typedef struct {
 
- float maxCellThreshold1;
- float minCellThreshold1;
- float maxCellThreshold2;
- float minCellThreshold2;
+ float _sumVoltage;
+ float _sumCurrent;
+ float _sumSOC;
 
 
- float maxPackThreshold1;
- float minPackThreshold1;
- float maxPackThreshold2;
- float minPackThreshold2;
+ float _maxCellVoltage;
+ float _minCellVoltage;
+ float _cellVoltages[ 16 ];
 
 
- float packVoltage;
- float packCurrent;
- float packSOC;
+ float _temperature;
+ int _cycleCount;
+ uint8_t _protectionFlags;
+ float _remainingCapacity;
+ float _totalCapacity;
+ float _highVoltageProtection;
+ float _lowVoltageProtection;
+ int _ntcCount;
+ float _ntcTemperatures[ 16 ];
+ uint8_t _balanceStatus[ 16 ];
+ uint8_t _chargeMOS;
+ uint8_t _dischargeMOS;
+ int _cellCount;
+ uint8_t _errorCode;
+ int _errorCount;
+ uint8_t _hardwareVersion;
+ uint8_t _softwareVersion;
+ char _manufacturer[20];
+ char _chargeDischargeStatus[20];
+ uint8_t _charge_current_limit;
+ uint8_t _discharge_current_limit;
+ uint8_t _chargeState;
+ uint8_t _loadState;
+} BMSData;
 
 
- float maxCellmV;
- int maxCellVNum;
- float minCellmV;
- int minCellVNum;
- int cellDiff;
+typedef struct {
+ uint8_t _commandID;
+ uint8_t _payload[8];
+} TXCommand;
 
 
- int tempAverage;
+extern BMSData _bmsData;
+extern TXCommand _txBuffer[ 10 ];
+extern uint8_t _rxFrameBuffer[ 10 ][ 13 ];
 
 
-
-
- const char *chargeDischargeStatus;
-  _Bool  chargeFetState;
-  _Bool  disChargeFetState;
- int bmsHeartBeat;
- float resCapacityAh;
-
-
- unsigned int numberOfCells;
- unsigned int numOfTempSensors;
-  _Bool  chargeState;
-  _Bool  loadState;
-  _Bool  dIO[8];
- int bmsCycles;
-
-
- float cellVmV[48];
-
-
- int cellTemperature[16];
-
-
-  _Bool  cellBalanceState[48];
-  _Bool  cellBalanceActive;
-
-
-  _Bool  connectionState;
-
-} DalyBmsData;
-
-
-typedef struct DalyBms
-{
- unsigned long previousTime;
- uint8_t requestCounter;
- int soft_tx;
- int soft_rx;
-
-
- char failCodeArr[32];
-
- DalyBmsData get;
-
-
-
-
-  _Bool  getStaticData;
- unsigned int errorCounter;
- unsigned int requestCount;
- unsigned int commandQueue[5];
-
-
- void *serial_handle;
-
- uint8_t my_txBuffer[ 13 ];
- uint8_t my_rxBuffer[ 13 ];
- uint8_t my_rxFrameBuffer[ 13 *12];
- uint8_t frameBuff[12][ 13 ];
- unsigned int frameCount;
-
-
- void (*requestCallback)(void);
-
-} DalyBms;
-
-
-
-
-extern DalyBms bms;
-#line 157 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
-void DalyBms_Init(DalyBms* bms);
-
-
-extern void writeLog(const char* format, ...);
-#line 167 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_update(DalyBms* bms);
-#line 177 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_updateSequential(DalyBms* bms);
-#line 184 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
-void DalyBms_set_callback(DalyBms* bms, void (*func)(void));
-#line 191 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getPackMeasurements(DalyBms* bms);
-#line 198 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getVoltageThreshold(DalyBms* bms);
-#line 205 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getPackVoltageThreshold(DalyBms* bms);
-#line 213 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getPackTemp(DalyBms* bms);
-#line 221 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getMinMaxCellVoltage(DalyBms* bms);
-#line 228 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getStatusInfo(DalyBms* bms);
-#line 235 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getCellVoltages(DalyBms* bms);
-#line 242 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getCellTemperature(DalyBms* bms);
-#line 249 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getCellBalanceState(DalyBms* bms);
-#line 256 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getFailureCodes(DalyBms* bms);
-#line 264 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_setDischargeMOS(DalyBms* bms,  _Bool  sw);
-#line 272 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_setChargeMOS(DalyBms* bms,  _Bool  sw);
-#line 280 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_setSOC(DalyBms* bms, float sw);
-#line 287 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getDischargeChargeMosStatus(DalyBms* bms);
-#line 295 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_setBmsReset(DalyBms* bms);
-#line 308 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
- _Bool  DalyBms_getState(DalyBms* bms);
-
-
-
-
-
-
-unsigned long current_millis(void);
-
-
-static  _Bool  DalyBms_requestData(DalyBms* bms, DALY_BMS_COMMAND cmdID, unsigned int frameAmount);
-static  _Bool  DalyBms_sendCommand(DalyBms* bms, DALY_BMS_COMMAND cmdID);
-static  _Bool  DalyBms_sendQueueAdd(DalyBms* bms, DALY_BMS_COMMAND cmdID);
-static  _Bool  DalyBms_receiveBytes(DalyBms* bms);
-static  _Bool  DalyBms_validateChecksum(DalyBms* bms);
-static void DalyBms_barfRXBuffer(DalyBms* bms);
-static void DalyBms_clearGet(DalyBms* bms);
+void BMS_Init(void);
+uint8_t BMS_SendCommand(BMS_Command cmdID, uint8_t *payload);
+uint8_t BMS_ReceiveData(uint8_t expectedFrames);
+uint8_t BMS_ValidateChecksum(uint8_t *frame);
+void BMS_ProcessData(BMS_Command cmdID, uint8_t frameIndex);
+uint8_t BMS_Update(void);
+void BMS_ClearData(void);
+uint8_t BMS_GetState(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/box.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 11 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/box.h"
@@ -987,15 +883,15 @@ void CommandHandler_Execute(CommandHandler *handler, const char *cmd) {
 void handle_get_bat_info(CommandHandler *handler) {
  sprintf(handler->response_buffer,
  ">{\"type\":0,\"state_type\":0,\"data\":{\"current\":%d,\"temp\":%d,\"voltage\":%d,\"cell_voltages\":[%d,%d,%d,%d],\"percent\":%d,\"fault\":%d,\"health\":%d,\"status\":%d}}\r\n",
- (int)bms.get.packCurrent,(int) bms.get.tempAverage, (int)bms.get.packVoltage,
- (int)bms.get.cellVmV[0], (int)bms.get.cellVmV[1], (int)bms.get.cellVmV[2], bms.get.cellVmV[3],
- (int)bms.get.packSOC, (int)bms.errorCounter, (int) 90, (int)1);
+ (int)_bmsData._sumCurrent,(int) _bmsData._temperature, (int)_bmsData._sumVoltage,
+ (int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1], (int)_bmsData._cellVoltages[2], 0,
+ (int)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
 }
 #line 278 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
 void handle_get_chg_info(CommandHandler *handler){
  sprintf(handler->response_buffer,
  ">{\"type\":0,\"state_type\":1,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
- (int) 1, (int) bms.get.chargeFetState);
+ (int) _bmsData._charge_current_limit, (int) _bmsData._chargeMOS);
 }
 void handle_get_chg_cur_lim(CommandHandler *handler) {
  sprintf(handler->response_buffer, "CHG_CUR_LIM=3000\r\n");
@@ -1012,7 +908,7 @@ void handle_set_chg_en(CommandHandler *handler) {
 void handle_get_dis_info(CommandHandler *handler){
  sprintf(handler->response_buffer,
  ">{\"type\":0,\"state_type\":2,\"data\":{\"current_limit\":%d,\"enabled\":%d}}\r\n",
- (int) 1, (int) bms.get.chargeDischargeStatus);
+ (int) _bmsData._discharge_current_limit, (int) _bmsData._dischargeMOS);
 }
 void handle_get_dis_cur_lim(CommandHandler *handler) {
  sprintf(handler->response_buffer, "DIS_CUR_LIM=5000\r\n");
@@ -1231,9 +1127,16 @@ void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char
  JSON_GetInt(dataParser, "enable", &enable)) {
 
  if (enable == 0)
- DalyBms_setChargeMOS(&bms, 0);
+ {
+ LATB4_bit = 0;
+ LATA8_bit = 0;
+ }
  else if (enable == 1)
- DalyBms_setChargeMOS(&bms, 1);
+ {
+ LATB4_bit = 1;
+ LATA8_bit = 1;
+ }
+
  else {
  sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
  return;
@@ -1246,22 +1149,7 @@ void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char
 
 
 void handle_discharge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
- int current_limit, enable;
- if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
- JSON_GetInt(dataParser, "enable", &enable)) {
-
- if (enable == 0)
- DalyBms_setDischargeMOS(&bms, 0);
- else if (enable == 1)
- DalyBms_setDischargeMOS(&bms, 1);
- else {
- sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
- return;
- }
- sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
- } else {
- sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
- }
+#line 575 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
 }
 
 void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
@@ -1270,7 +1158,7 @@ void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char
  if (JSON_GetInt(dataParser, "target_position", &target_position) &&
  JSON_GetInt(dataParser, "max_output", &max_output) &&
  JSON_GetInt(dataParser, "enable", &enable)) {
-#line 580 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
+#line 587 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
  _Lifter_SetTargetPosition(&lifter, target_position);
  if (max_output > 100 || max_output < 0)
  sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
@@ -1290,7 +1178,7 @@ void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char
  }
  else if (JSON_GetInt(dataParser, "target_position", &target_position) &&
  JSON_GetInt(dataParser, "enable", &enable)) {
-#line 603 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
+#line 610 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
  _Lifter_SetTargetPosition(&lifter, target_position);
  if (enable == 0)
  _Lifter_Disable(&lifter);

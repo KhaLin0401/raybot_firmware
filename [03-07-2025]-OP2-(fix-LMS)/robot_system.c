@@ -1,26 +1,26 @@
 /* ==========================
    robot_system.c - Implementation File
-   Mô t?: Ch?a ph?n tri?n khai các hàm cho h? th?ng robot.
+   Mï¿½ t?: Ch?a ph?n tri?n khai cï¿½c hï¿½m cho h? th?ng robot.
    ========================== */
 
 #include "robot_system.h"
 #include <string.h>
 
 
-/* ===== Ð?nh danh h? th?ng ===== */
+/* ===== ï¿½?nh danh h? th?ng ===== */
 char DEVICE_ID[16] = "UPPER_BOARD_001";  // ID thi?t b?
 char DEVICE_SERIAL[16] = "SN_UPPER_001"; // S? serial c?a thi?t b?
 char ROBOT_MODEL[16] = "RAYBOT_2024";  // ID thi?t b?
 char FW_VER[16] = "1.0.0"; // S? serial c?a thi?t b?
 
-/* ===== C?m bi?n kho?ng cách =====  */
-DistanceSensor sensor_front;  // C?m bi?n phía tru?c
-DistanceSensor sensor_rear;   // C?m bi?n phía sau
-DistanceSensor sensor_lifter; // C?m bi?n nâng
+/* ===== C?m bi?n kho?ng cï¿½ch =====  */
+DistanceSensor sensor_front;  // C?m bi?n phï¿½a tru?c
+DistanceSensor sensor_rear;   // C?m bi?n phï¿½a sau
+DistanceSensor sensor_lifter; // C?m bi?n nï¿½ng
 DistanceSensor sensor_box;    // Cam bien phat hien vat the trong hop
 
 /**
- * @brief Kh?i t?o c?m bi?n kho?ng cách
+ * @brief Kh?i t?o c?m bi?n kho?ng cï¿½ch
  */
 void init_distance_sensors() {
     DistanceSensor_Init(&sensor_front, SENS3, SENSOR_GP2Y0A21YK0F);
@@ -31,7 +31,7 @@ void init_distance_sensors() {
 }
 
 /**
- * @brief C?p nh?t giá tr? c?a t?t c? c?m bi?n kho?ng cách
+ * @brief C?p nh?t giï¿½ tr? c?a t?t c? c?m bi?n kho?ng cï¿½ch
  */
 void update_all_sensors() {
     char debug_msg[128];
@@ -41,7 +41,7 @@ void update_all_sensors() {
     DistanceSensor_Update(&sensor_box);
 
     // =======================
-    // Debug thông tin c?m bi?n
+    // Debug thï¿½ng tin c?m bi?n
     // =======================
     /*sprintf(debug_msg, "Sensor Front: %d mm\n", sensor_front.distance_cm);
     DebugUART_Send_Text(debug_msg);

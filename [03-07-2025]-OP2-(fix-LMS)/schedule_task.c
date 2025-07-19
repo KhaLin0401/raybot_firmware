@@ -15,9 +15,17 @@ uint8_t _task_update_motor;  // Task c?p nh?t d?ng co
 uint8_t _task_update_to_server;  // Task c?p nh?t d?ng co
 uint8_t _task_respond_Init;
 uint8_t _task_update_BMS;
+
+static volatile unsigned long _millis = 0;
 /**
  * @brief Kh?i t?o Timer2 v?i tick ~1ms.
  */
+
+ unsigned long GetMillis(void) {
+    unsigned long temp;
+    temp = _millis;
+    return temp;
+}
 void _F_timer1_init(void) {
     // C?u h�nh Timer1:
     //  - T1CON = 0x8030: b?t Timer1, thi?t l?p prescaler 1:256 (v?i gi� tr? prescaler h?p l?: 1, 8, 64, 256)
@@ -37,6 +45,7 @@ void _F_timer1_init(void) {
  */
 void __attribute__() iv IVT_ADDR_T1INTERRUPT ics ICS_AUTO {
     task_scheduler_clock();
+    _millis++;
     IFS0bits.T1IF = 0;
 }
 
@@ -91,7 +100,7 @@ void _F_process_uart_command(void) {
     _UART2_SendProcess();
     // Tiep tuc gui cac du lieu con lai trong hang doi UART2 (neu co)
 
-    DalyBms_update(&bms);
+    BMS_Update();
     //DebugUART_Send_Text("CHDEBUG: Task-1 ");
 }
 
@@ -224,7 +233,7 @@ void _F_schedule_init(void) {
     _task_uart = task_add(_F_process_uart_command, 50);
     _task_update_to_server = task_add(_F_update_to_server, 950);
     _task_update_motor = task_add(_SC_update_motor, 100);
-    _task_update_BMS = task_add(DalyBms_update(&bms), 850);
+    //_task_update_BMS = task_add(BMS_Update, 850);
     _task_update_system = task_add(_F_update_system_status, 75);
     task_scheduler_start();
     DebugUART_Send_Text("Task Scheduler initialization complete!\n");

@@ -185,6 +185,7 @@ extern uint8_t _task_update_BMS;
 
 
 void _F_schedule_init(void);
+unsigned long GetMillis(void);
 void _F_process_uart_command(void);
 void _F_update_system_status(void);
 void _F_update_to_server(void);

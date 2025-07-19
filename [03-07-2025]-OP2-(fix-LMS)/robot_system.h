@@ -20,8 +20,8 @@
 #define RELAY2 15
 
 /* ===== C?m bi?n kho?ng c�ch (Analog Inputs) ===== */
-#define SENS3 4
-#define SENS4 5
+#define SENS3 0
+#define SENS4 2
 #define SENS5 6
 #define SENS6 7
 

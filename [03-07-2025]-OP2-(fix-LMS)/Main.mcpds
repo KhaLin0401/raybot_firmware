@@ -6,7 +6,7 @@ Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=Main.c
+Value=robot_system.c
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -28,8 +28,7 @@ File8=BMS.c
 File9=uart2.c
 File10=Lms.c
 File11=Box.c
-File12=uart1.c
-Count=13
+Count=12
 [BINARIES]
 Count=0
 [IMAGES]
@@ -52,14 +51,13 @@ File12=command_handler.h
 File13=schedule_task.h
 File14=robot_system.h
 File15=robot_system.c
-File16=uart2.h
-File17=Box.c
-File18=Box.h
-File19=distance_sensor.h
-File20=BMS.c
-File21=uart2.c
-File22=BMS.h
-Count=23
+File16=Box.c
+File17=Box.h
+File18=BMS.c
+File19=BMS.h
+File20=uart2.c
+File21=distance_sensor.h
+Count=22
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]
@@ -84,8 +82,7 @@ File7=BMS.h
 File8=uart2.h
 File9=Lms.h
 File10=Box.h
-File11=uart1.h
-Count=12
+Count=11
 [PLDS]
 Count=0
 [Useses]
@@ -99,22 +96,22 @@ File6=Conversions
 File7=Task Scheduler
 File8=Peripheral_Pin_Select
 File9=UART
-File10=Time
-File11=Sprintl
-File12=Sprinti
-File13=Sprintf
-File14=Software_UART
-File15=PWM
+File10=Sprintl
+File11=Sprinti
+File12=Sprintf
+File13=Software_UART
+File14=PWM
+File15=Time
 Count=16
 [EXPANDED_NODES]
 0=Main.mcpds
 1=Sources
-15=Header Files
+14=Header Files
 Count=3
 [LIB_EXPANDED_NODES]
 0=mikroE Libraries
 1=System Libraries
-45=Conversions
+2=ADC
 348=PS2
 351=PWM
 377=Software_UART
@@ -122,4 +119,4 @@ Count=3
 760=Time
 776=UART
 800=Additional Libraries
-Count=11
+Count=10
