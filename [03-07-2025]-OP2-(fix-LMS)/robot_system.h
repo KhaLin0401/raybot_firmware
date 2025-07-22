@@ -12,8 +12,8 @@
 /* ===== UART Configuration ===== */
 #define TX1 8
 #define RX1 9
-#define TX2 2
-#define RX2 3
+#define TX2 10
+#define RX2 11
 
 /* ===== Relay Outputs ===== */
 #define RELAY1 12

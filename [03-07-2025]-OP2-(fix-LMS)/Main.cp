@@ -653,8 +653,8 @@ void init_hardware() {
  Unlock_IOLOCK();
  PPS_Mapping_NoLock( 9 , _INPUT, _U1RX);
  PPS_Mapping_NoLock( 8 , _OUTPUT, _U1TX);
- PPS_Mapping_NoLock( 3 , _INPUT, _U2RX);
- PPS_Mapping_NoLock( 2 , _OUTPUT, _U2TX);
+ PPS_Mapping_NoLock( 11 , _INPUT, _U2RX);
+ PPS_Mapping_NoLock( 10 , _OUTPUT, _U2TX);
  PPS_Mapping_NoLock(25, _OUTPUT, _OC1);
  PPS_Mapping_NoLock(22, _OUTPUT, _OC2);
  PPS_Mapping_NoLock(7, _OUTPUT, _OC3);
