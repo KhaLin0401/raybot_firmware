@@ -1078,7 +1078,6 @@ bep_bit
 bms_cleardata
 bms_init
 bms_processdata
-bms_receivedata
 bms_sendcommand
 bms_update
 bms_validatechecksum

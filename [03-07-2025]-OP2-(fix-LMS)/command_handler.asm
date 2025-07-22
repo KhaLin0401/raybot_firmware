@@ -851,7 +851,7 @@ _handle_get_chg_info:
 	CLR	W3
 	BTSC	LATB4_bit, BitPos(LATB4_bit+0)
 	INC	W3
-	MOV	#lo_addr(__bmsData+240), W0
+	MOV	#lo_addr(__bmsData+220), W0
 	ZE	[W0], W2
 ;command_handler.c,280 :: 		sprintf(handler->response_buffer,
 	MOV	#34, W0
@@ -950,7 +950,7 @@ _handle_get_dis_info:
 ;command_handler.c,299 :: 		(int) _bmsData._discharge_current_limit, (int) _bmsData._dischargeMOS);
 	MOV	#lo_addr(__bmsData+191), W0
 	ZE	[W0], W3
-	MOV	#lo_addr(__bmsData+241), W0
+	MOV	#lo_addr(__bmsData+221), W0
 	ZE	[W0], W2
 ;command_handler.c,297 :: 		sprintf(handler->response_buffer,
 	MOV	#34, W0

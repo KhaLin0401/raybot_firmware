@@ -62,7 +62,7 @@ hint: 33	1164	Variable 'key_len' has been eliminated by optimizer	json_parser.c
 hint: 80	1164	Variable 'key_len' has been eliminated by optimizer	json_parser.c
 diagnostics: 0	122	Compilation Started	stdint.h
 hint: 0	1004	interrupt handler (_UART1_Interrupt at 0x002A)	BMS.c
-diagnostics: 407	123	Compiled Successfully	BMS.c
+diagnostics: 840	123	Compiled Successfully	BMS.c
 diagnostics: 0	122	Compilation Started	stdint.h
 warning: 60	1505	Suspicious pointer conversion	uart2.c
 hint: 0	1004	interrupt handler (UART2Interrupt at 0x0050)	uart2.c
@@ -72,11 +72,11 @@ diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 22	123	Compiled Successfully	Lms.c
 diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 181	123	Compiled Successfully	Box.c
-diagnostics: 0	127	All files Compiled in 2125 ms	 
+diagnostics: 0	127	All files Compiled in 2750 ms	 
 hint: 0	1144	Used RX (bytes): 32 (100%)   Free RX (bytes): 0 (0%)	Used RX (bytes): 32 (100%)   Free RX (bytes): 0 (0%)
-hint: 0	1144	Static RAM (bytes): 5891   Dynamic RAM (bytes): 2300	Static RAM (bytes): 5891   Dynamic RAM (bytes): 2300
-hint: 0	1144	Used ROM (bytes): 25799 (59%)  Free ROM (bytes): 18229 (41%)	Used ROM (bytes): 25799 (59%)  Free ROM (bytes): 18229 (41%)
+hint: 0	1144	Static RAM (bytes): 5905   Dynamic RAM (bytes): 2286	Static RAM (bytes): 5905   Dynamic RAM (bytes): 2286
+hint: 0	1144	Used ROM (bytes): 25955 (59%)  Free ROM (bytes): 18073 (41%)	Used ROM (bytes): 25955 (59%)  Free ROM (bytes): 18073 (41%)
 diagnostics: 0	125	Project Linked Successfully	Main.mcpds
-diagnostics: 0	128	Linked in 313 ms	 
-diagnostics: 0	129	Project 'Main.mcpds' completed: 2516 ms	 
-diagnostics: 0	103	Finished successfully: 22 Jul 2025, 13:12:08	Main.mcpds
+diagnostics: 0	128	Linked in 359 ms	 
+diagnostics: 0	129	Project 'Main.mcpds' completed: 3187 ms	 
+diagnostics: 0	103	Finished successfully: 22 Jul 2025, 14:22:03	Main.mcpds

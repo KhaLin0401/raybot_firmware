@@ -562,7 +562,7 @@ void _Lifter_Get_Run_Mode(_Lifter *pLifter);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 1 "d:/mikroc pro for dspic/include/string.h"
-#line 17 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 114 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 typedef enum {
  START_BYTE = 0xA5,
  HOST_ADDRESS = 0x40,
@@ -586,17 +586,12 @@ typedef enum {
 
 
 typedef struct {
-
  float _sumVoltage;
  float _sumCurrent;
  float _sumSOC;
-
-
  float _maxCellVoltage;
  float _minCellVoltage;
  float _cellVoltages[ 16 ];
-
-
  float _temperature;
  int _cycleCount;
  uint8_t _protectionFlags;
@@ -615,9 +610,9 @@ typedef struct {
  uint8_t _hardwareVersion;
  uint8_t _softwareVersion;
  char _manufacturer[20];
- char _chargeDischargeStatus[20];
  uint8_t _charge_current_limit;
  uint8_t _discharge_current_limit;
+ char _chargeDischargeStatus[20];
  uint8_t _chargeState;
  uint8_t _loadState;
 } BMSData;
@@ -635,13 +630,12 @@ extern uint8_t _rxFrameBuffer[ 10 ][ 13 ];
 
 
 void BMS_Init(void);
+void BMS_ClearData(void);
 uint8_t BMS_SendCommand(BMS_Command cmdID, uint8_t *payload);
 uint8_t BMS_ReceiveData(uint8_t expectedFrames);
-uint8_t BMS_ValidateChecksum(uint8_t *frame);
+uint8_t BMS_ValidateChecksum(uint8_t frameIndex);
 void BMS_ProcessData(BMS_Command cmdID, uint8_t frameIndex);
 uint8_t BMS_Update(void);
-void BMS_ClearData(void);
-uint8_t BMS_GetState(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/box.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 11 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/box.h"

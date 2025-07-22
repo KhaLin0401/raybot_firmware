@@ -193,13 +193,12 @@ main
 					UART1_Read
 					memset
 					UART1_Write
-					UART1_Tx_Idle
-				BMS_ReceiveData
-					GetMillis
+				GetMillis
 				BMS_ValidateChecksum
 				BMS_ProcessData
 					strcpy
 					_Long2Float
+					_Mul_FP
 					_Div_FP
 					_Sub_FP
 				BMS_ClearData

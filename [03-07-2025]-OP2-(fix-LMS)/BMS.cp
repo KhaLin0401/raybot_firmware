@@ -67,7 +67,7 @@ char * strpbrk(char * s1, char * s2);
 char * strrchr(char *ptr, char chr);
 char * strstr(char * s1, char * s2);
 char * strtok(char * s1, char * s2);
-#line 17 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 114 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 typedef enum {
  START_BYTE = 0xA5,
  HOST_ADDRESS = 0x40,
@@ -91,17 +91,12 @@ typedef enum {
 
 
 typedef struct {
-
  float _sumVoltage;
  float _sumCurrent;
  float _sumSOC;
-
-
  float _maxCellVoltage;
  float _minCellVoltage;
  float _cellVoltages[ 16 ];
-
-
  float _temperature;
  int _cycleCount;
  uint8_t _protectionFlags;
@@ -120,9 +115,9 @@ typedef struct {
  uint8_t _hardwareVersion;
  uint8_t _softwareVersion;
  char _manufacturer[20];
- char _chargeDischargeStatus[20];
  uint8_t _charge_current_limit;
  uint8_t _discharge_current_limit;
+ char _chargeDischargeStatus[20];
  uint8_t _chargeState;
  uint8_t _loadState;
 } BMSData;
@@ -140,13 +135,12 @@ extern uint8_t _rxFrameBuffer[ 10 ][ 13 ];
 
 
 void BMS_Init(void);
+void BMS_ClearData(void);
 uint8_t BMS_SendCommand(BMS_Command cmdID, uint8_t *payload);
 uint8_t BMS_ReceiveData(uint8_t expectedFrames);
-uint8_t BMS_ValidateChecksum(uint8_t *frame);
+uint8_t BMS_ValidateChecksum(uint8_t frameIndex);
 void BMS_ProcessData(BMS_Command cmdID, uint8_t frameIndex);
 uint8_t BMS_Update(void);
-void BMS_ClearData(void);
-uint8_t BMS_GetState(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/schedule_task.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 12 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/schedule_task.h"
@@ -165,7 +159,7 @@ void _F_update_to_server(void);
 void _F_respond_to_server(void);
 void Respond_Init();
 unsigned long GetMillis(void);
-#line 6 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
+#line 413 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/BMS.c"
 BMSData _bmsData;
 TXCommand _txBuffer[ 10 ];
 uint8_t _rxFrameBuffer[ 10 ][ 13 ];
@@ -177,19 +171,40 @@ static volatile uint8_t _frameStarted = 0;
 static volatile uint8_t _framesReceived = 0;
 
 
+static volatile unsigned long _millis = 0;
 
 
+typedef enum {
+ BMS_STATE_IDLE,
+ BMS_STATE_SEND_COMMAND,
+ BMS_STATE_WAIT_RESPONSE,
+ BMS_STATE_PROCESS_DATA,
+ BMS_STATE_ERROR
+} BMS_State;
 
-static uint8_t requestCounter = 0;
-static uint8_t errorCounter = 0;
+static BMS_State _bmsState = BMS_STATE_IDLE;
+static unsigned long _startTime = 0;
+static uint8_t _currentCommandIndex = 0;
+static uint8_t _expectedFrames = 1;
+static uint8_t _errorCounter = 0;
 
 
+static BMS_Command commands[] = {
+ VOUT_IOUT_SOC,
+ MIN_MAX_CELL_VOLTAGE,
+ MIN_MAX_TEMPERATURE,
+ DISCHARGE_CHARGE_MOS_STATUS,
+ STATUS_INFO,
+ CELL_VOLTAGES,
+ CELL_TEMPERATURE,
+ CELL_BALANCE_STATE,
+ FAILURE_CODES
+};
+static const uint8_t commandCount = sizeof(commands) / sizeof(commands[0]);
 
 
 
 void BMS_Init(void) {
-
-
 
 
  IEC0bits.U1RXIE = 1;
@@ -206,11 +221,14 @@ void BMS_Init(void) {
  _framesReceived = 0;
 
 
+ _bmsState = BMS_STATE_IDLE;
+ _currentCommandIndex = 0;
+ _expectedFrames = 1;
+ _errorCounter = 0;
+ _startTime = 0;
+
+
  BMS_ClearData();
-
-
- requestCounter = 0;
- errorCounter = 0;
 }
 
 void BMS_ClearData(void) {
@@ -218,6 +236,8 @@ void BMS_ClearData(void) {
  strcpy(_bmsData._manufacturer, "DALY");
  strcpy(_bmsData._chargeDischargeStatus, "offline");
  _bmsData._errorCount = 0;
+ _bmsData._chargeState = 0;
+ _bmsData._loadState = 0;
 }
 
 uint8_t BMS_SendCommand(BMS_Command cmdID, uint8_t *payload) {
@@ -266,36 +286,7 @@ uint8_t BMS_SendCommand(BMS_Command cmdID, uint8_t *payload) {
  UART1_Write(packet[i]);
  }
 
-
- while (!UART1_Tx_Idle()) {
- }
-
  return 1;
-}
-
-uint8_t BMS_ReceiveData(uint8_t expectedFrames) {
- unsigned long startTime;
- uint8_t framesReceived;
-
- startTime = GetMillis();
- while (_framesReceived < expectedFrames && (GetMillis() - startTime < 150)) {
-
- }
-
- framesReceived = _framesReceived;
-
-
- _currentFrameIndex = 0;
- _currentByteIndex = 0;
- _frameStarted = 0;
- _framesReceived = 0;
-
- if (framesReceived < expectedFrames) {
- _bmsData._errorCount++;
- _bmsData._errorCode = 6;
- }
-
- return framesReceived;
 }
 
 uint8_t BMS_ValidateChecksum(uint8_t frameIndex) {
@@ -353,7 +344,7 @@ void BMS_ProcessData(BMS_Command cmdID, uint8_t frameIndex) {
  switch (cmdID) {
  case VOUT_IOUT_SOC:
  tempValue = (_rxFrameBuffer[frameIndex][4] << 8) | _rxFrameBuffer[frameIndex][5];
- _bmsData._sumVoltage = (float)tempValue / 10.0;
+ _bmsData._sumVoltage = (float)tempValue * 100.0;
 
  tempValue = (_rxFrameBuffer[frameIndex][8] << 8) | _rxFrameBuffer[frameIndex][9];
  if (tempValue == 0) break;
@@ -415,7 +406,7 @@ void BMS_ProcessData(BMS_Command cmdID, uint8_t frameIndex) {
  cellIndex = frameIndex * 3 + i;
  if (cellIndex < _bmsData._cellCount && cellIndex <  16 ) {
  tempValue = (_rxFrameBuffer[frameIndex][5 + i * 2] << 8) | _rxFrameBuffer[frameIndex][6 + i * 2];
- _bmsData._cellVoltages[cellIndex] = (float)tempValue / 1000.0;
+ _bmsData._cellVoltages[cellIndex] = (float)tempValue ;
  }
  }
  break;
@@ -455,21 +446,7 @@ void BMS_ProcessData(BMS_Command cmdID, uint8_t frameIndex) {
 }
 
 uint8_t BMS_Update(void) {
- static BMS_Command commands[] = {
- VOUT_IOUT_SOC,
- MIN_MAX_CELL_VOLTAGE,
- MIN_MAX_TEMPERATURE,
- DISCHARGE_CHARGE_MOS_STATUS,
- STATUS_INFO,
- CELL_VOLTAGES,
- CELL_TEMPERATURE,
- CELL_BALANCE_STATE,
- FAILURE_CODES
- };
- static const uint8_t commandCount = sizeof(commands) / sizeof(commands[0]);
  uint8_t payload[8];
- uint8_t framesExpected;
- uint8_t framesReceived;
  uint8_t i;
  uint8_t success;
 
@@ -479,60 +456,103 @@ uint8_t BMS_Update(void) {
  payload[i] = 0;
  }
 
+ switch (_bmsState) {
+ case BMS_STATE_IDLE:
 
- switch (commands[requestCounter]) {
+ switch (commands[_currentCommandIndex]) {
  case CELL_VOLTAGES:
- framesExpected = (_bmsData._cellCount + 2) / 3;
+ _expectedFrames = (_bmsData._cellCount + 2) / 3;
  break;
  case CELL_TEMPERATURE:
- framesExpected = (_bmsData._ntcCount + 6) / 7;
+ _expectedFrames = (_bmsData._ntcCount + 6) / 7;
  break;
  case CELL_BALANCE_STATE:
- framesExpected = (_bmsData._cellCount + 47) / 48;
+ _expectedFrames = (_bmsData._cellCount + 47) / 48;
  break;
  default:
- framesExpected = 1;
+ _expectedFrames = 1;
  break;
  }
+ _bmsState = BMS_STATE_SEND_COMMAND;
+ return 0;
 
+ case BMS_STATE_SEND_COMMAND:
 
- if (BMS_SendCommand(commands[requestCounter], payload)) {
+ if (BMS_SendCommand(commands[_currentCommandIndex], payload)) {
+ _startTime = GetMillis();
+ _bmsState = BMS_STATE_WAIT_RESPONSE;
+ } else {
+ _bmsState = BMS_STATE_ERROR;
+ }
+ return 0;
 
- framesReceived = BMS_ReceiveData(framesExpected);
+ case BMS_STATE_WAIT_RESPONSE:
 
+ if (GetMillis() - _startTime >= 150) {
+ _bmsData._errorCount++;
+ _bmsData._errorCode = 6;
+ _bmsState = BMS_STATE_ERROR;
+ } else if (_framesReceived >= _expectedFrames) {
+ _bmsState = BMS_STATE_PROCESS_DATA;
+ }
+ return 0;
 
- if (framesReceived > 0) {
+ case BMS_STATE_PROCESS_DATA:
+
+ if (_framesReceived > 0) {
  success = 1;
- for (i = 0; i < framesReceived; i++) {
+ for (i = 0; i < _framesReceived; i++) {
  if (BMS_ValidateChecksum(i)) {
- BMS_ProcessData(commands[requestCounter], i);
+ BMS_ProcessData(commands[_currentCommandIndex], i);
  } else {
  success = 0;
  break;
  }
  }
+ } else {
+ success = 0;
  }
- }
+
+
+ _currentFrameIndex = 0;
+ _currentByteIndex = 0;
+ _frameStarted = 0;
+ _framesReceived = 0;
 
 
  if (!success) {
- errorCounter++;
- if (errorCounter >= 10) {
+ _errorCounter++;
+ if (_errorCounter >= 10) {
  BMS_ClearData();
- requestCounter = 0;
- errorCounter = 0;
+ _currentCommandIndex = 0;
+ _errorCounter = 0;
  strcpy(_bmsData._chargeDischargeStatus, "offline");
+ _bmsState = BMS_STATE_IDLE;
  return 0;
  }
  } else {
- errorCounter = 0;
+ _errorCounter = 0;
  strcpy(_bmsData._chargeDischargeStatus, "online");
  }
 
 
- requestCounter = (requestCounter + 1) % commandCount;
-
+ _currentCommandIndex = (_currentCommandIndex + 1) % commandCount;
+ _bmsState = BMS_STATE_IDLE;
  return success;
+
+ case BMS_STATE_ERROR:
+ _errorCounter++;
+ if (_errorCounter >= 10) {
+ BMS_ClearData();
+ _currentCommandIndex = 0;
+ _errorCounter = 0;
+ strcpy(_bmsData._chargeDischargeStatus, "offline");
+ }
+ _bmsState = BMS_STATE_IDLE;
+ return 0;
+ }
+
+ return 0;
 }
 
 void _UART1_Interrupt() iv IVT_ADDR_U1RXINTERRUPT ics ICS_AUTO {
