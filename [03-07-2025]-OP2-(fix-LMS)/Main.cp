@@ -93,6 +93,7 @@ void _F_update_system_status(void);
 void _F_update_to_server(void);
 void _F_respond_to_server(void);
 void Respond_Init();
+unsigned long GetMillis(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 10 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
@@ -459,7 +460,29 @@ void DebugUART_Send_Text(const char *text);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 1 "d:/mikroc pro for dspic/include/string.h"
-#line 13 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 17 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+typedef enum {
+ START_BYTE = 0xA5,
+ HOST_ADDRESS = 0x40,
+ CELL_THRESHOLDS = 0x59,
+ PACK_THRESHOLDS = 0x5A,
+ VOUT_IOUT_SOC = 0x90,
+ MIN_MAX_CELL_VOLTAGE = 0x91,
+ MIN_MAX_TEMPERATURE = 0x92,
+ DISCHARGE_CHARGE_MOS_STATUS = 0x93,
+ STATUS_INFO = 0x94,
+ CELL_VOLTAGES = 0x95,
+ CELL_TEMPERATURE = 0x96,
+ CELL_BALANCE_STATE = 0x97,
+ FAILURE_CODES = 0x98,
+ DISCHRG_FET = 0xD9,
+ CHRG_FET = 0xDA,
+ BMS_RESET = 0x00,
+ READ_SOC = 0x61,
+ SET_SOC = 0x21
+} BMS_Command;
+
+
 typedef struct {
 
  float _sumVoltage;
@@ -468,104 +491,55 @@ typedef struct {
 
 
  float _maxCellVoltage;
- float _cellVoltages0;
- float _cellVoltages1;
- float _cellVoltages2;
- float _cellVoltages3;
-
-
  float _minCellVoltage;
+ float _cellVoltages[ 16 ];
 
 
  float _temperature;
  int _cycleCount;
  uint8_t _protectionFlags;
- float _performance;
- float _backup;
-
-
- int _cellCount;
  float _remainingCapacity;
  float _totalCapacity;
  float _highVoltageProtection;
  float _lowVoltageProtection;
  int _ntcCount;
- float *_ntcTemperatures;
- int _counter;
- uint8_t _errorCode;
+ float _ntcTemperatures[ 16 ];
+ uint8_t _balanceStatus[ 16 ];
  uint8_t _chargeMOS;
  uint8_t _dischargeMOS;
- uint8_t *_balanceStatus;
+ int _cellCount;
+ uint8_t _errorCode;
  int _errorCount;
  uint8_t _hardwareVersion;
  uint8_t _softwareVersion;
- char *_manufacturer;
+ char _manufacturer[20];
+ char _chargeDischargeStatus[20];
  uint8_t _charge_current_limit;
  uint8_t _discharge_current_limit;
+ uint8_t _chargeState;
+ uint8_t _loadState;
 } BMSData;
-
-
-
-
-
-void _updateMinMaxCellVoltage(BMSData *bmsData);
-
-extern BMSData _bmsData;
-
-
-
-
 
 
 typedef struct {
  uint8_t _commandID;
  uint8_t _payload[8];
 } TXCommand;
+
+
+extern BMSData _bmsData;
 extern TXCommand _txBuffer[ 10 ];
-extern volatile uint8_t _txBufferHead;
-extern volatile uint8_t _txBufferTail;
-void TX_PushCommand(uint8_t _commandID, uint8_t * _payload);
-uint8_t TX_IsEmpty(void);
-TXCommand TX_PopCommand(void);
-
-
-
-
-
-extern uint8_t _rxBuffer[ 50 ];
-extern volatile uint8_t _rxBufferHead;
-extern volatile uint8_t _rxBufferTail;
-void RX_PushByte(uint8_t _data);
-int RX_PopBytes(uint8_t * _buffer, uint16_t _length);
-int RX_PeekBytes(uint8_t * _buffer, uint16_t _length);
-
-
-
-
-
-typedef struct {
- uint8_t _commandID;
- uint8_t _payload[7];
- uint8_t _value;
-} ImmediateCommand;
-extern ImmediateCommand _immediateQueue[ 10 ];
-extern volatile uint8_t _immediateQueueHead;
-extern volatile uint8_t _immediateQueueTail;
-void Immediate_PushCommand(uint8_t _commandID, uint8_t * _payload, uint8_t _value);
-uint8_t Immediate_IsEmpty(void);
-ImmediateCommand Immediate_PopCommand(void);
-
-
+extern uint8_t _rxFrameBuffer[ 10 ][ 13 ];
 
 
 void BMS_Init(void);
-void BMS_Update(void);
-
-
-void BMS_SendCommandImmediate(uint8_t _commandID, uint8_t * _payload, uint8_t _value);
-
-
-void BMS_PushCommand(uint8_t _commandID, uint8_t * _payload);
+uint8_t BMS_SendCommand(BMS_Command cmdID, uint8_t *payload);
+uint8_t BMS_ReceiveData(uint8_t expectedFrames);
+uint8_t BMS_ValidateChecksum(uint8_t *frame);
+void BMS_ProcessData(BMS_Command cmdID, uint8_t frameIndex);
+uint8_t BMS_Update(void);
+void BMS_ClearData(void);
+uint8_t BMS_GetState(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/lifter.h"
 #line 1 "d:/mikroc pro for dspic/include/stdio.h"
 #line 21 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/lifter.h"
@@ -685,8 +659,8 @@ void init_hardware() {
  Unlock_IOLOCK();
  PPS_Mapping_NoLock( 9 , _INPUT, _U1RX);
  PPS_Mapping_NoLock( 8 , _OUTPUT, _U1TX);
- PPS_Mapping_NoLock( 11 , _INPUT, _U2RX);
- PPS_Mapping_NoLock( 10 , _OUTPUT, _U2TX);
+ PPS_Mapping_NoLock( 3 , _INPUT, _U2RX);
+ PPS_Mapping_NoLock( 2 , _OUTPUT, _U2TX);
  PPS_Mapping_NoLock(25, _OUTPUT, _OC1);
  PPS_Mapping_NoLock(22, _OUTPUT, _OC2);
  PPS_Mapping_NoLock(7, _OUTPUT, _OC3);
@@ -697,6 +671,8 @@ void init_hardware() {
 
 void main() {
  init_hardware();
+
+
  UART1_Init(9600);
  UART2_Init(9600);
  _UART2_Init();

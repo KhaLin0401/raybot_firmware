@@ -67,6 +67,10 @@ main
 		PWM_Init
 		PWM_Start
 	BMS_Init
+		memset
+		BMS_ClearData
+			memset
+			strcpy
 	Lms_Init
 		Button
 			Delay_500us
@@ -80,6 +84,7 @@ main
 			Soft_UART_Write
 				Delay_Cyc_Long
 		_F_timer1_init
+		_F_timer2_init
 		task_scheduler_init
 			_Long2Float
 			_Div_FP
@@ -144,11 +149,6 @@ main
 						JSON_GetInt
 						sprintf
 					handle_discharge_config
-						JSON_GetInt
-						Immediate_PushCommand
-							memcpy
-							DebugUART_Send_Text
-						sprintf
 					handle_lifter_config
 						JSON_GetInt
 						_Lifter_SetTargetPosition
@@ -188,42 +188,22 @@ main
 					UART2_Write
 				DebugUART_Send_Text
 			BMS_Update
-				_processReceivedResponsePacket
-					RX_PeekBytes
+				BMS_SendCommand
+					UART1_Data_Ready
+					UART1_Read
+					memset
+					UART1_Write
+					UART1_Tx_Idle
+				BMS_ReceiveData
+					GetMillis
+				BMS_ValidateChecksum
+				BMS_ProcessData
 					strcpy
-					sprintf
-					strcat
-					RX_PopBytes
-					DebugUART_Send_Text
 					_Long2Float
 					_Div_FP
 					_Sub_FP
-					_Float2Longint
-					_AddSub_FP
-				Immediate_IsEmpty
-				Immediate_PopCommand
-					memset
-					memcpy
-					DebugUART_Send_Text
-					sprintf
-				DebugUART_Send_Text
-				_sendSetCommandPacket
-					memcpy
-					_getEndMarker
-					UART1_Write
-					sprintf
-					strcat
-					DebugUART_Send_Text
-				TX_IsEmpty
-				TX_PopCommand
-					memset
-					memcpy
-				_sendCommandPacket
-					memcpy
-					_getEndMarker
-					UART1_Write
-					sprintf
-					strcat
+				BMS_ClearData
+				strcpy
 		_F_update_to_server
 			handle_get_bat_info
 				sprintf
@@ -276,7 +256,6 @@ main
 				_Float2Longint
 				_Long2Float
 			_Compare_Le_Fp
-		BMS_Update
 		_F_update_system_status
 			update_all_sensors
 				DistanceSensor_Update
@@ -329,13 +308,15 @@ main
 					Button
 				Box_KeyTouchStatus
 					Button
-_UART2_Rx_Receive_ISR
-	UART2_Read
-	DebugUART_Send_Text
-	strncmp
-	strncpy
+UART2Interrupt
+	_UART2_Rx_Receive_ISR
+		UART2_Read
+		DebugUART_Send_Text
+		strncmp
+		strncpy
 _UART1_Interrupt
 	UART1_Data_Ready
 	UART1_Read
+__attribute2__
 __attribute__
 	task_scheduler_clock

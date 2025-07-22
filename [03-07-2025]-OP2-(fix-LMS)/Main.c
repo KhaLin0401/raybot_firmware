@@ -7,7 +7,7 @@
 
 
 void init_hardware() {
-    // C?u hÏnh c·c ch‚n l‡m input
+    // C?u hÔøΩnh cÔøΩc chÔøΩn lÔøΩm input
     TRISAbits.TRISA0 = 1;
     TRISAbits.TRISA1 = 1;
     TRISBbits.TRISB2 = 1;
@@ -32,7 +32,7 @@ void init_hardware() {
     TRISA8_bit = 0; // RA8: output
     LATA8_bit = 1;
     
-    // C?u hÏnh c·c ch‚n di?u khi?n motor (Direction)
+    // C?u hÔøΩnh cÔøΩc chÔøΩn di?u khi?n motor (Direction)
     TRISC7_bit = 0; // RC7: output
     LATC7_bit = 1;
     TRISC6_bit = 0; // RB6: output
@@ -40,37 +40,39 @@ void init_hardware() {
     TRISC8_bit = 0; // RC8: output
     LATC8_bit = 1;
 
-    // C?u hÏnh ch‚n enable cho motor v‡ lifter
+    // C?u hÔøΩnh chÔøΩn enable cho motor vÔøΩ lifter
     TRISB12_bit = 0; // EN_M1/M2
     LATB12_bit = 0;
     TRISB5_bit = 0; // EN_lifter
     LATB5_bit = 0;
 
-    // C?u hÏnh PPS cho UART v‡ PWM
+    // C?u hÔøΩnh PPS cho UART vÔøΩ PWM
     Unlock_IOLOCK();
-        PPS_Mapping_NoLock(RX1, _INPUT, _U1RX); // RP13 -> U1RX
-        PPS_Mapping_NoLock(TX1, _OUTPUT, _U1TX); // RP14 -> U1TX
-        PPS_Mapping_NoLock(RX2, _INPUT, _U2RX);  // RP15 -> U2RX
-        PPS_Mapping_NoLock(TX2, _OUTPUT, _U2TX);  // RP12 -> U2TX
+        PPS_Mapping_NoLock(RX1, _INPUT, _U1RX);   // RP8 -> U1RX (BMS)
+        PPS_Mapping_NoLock(TX1, _OUTPUT, _U1TX);  // RP9 -> U1TX (BMS)
+        PPS_Mapping_NoLock(RX2, _INPUT, _U2RX);   // RP3 -> U2RX (Communication)
+        PPS_Mapping_NoLock(TX2, _OUTPUT, _U2TX);  // RP2 -> U2TX (Communication)
         PPS_Mapping_NoLock(25, _OUTPUT, _OC1);    // RP25 -> PWM1
-        PPS_Mapping_NoLock(22, _OUTPUT, _OC2);     // RP22  -> PWM2
-        PPS_Mapping_NoLock(7, _OUTPUT, _OC3);    // RP7 -> lifter (PWM3)
-        PPS_Mapping_NoLock(6, _OUTPUT, _OC4);    // RP6 -> lifter (PWM4)
+        PPS_Mapping_NoLock(22, _OUTPUT, _OC2);    // RP22 -> PWM2
+        PPS_Mapping_NoLock(7, _OUTPUT, _OC3);     // RP7 -> lifter (PWM3)
+        PPS_Mapping_NoLock(6, _OUTPUT, _OC4);     // RP6 -> lifter (PWM4)
     Lock_IOLOCK();
 }
 
 
 void main() {
     init_hardware();
-    UART1_Init(9600);
-    UART2_Init(9600);
-    _UART2_Init();
+    
+    // Kh·ªüi t·∫°o UART theo th·ª© t·ª±: UART1 tr∆∞·ªõc (BMS), UART2 sau (Communication)
+    UART1_Init(9600);  // BMS s·ª≠ d·ª•ng UART1
+    UART2_Init(9600);  // Communication s·ª≠ d·ª•ng UART2
+    _UART2_Init();     // Kh·ªüi t·∫°o UART2 custom
 
     DebugUART_Init();
     _MotorDC_Init(&motorDC, 2.5, 0.5, 1.0, 0);
     _MotorDC_SetSafeDistance(&motorDC, 40);
     _Lifter_Init(&lifter, 1.0, 0.5, 0.1, 30);
-    BMS_Init();
+    BMS_Init();        // BMS_Init() s·∫Ω kh·ªüi t·∫°o UART1
     Lms_Init();
     init_distance_sensors();
     CommandHandler_Init(&cmdHandler);

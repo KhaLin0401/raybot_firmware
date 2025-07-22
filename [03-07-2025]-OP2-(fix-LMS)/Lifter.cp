@@ -156,6 +156,7 @@ void _F_update_system_status(void);
 void _F_update_to_server(void);
 void _F_respond_to_server(void);
 void Respond_Init();
+unsigned long GetMillis(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 10 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"

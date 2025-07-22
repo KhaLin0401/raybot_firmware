@@ -2,13 +2,13 @@
 #include <string.h>
 #include "robot_system.h"  // Gi? s? ch?a d?nh nghia c?a DebugUART_Send_Text(), UART2_Read(), UART2_Write()
 
-// Ð?i tu?ng toàn c?c
+// ï¿½?i tu?ng toï¿½n c?c
 _UART2_Object _uart2;
 
 /* Kh?i t?o module UART2:
-   - Reset các ch? s? c?a RX và TX stack, cung nhu temp buffer.
-   - Kích ho?t ng?t RX.
-   Các bi?n c?c b? du?c khai báo d?u hàm. */
+   - Reset cï¿½c ch? s? c?a RX vï¿½ TX stack, cung nhu temp buffer.
+   - Kï¿½ch ho?t ng?t RX.
+   Cï¿½c bi?n c?c b? du?c khai bï¿½o d?u hï¿½m. */
 void _UART2_Init(void) {
     int i;
     _uart2._rx_head = 0;
@@ -27,8 +27,8 @@ void _UART2_Init(void) {
     IFS1bits.U2RXIF = 0;
 }
 
-/* Hàm g?i d? li?u blocking, g?i t?ng ký t? qua UART2.
-   Các bi?n c?c b? du?c khai báo d?u hàm. */
+/* Hï¿½m g?i d? li?u blocking, g?i t?ng kï¿½ t? qua UART2.
+   Cï¿½c bi?n c?c b? du?c khai bï¿½o d?u hï¿½m. */
 int _UART2_SendBlocking(const char *text) {
     int timeout;
     int result = 1;
@@ -47,9 +47,9 @@ int _UART2_SendBlocking(const char *text) {
     return result;
 }
 
-/* Hàm push l?nh vào TX stack.
+/* Hï¿½m push l?nh vï¿½o TX stack.
    N?u TX stack d?y, l?nh s? b? t? ch?i.
-   Các bi?n c?c b? du?c khai báo d?u hàm. */
+   Cï¿½c bi?n c?c b? du?c khai bï¿½o d?u hï¿½m. */
 void _UART2_SendPush(const char *text) {
     uint8_t next_head;
     next_head = (_uart2._tx_head + 1) % _UART2_TX_STACK_SIZE;
@@ -62,9 +62,9 @@ void _UART2_SendPush(const char *text) {
     _uart2._tx_head = next_head;
 }
 
-/* Hàm du?c scheduler g?i d?nh k? d? x? lý TX stack.
-   N?u có l?nh, l?y l?nh ra và g?i di, sau dó xóa ô dó.
-   Các bi?n c?c b? du?c khai báo d?u hàm. */
+/* Hï¿½m du?c scheduler g?i d?nh k? d? x? lï¿½ TX stack.
+   N?u cï¿½ l?nh, l?y l?nh ra vï¿½ g?i di, sau dï¿½ xï¿½a ï¿½ dï¿½.
+   Cï¿½c bi?n c?c b? du?c khai bï¿½o d?u hï¿½m. */
 uint8_t _UART2_SendProcess(void) {
     uint8_t ret = 0;char *cmd;
     if(_uart2._tx_tail != _uart2._tx_head) {
@@ -81,9 +81,9 @@ uint8_t _UART2_SendProcess(void) {
     return ret;
 }
 
-/* Hàm pop l?nh t? RX stack d? scheduler l?y và x? lý.
-   Sau khi l?y ra, ô dó du?c xóa và s?n sàng nh?n l?nh m?i.
-   Các bi?n c?c b? du?c khai báo d?u hàm. */
+/* Hï¿½m pop l?nh t? RX stack d? scheduler l?y vï¿½ x? lï¿½.
+   Sau khi l?y ra, ï¿½ dï¿½ du?c xï¿½a vï¿½ s?n sï¿½ng nh?n l?nh m?i.
+   Cï¿½c bi?n c?c b? du?c khai bï¿½o d?u hï¿½m. */
 uint8_t _UART2_Rx_GetCommand(char *out_cmd) {
     uint8_t ret = 0;
     if(_uart2._rx_tail != _uart2._rx_head) {
@@ -96,14 +96,14 @@ uint8_t _UART2_Rx_GetCommand(char *out_cmd) {
     return ret;
 }
 
-/* Hàm ISR x? lý RX:
-   - S? d?ng buffer t?m (_temp_rx_buffer) d? tích luy ký t? nh?n du?c.
-   - Khi g?p ký t? k?t thúc ('\n' ho?c '\r'), ki?m tra l?nh:
+/* Hï¿½m ISR x? lï¿½ RX:
+   - S? d?ng buffer t?m (_temp_rx_buffer) d? tï¿½ch luy kï¿½ t? nh?n du?c.
+   - Khi g?p kï¿½ t? k?t thï¿½c ('\n' ho?c '\r'), ki?m tra l?nh:
          + L?nh ph?i b?t d?u b?ng '>' ho?c "GET" ho?c "SET".
-         + N?u h?p l?, push l?nh vào RX stack; n?u không, in l?i.
-   - Sau dó, reset buffer t?m.
-   T?t c? bi?n c?c b? d?u du?c khai báo d?u hàm. */
-void _UART2_Rx_Receive_ISR(void) iv IVT_ADDR_U2RXINTERRUPT ics ICS_AUTO {
+         + N?u h?p l?, push l?nh vï¿½o RX stack; n?u khï¿½ng, in l?i.
+   - Sau dï¿½, reset buffer t?m.
+   T?t c? bi?n c?c b? d?u du?c khai bï¿½o d?u hï¿½m. */
+void _UART2_Rx_Receive_ISR() {
     char c;
     uint8_t next_head;
     c = UART2_Read();
@@ -142,4 +142,7 @@ void _UART2_Rx_Receive_ISR(void) iv IVT_ADDR_U2RXINTERRUPT ics ICS_AUTO {
         _uart2._temp_index = 0;
     }
     IFS1bits.U2RXIF = 0;
+}
+void UART2Interrupt() iv IVT_ADDR_U2RXINTERRUPT ics ICS_AUTO {
+    _UART2_Rx_Receive_ISR();
 }

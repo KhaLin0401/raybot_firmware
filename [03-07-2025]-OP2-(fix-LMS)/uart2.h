@@ -50,4 +50,6 @@ uint8_t _UART2_Rx_GetCommand(char *out_cmd);
    và k?t thúc b?ng '\n' ho?c '\r' m?i du?c dua vào RX stack. */
 void _UART2_Rx_Receive_ISR(void);
 
+
+
 #endif /* _UART2_H */

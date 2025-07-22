@@ -8,36 +8,60 @@
 #include "Lms.h"
 #include "Box.h"
 int send_index;
-// Khai b?o Task ID
-uint8_t _task_uart;          // Task x? l? l?nh UART
-uint8_t _task_update_system; // Task c?p nh?t c?m bi?n
-uint8_t _task_update_motor;  // Task c?p nh?t d?ng co
-uint8_t _task_update_to_server;  // Task c?p nh?t d?ng co
+// Khai báo Task ID
+uint8_t _task_uart;
+uint8_t _task_update_system;
+uint8_t _task_update_motor;
+uint8_t _task_update_to_server;
 uint8_t _task_respond_Init;
 uint8_t _task_update_BMS;
-/**
- * @brief Kh?i t?o Timer2 v?i tick ~1ms.
- */
-void _F_timer1_init(void) {
-    // C?u h�nh Timer1:
-    //  - T1CON = 0x8030: b?t Timer1, thi?t l?p prescaler 1:256 (v?i gi� tr? prescaler h?p l?: 1, 8, 64, 256)
-    //  - PR1 = 6200: thi?t l?p chu k?, tick kho?ng 1ms (theo c�ch t�nh d?a tr�n Fosc)
-    T1CON = 0x8030;
-    PR1 = 6200;
-    TMR1 = 0;
 
-    // C�i d?t m?c uu ti�n ng?t cho Timer1 (v� d?: 5)
-    IPC0bits.T1IP = 5;
-    IFS0bits.T1IF = 0;  // X�a c? ng?t Timer1
-    IEC0bits.T1IE = 1;  // Cho ph�p ng?t Timer1
+static volatile unsigned long _millis = 0;
+
+/**
+ * @brief Lấy số ms đã trôi qua (dùng Timer2 riêng biệt)
+ */
+unsigned long GetMillis(void) {
+    unsigned long temp;
+    temp = _millis;
+    return temp;
 }
 
 /**
- * @brief Ng?t Timer1 (ISR): G?i h�m task_scheduler_clock() cho m?i tick (~1ms).
+ * @brief Khởi tạo Timer1 cho scheduler (tick 1ms)
+ */
+void _F_timer1_init(void) {
+    T1CON = 0x8030;
+    PR1 = 6200;
+    TMR1 = 0;
+    IPC0bits.T1IP = 5; // Priority thấp hơn UART
+    IFS0bits.T1IF = 0;
+    IEC0bits.T1IE = 1;
+}
+
+/**
+ * @brief Khởi tạo Timer2 cho GetMillis (tick 1ms)
+ */
+void _F_timer2_init(void) {
+    T2CON = 0x8030;
+    PR2 = 6200;
+    TMR2 = 0;
+    IPC1bits.T2IP = 3; // Priority thấp hơn UART
+    IFS0bits.T2IF = 0;
+    IEC0bits.T2IE = 1;
+}
+
+/**
+ * @brief ISR Timer1: chỉ gọi scheduler
  */
 void __attribute__() iv IVT_ADDR_T1INTERRUPT ics ICS_AUTO {
     task_scheduler_clock();
     IFS0bits.T1IF = 0;
+}
+
+void __attribute2__() iv IVT_ADDR_T2INTERRUPT ics ICS_AUTO {
+    _millis++;
+    IFS0bits.T2IF = 0;
 }
 
 /**
@@ -214,19 +238,14 @@ void _F_update_to_server(void){
  */
 void _F_schedule_init(void) {
     DebugUART_Send_Text("Initializing Task Scheduler...\n");
-
-    // Kh?i t?o Timer2 v?i tick ~1ms
     _F_timer1_init();
-    // Kh?i t?o scheduler v?i tick = 1000 (1ms/tick)
+    _F_timer2_init();
     task_scheduler_init(1000);
-
-    // Th?m task: c?c kho?ng th?i gian t?nh b?ng ms (non-blocking)
     _task_uart = task_add(_F_process_uart_command, 50);
     _task_update_to_server = task_add(_F_update_to_server, 950);
     _task_update_motor = task_add(_SC_update_motor, 100);
-    _task_update_BMS = task_add(BMS_Update, 850);
+    //_task_update_BMS = task_add(BMS_Update, 850);
     _task_update_system = task_add(_F_update_system_status, 75);
     task_scheduler_start();
     DebugUART_Send_Text("Task Scheduler initialization complete!\n");
-
 }

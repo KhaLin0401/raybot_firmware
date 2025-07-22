@@ -119,6 +119,7 @@ void _F_update_system_status(void);
 void _F_update_to_server(void);
 void _F_respond_to_server(void);
 void Respond_Init();
+unsigned long GetMillis(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 10 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
@@ -536,7 +537,7 @@ uint8_t _UART2_Rx_GetCommand(char *out_cmd) {
  return ret;
 }
 #line 106 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/uart2.c"
-void _UART2_Rx_Receive_ISR(void) iv IVT_ADDR_U2RXINTERRUPT ics ICS_AUTO {
+void _UART2_Rx_Receive_ISR() {
  char c;
  uint8_t next_head;
  c = UART2_Read();
@@ -575,4 +576,7 @@ void _UART2_Rx_Receive_ISR(void) iv IVT_ADDR_U2RXINTERRUPT ics ICS_AUTO {
  _uart2._temp_index = 0;
  }
  IFS1bits.U2RXIF = 0;
+}
+void UART2Interrupt() iv IVT_ADDR_U2RXINTERRUPT ics ICS_AUTO {
+ _UART2_Rx_Receive_ISR();
 }

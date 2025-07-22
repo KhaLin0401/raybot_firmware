@@ -1,12 +1,12 @@
 [DEVICE]
 Name=P24FJ64GA004
-Clock=16000000
+Clock=8000000
 [MEMORY_MODEL]
 Value=0
 [BUILD_TYPE]
 Value=0
 [ACTIVE_TAB]
-Value=robot_system.h
+Value=uart2.h
 [USE_EEPROM]
 Value=0
 [USE_HEAP]
@@ -57,7 +57,8 @@ File18=Box.h
 File19=distance_sensor.h
 File20=BMS.c
 File21=BMS.h
-Count=22
+File22=uart2.c
+Count=23
 [EEPROM]
 Count=0
 [ACTIVE_COMMENTS_FILES]

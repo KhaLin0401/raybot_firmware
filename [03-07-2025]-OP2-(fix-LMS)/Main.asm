@@ -61,42 +61,42 @@ _init_hardware:
 	BCLR	LATB5_bit, BitPos(LATB5_bit+0)
 ;Main.c,50 :: 		Unlock_IOLOCK();
 	CALL	_Unlock_IOLOCK
-;Main.c,51 :: 		PPS_Mapping_NoLock(RX1, _INPUT, _U1RX); // RP13 -> U1RX
+;Main.c,51 :: 		PPS_Mapping_NoLock(RX1, _INPUT, _U1RX);   // RP8 -> U1RX (BMS)
 	MOV.B	#13, W12
 	MOV.B	#1, W11
 	MOV.B	#9, W10
 	CALL	_PPS_Mapping_NoLock
-;Main.c,52 :: 		PPS_Mapping_NoLock(TX1, _OUTPUT, _U1TX); // RP14 -> U1TX
+;Main.c,52 :: 		PPS_Mapping_NoLock(TX1, _OUTPUT, _U1TX);  // RP9 -> U1TX (BMS)
 	MOV.B	#3, W12
 	CLR	W11
 	MOV.B	#8, W10
 	CALL	_PPS_Mapping_NoLock
-;Main.c,53 :: 		PPS_Mapping_NoLock(RX2, _INPUT, _U2RX);  // RP15 -> U2RX
+;Main.c,53 :: 		PPS_Mapping_NoLock(RX2, _INPUT, _U2RX);   // RP3 -> U2RX (Communication)
 	MOV.B	#15, W12
 	MOV.B	#1, W11
-	MOV.B	#11, W10
+	MOV.B	#3, W10
 	CALL	_PPS_Mapping_NoLock
-;Main.c,54 :: 		PPS_Mapping_NoLock(TX2, _OUTPUT, _U2TX);  // RP12 -> U2TX
+;Main.c,54 :: 		PPS_Mapping_NoLock(TX2, _OUTPUT, _U2TX);  // RP2 -> U2TX (Communication)
 	MOV.B	#5, W12
 	CLR	W11
-	MOV.B	#10, W10
+	MOV.B	#2, W10
 	CALL	_PPS_Mapping_NoLock
 ;Main.c,55 :: 		PPS_Mapping_NoLock(25, _OUTPUT, _OC1);    // RP25 -> PWM1
 	MOV.B	#18, W12
 	CLR	W11
 	MOV.B	#25, W10
 	CALL	_PPS_Mapping_NoLock
-;Main.c,56 :: 		PPS_Mapping_NoLock(22, _OUTPUT, _OC2);     // RP22  -> PWM2
+;Main.c,56 :: 		PPS_Mapping_NoLock(22, _OUTPUT, _OC2);    // RP22 -> PWM2
 	MOV.B	#19, W12
 	CLR	W11
 	MOV.B	#22, W10
 	CALL	_PPS_Mapping_NoLock
-;Main.c,57 :: 		PPS_Mapping_NoLock(7, _OUTPUT, _OC3);    // RP7 -> lifter (PWM3)
+;Main.c,57 :: 		PPS_Mapping_NoLock(7, _OUTPUT, _OC3);     // RP7 -> lifter (PWM3)
 	MOV.B	#20, W12
 	CLR	W11
 	MOV.B	#7, W10
 	CALL	_PPS_Mapping_NoLock
-;Main.c,58 :: 		PPS_Mapping_NoLock(6, _OUTPUT, _OC4);    // RP6 -> lifter (PWM4)
+;Main.c,58 :: 		PPS_Mapping_NoLock(6, _OUTPUT, _OC4);     // RP6 -> lifter (PWM4)
 	MOV.B	#21, W12
 	CLR	W11
 	MOV.B	#6, W10
@@ -126,19 +126,19 @@ _main:
 	PUSH	W11
 	PUSH	W12
 	CALL	_init_hardware
-;Main.c,65 :: 		UART1_Init(9600);
+;Main.c,67 :: 		UART1_Init(9600);  // BMS sử dụng UART1
 	MOV	#9600, W10
 	MOV	#0, W11
 	CALL	_UART1_Init
-;Main.c,66 :: 		UART2_Init(9600);
+;Main.c,68 :: 		UART2_Init(9600);  // Communication sử dụng UART2
 	MOV	#9600, W10
 	MOV	#0, W11
 	CALL	_UART2_Init
-;Main.c,67 :: 		_UART2_Init();
+;Main.c,69 :: 		_UART2_Init();     // Khởi tạo UART2 custom
 	CALL	__UART2_Init
-;Main.c,69 :: 		DebugUART_Init();
+;Main.c,71 :: 		DebugUART_Init();
 	CALL	_DebugUART_Init
-;Main.c,70 :: 		_MotorDC_Init(&motorDC, 2.5, 0.5, 1.0, 0);
+;Main.c,72 :: 		_MotorDC_Init(&motorDC, 2.5, 0.5, 1.0, 0);
 	MOV	#0, W11
 	MOV	#16416, W12
 	MOV	#lo_addr(_motorDC), W10
@@ -153,12 +153,12 @@ _main:
 	PUSH.D	W0
 	CALL	__MotorDC_Init
 	SUB	#12, W15
-;Main.c,71 :: 		_MotorDC_SetSafeDistance(&motorDC, 40);
+;Main.c,73 :: 		_MotorDC_SetSafeDistance(&motorDC, 40);
 	MOV	#0, W11
 	MOV	#16928, W12
 	MOV	#lo_addr(_motorDC), W10
 	CALL	__MotorDC_SetSafeDistance
-;Main.c,72 :: 		_Lifter_Init(&lifter, 1.0, 0.5, 0.1, 30);
+;Main.c,74 :: 		_Lifter_Init(&lifter, 1.0, 0.5, 0.1, 30);
 	MOV	#0, W11
 	MOV	#16256, W12
 	MOV	#lo_addr(_lifter), W10
@@ -173,24 +173,24 @@ _main:
 	PUSH.D	W0
 	CALL	__Lifter_Init
 	SUB	#12, W15
-;Main.c,73 :: 		BMS_Init();
+;Main.c,75 :: 		BMS_Init();        // BMS_Init() sẽ khởi tạo UART1
 	CALL	_BMS_Init
-;Main.c,74 :: 		Lms_Init();
+;Main.c,76 :: 		Lms_Init();
 	CALL	_Lms_Init
-;Main.c,75 :: 		init_distance_sensors();
+;Main.c,77 :: 		init_distance_sensors();
 	CALL	_init_distance_sensors
-;Main.c,76 :: 		CommandHandler_Init(&cmdHandler);
+;Main.c,78 :: 		CommandHandler_Init(&cmdHandler);
 	MOV	#lo_addr(_cmdHandler), W10
 	CALL	_CommandHandler_Init
-;Main.c,78 :: 		_F_schedule_init();
+;Main.c,80 :: 		_F_schedule_init();
 	CALL	__F_schedule_init
-;Main.c,80 :: 		while (1) {
+;Main.c,82 :: 		while (1) {
 L_main0:
-;Main.c,81 :: 		task_dispatch(); // Gọi Scheduler của MikroE
+;Main.c,83 :: 		task_dispatch(); // Gọi Scheduler của MikroE
 	CALL	_task_dispatch
-;Main.c,82 :: 		}
+;Main.c,84 :: 		}
 	GOTO	L_main0
-;Main.c,83 :: 		}
+;Main.c,85 :: 		}
 L_end_main:
 	POP	W12
 	POP	W11

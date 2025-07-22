@@ -245,7 +245,8 @@ void handle_get_bat_info(CommandHandler *handler) {
     sprintf(handler->response_buffer,
     ">{\"type\":0,\"state_type\":0,\"data\":{\"current\":%d,\"temp\":%d,\"voltage\":%d,\"cell_voltages\":[%d,%d,%d,%d],\"percent\":%d,\"fault\":%d,\"health\":%d,\"status\":%d}}\r\n",
     (int)_bmsData._sumCurrent,(int) _bmsData._temperature, (int)_bmsData._sumVoltage,
-    (int)_bmsData._cellVoltages0, (int)_bmsData._cellVoltages1, (int)_bmsData._cellVoltages2, (int)_bmsData._cellVoltages3,
+    (int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1],
+    (int)_bmsData._cellVoltages[2], (int)_bmsData._cellVoltages[3],
     (uint8_t)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
 }
 void handle_get_bat_current(CommandHandler *handler) {
@@ -529,14 +530,41 @@ void handle_set_update_status(CommandHandler *handler){
 }
 
 void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
+    int current_limit, enable;
+    if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
+        JSON_GetInt(dataParser, "enable", &enable)) {
+        //bms._charge_current_limit = current_limit;
+        if (enable == 0)
+        {
+            LATB4_bit = 0;
+            LATA8_bit = 0;
+        }
+        else if (enable == 1)
+        {
+            LATB4_bit = 1;
+            LATA8_bit = 1;
+        }
+
+        else {
+            sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+            return;
+        }
+        sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
+    } else {
+        sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
+    }
+}
+
+
+void handle_discharge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
     // int current_limit, enable;
     // if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
     //     JSON_GetInt(dataParser, "enable", &enable)) {
-    //     _bmsData._charge_current_limit = current_limit;
+    //     //bms._discharge_current_limit = current_limit;
     //     if (enable == 0)
-    //         Immediate_PushCommand(0xDA, _defaultSetPayload, 0x00);
+    //         DalyBms_setDischargeMOS(&bms, 0);
     //     else if (enable == 1)
-    //         Immediate_PushCommand(0xDA, _defaultSetPayload, 0x01);
+    //         DalyBms_setDischargeMOS(&bms, 1);
     //     else {
     //         sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
     //         return;
@@ -545,49 +573,6 @@ void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char
     // } else {
     //     sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
     // }
-    int current_limit, enable;
-    if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
-        JSON_GetInt(dataParser, "enable", &enable)) {
-        _bmsData._charge_current_limit = current_limit;
-        if (enable == 0)
-            {
-                LATB4_bit = 0;
-                LATA8_bit = 0;
-            }
-        else if (enable == 1)
-            {
-                LATB4_bit = 1;
-                LATA8_bit = 1;
-            }
-        else {
-            sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
-            return;
-        }
-        sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
-    } else {
-        sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
-    }
-
-}
-
-
-void handle_discharge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
-    int current_limit, enable;
-    if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
-        JSON_GetInt(dataParser, "enable", &enable)) {
-        _bmsData._discharge_current_limit = current_limit;
-        if (enable == 0)
-            Immediate_PushCommand(0xD9, _defaultSetPayload, 0x00);
-        else if (enable == 1)
-            Immediate_PushCommand(0xD9, _defaultSetPayload, 0x01);
-        else {
-            sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
-            return;
-        }
-        sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
-    } else {
-        sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
-    }
 }
 
 void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){

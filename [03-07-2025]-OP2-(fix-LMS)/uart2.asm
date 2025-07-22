@@ -383,14 +383,8 @@ L_end__UART2_Rx_GetCommand:
 ; end of __UART2_Rx_GetCommand
 
 __UART2_Rx_Receive_ISR:
-	PUSH	52
-	PUSH	RCOUNT
-	PUSH	W0
-	MOV	#2, W0
-	REPEAT	#12
-	PUSH	[W0++]
 
-;uart2.c,106 :: 		void _UART2_Rx_Receive_ISR(void) iv IVT_ADDR_U2RXINTERRUPT ics ICS_AUTO {
+;uart2.c,106 :: 		void _UART2_Rx_Receive_ISR() {
 ;uart2.c,109 :: 		c = UART2_Read();
 	PUSH	W10
 	PUSH	W11
@@ -596,6 +590,22 @@ L_end__UART2_Rx_Receive_ISR:
 	POP	W12
 	POP	W11
 	POP	W10
+	RETURN
+; end of __UART2_Rx_Receive_ISR
+
+_UART2Interrupt:
+	PUSH	52
+	PUSH	RCOUNT
+	PUSH	W0
+	MOV	#2, W0
+	REPEAT	#12
+	PUSH	[W0++]
+
+;uart2.c,146 :: 		void UART2Interrupt() iv IVT_ADDR_U2RXINTERRUPT ics ICS_AUTO {
+;uart2.c,147 :: 		_UART2_Rx_Receive_ISR();
+	CALL	__UART2_Rx_Receive_ISR
+;uart2.c,148 :: 		}
+L_end_UART2Interrupt:
 	MOV	#26, W0
 	REPEAT	#12
 	POP	[W0--]
@@ -603,4 +613,4 @@ L_end__UART2_Rx_Receive_ISR:
 	POP	RCOUNT
 	POP	52
 	RETFIE
-; end of __UART2_Rx_Receive_ISR
+; end of _UART2Interrupt

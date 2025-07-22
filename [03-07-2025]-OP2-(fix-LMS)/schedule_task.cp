@@ -57,6 +57,7 @@ void _F_update_system_status(void);
 void _F_update_to_server(void);
 void _F_respond_to_server(void);
 void Respond_Init();
+unsigned long GetMillis(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/robot_system.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/uart2.h"
@@ -462,7 +463,29 @@ void DebugUART_Send_Text(const char *text);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 1 "d:/mikroc pro for dspic/include/string.h"
-#line 13 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 17 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+typedef enum {
+ START_BYTE = 0xA5,
+ HOST_ADDRESS = 0x40,
+ CELL_THRESHOLDS = 0x59,
+ PACK_THRESHOLDS = 0x5A,
+ VOUT_IOUT_SOC = 0x90,
+ MIN_MAX_CELL_VOLTAGE = 0x91,
+ MIN_MAX_TEMPERATURE = 0x92,
+ DISCHARGE_CHARGE_MOS_STATUS = 0x93,
+ STATUS_INFO = 0x94,
+ CELL_VOLTAGES = 0x95,
+ CELL_TEMPERATURE = 0x96,
+ CELL_BALANCE_STATE = 0x97,
+ FAILURE_CODES = 0x98,
+ DISCHRG_FET = 0xD9,
+ CHRG_FET = 0xDA,
+ BMS_RESET = 0x00,
+ READ_SOC = 0x61,
+ SET_SOC = 0x21
+} BMS_Command;
+
+
 typedef struct {
 
  float _sumVoltage;
@@ -471,104 +494,55 @@ typedef struct {
 
 
  float _maxCellVoltage;
- float _cellVoltages0;
- float _cellVoltages1;
- float _cellVoltages2;
- float _cellVoltages3;
-
-
  float _minCellVoltage;
+ float _cellVoltages[ 16 ];
 
 
  float _temperature;
  int _cycleCount;
  uint8_t _protectionFlags;
- float _performance;
- float _backup;
-
-
- int _cellCount;
  float _remainingCapacity;
  float _totalCapacity;
  float _highVoltageProtection;
  float _lowVoltageProtection;
  int _ntcCount;
- float *_ntcTemperatures;
- int _counter;
- uint8_t _errorCode;
+ float _ntcTemperatures[ 16 ];
+ uint8_t _balanceStatus[ 16 ];
  uint8_t _chargeMOS;
  uint8_t _dischargeMOS;
- uint8_t *_balanceStatus;
+ int _cellCount;
+ uint8_t _errorCode;
  int _errorCount;
  uint8_t _hardwareVersion;
  uint8_t _softwareVersion;
- char *_manufacturer;
+ char _manufacturer[20];
+ char _chargeDischargeStatus[20];
  uint8_t _charge_current_limit;
  uint8_t _discharge_current_limit;
+ uint8_t _chargeState;
+ uint8_t _loadState;
 } BMSData;
-
-
-
-
-
-void _updateMinMaxCellVoltage(BMSData *bmsData);
-
-extern BMSData _bmsData;
-
-
-
-
 
 
 typedef struct {
  uint8_t _commandID;
  uint8_t _payload[8];
 } TXCommand;
+
+
+extern BMSData _bmsData;
 extern TXCommand _txBuffer[ 10 ];
-extern volatile uint8_t _txBufferHead;
-extern volatile uint8_t _txBufferTail;
-void TX_PushCommand(uint8_t _commandID, uint8_t * _payload);
-uint8_t TX_IsEmpty(void);
-TXCommand TX_PopCommand(void);
-
-
-
-
-
-extern uint8_t _rxBuffer[ 50 ];
-extern volatile uint8_t _rxBufferHead;
-extern volatile uint8_t _rxBufferTail;
-void RX_PushByte(uint8_t _data);
-int RX_PopBytes(uint8_t * _buffer, uint16_t _length);
-int RX_PeekBytes(uint8_t * _buffer, uint16_t _length);
-
-
-
-
-
-typedef struct {
- uint8_t _commandID;
- uint8_t _payload[7];
- uint8_t _value;
-} ImmediateCommand;
-extern ImmediateCommand _immediateQueue[ 10 ];
-extern volatile uint8_t _immediateQueueHead;
-extern volatile uint8_t _immediateQueueTail;
-void Immediate_PushCommand(uint8_t _commandID, uint8_t * _payload, uint8_t _value);
-uint8_t Immediate_IsEmpty(void);
-ImmediateCommand Immediate_PopCommand(void);
-
-
+extern uint8_t _rxFrameBuffer[ 10 ][ 13 ];
 
 
 void BMS_Init(void);
-void BMS_Update(void);
-
-
-void BMS_SendCommandImmediate(uint8_t _commandID, uint8_t * _payload, uint8_t _value);
-
-
-void BMS_PushCommand(uint8_t _commandID, uint8_t * _payload);
+uint8_t BMS_SendCommand(BMS_Command cmdID, uint8_t *payload);
+uint8_t BMS_ReceiveData(uint8_t expectedFrames);
+uint8_t BMS_ValidateChecksum(uint8_t *frame);
+void BMS_ProcessData(BMS_Command cmdID, uint8_t frameIndex);
+uint8_t BMS_Update(void);
+void BMS_ClearData(void);
+uint8_t BMS_GetState(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/lifter.h"
 #line 1 "d:/mikroc pro for dspic/include/stdio.h"
 #line 21 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/lifter.h"
@@ -704,26 +678,43 @@ uint8_t _task_update_motor;
 uint8_t _task_update_to_server;
 uint8_t _task_respond_Init;
 uint8_t _task_update_BMS;
-#line 21 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+
+static volatile unsigned long _millis = 0;
+#line 24 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+unsigned long GetMillis(void) {
+ unsigned long temp;
+ temp = _millis;
+ return temp;
+}
+#line 33 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void _F_timer1_init(void) {
-
-
-
  T1CON = 0x8030;
  PR1 = 6200;
  TMR1 = 0;
-
-
  IPC0bits.T1IP = 5;
  IFS0bits.T1IF = 0;
  IEC0bits.T1IE = 1;
 }
-#line 38 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 45 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+void _F_timer2_init(void) {
+ T2CON = 0x8030;
+ PR2 = 6200;
+ TMR2 = 0;
+ IPC1bits.T2IP = 3;
+ IFS0bits.T2IF = 0;
+ IEC0bits.T2IE = 1;
+}
+#line 57 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void __attribute__() iv IVT_ADDR_T1INTERRUPT ics ICS_AUTO {
  task_scheduler_clock();
  IFS0bits.T1IF = 0;
 }
-#line 48 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+
+void __attribute2__() iv IVT_ADDR_T2INTERRUPT ics ICS_AUTO {
+ _millis++;
+ IFS0bits.T2IF = 0;
+}
+#line 72 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void _F_process_uart_command(void) {
  char _command[ 180 ];
  uint8_t _command_available;
@@ -773,7 +764,7 @@ void _F_process_uart_command(void) {
  BMS_Update();
 
 }
-#line 102 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 126 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void _F_update_system_status(void) {
 
 
@@ -782,7 +773,7 @@ void _F_update_system_status(void) {
 
 
 }
-#line 114 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 138 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void _SC_update_motor(void) {
 
  if(motorDC._direction == 0)
@@ -804,7 +795,7 @@ void _SC_update_motor(void) {
  {
 
  _Lifter_Update(&lifter);
-#line 141 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 165 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
  }
 
  if (lifter._currentPosition <= 25 || Lms_isPressed()){
@@ -818,7 +809,7 @@ void _SC_update_motor(void) {
  LATB4_bit = 0;
  LATA8_bit = 0;
  }
-#line 160 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 184 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 }
 
 
@@ -868,22 +859,17 @@ void _F_update_to_server(void){
  }
 
 }
-#line 215 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 239 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void _F_schedule_init(void) {
  DebugUART_Send_Text("Initializing Task Scheduler...\n");
-
-
  _F_timer1_init();
-
+ _F_timer2_init();
  task_scheduler_init(1000);
-
-
  _task_uart = task_add(_F_process_uart_command, 50);
  _task_update_to_server = task_add(_F_update_to_server, 950);
  _task_update_motor = task_add(_SC_update_motor, 100);
- _task_update_BMS = task_add(BMS_Update, 850);
+
  _task_update_system = task_add(_F_update_system_status, 75);
  task_scheduler_start();
  DebugUART_Send_Text("Task Scheduler initialization complete!\n");
-
 }

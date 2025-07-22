@@ -167,6 +167,7 @@ void _F_update_system_status(void);
 void _F_update_to_server(void);
 void _F_respond_to_server(void);
 void Respond_Init();
+unsigned long GetMillis(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 10 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/distance_sensor.h"
@@ -561,7 +562,29 @@ void _Lifter_Get_Run_Mode(_Lifter *pLifter);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 1 "d:/mikroc pro for dspic/include/string.h"
-#line 13 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+#line 17 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/bms.h"
+typedef enum {
+ START_BYTE = 0xA5,
+ HOST_ADDRESS = 0x40,
+ CELL_THRESHOLDS = 0x59,
+ PACK_THRESHOLDS = 0x5A,
+ VOUT_IOUT_SOC = 0x90,
+ MIN_MAX_CELL_VOLTAGE = 0x91,
+ MIN_MAX_TEMPERATURE = 0x92,
+ DISCHARGE_CHARGE_MOS_STATUS = 0x93,
+ STATUS_INFO = 0x94,
+ CELL_VOLTAGES = 0x95,
+ CELL_TEMPERATURE = 0x96,
+ CELL_BALANCE_STATE = 0x97,
+ FAILURE_CODES = 0x98,
+ DISCHRG_FET = 0xD9,
+ CHRG_FET = 0xDA,
+ BMS_RESET = 0x00,
+ READ_SOC = 0x61,
+ SET_SOC = 0x21
+} BMS_Command;
+
+
 typedef struct {
 
  float _sumVoltage;
@@ -570,104 +593,55 @@ typedef struct {
 
 
  float _maxCellVoltage;
- float _cellVoltages0;
- float _cellVoltages1;
- float _cellVoltages2;
- float _cellVoltages3;
-
-
  float _minCellVoltage;
+ float _cellVoltages[ 16 ];
 
 
  float _temperature;
  int _cycleCount;
  uint8_t _protectionFlags;
- float _performance;
- float _backup;
-
-
- int _cellCount;
  float _remainingCapacity;
  float _totalCapacity;
  float _highVoltageProtection;
  float _lowVoltageProtection;
  int _ntcCount;
- float *_ntcTemperatures;
- int _counter;
- uint8_t _errorCode;
+ float _ntcTemperatures[ 16 ];
+ uint8_t _balanceStatus[ 16 ];
  uint8_t _chargeMOS;
  uint8_t _dischargeMOS;
- uint8_t *_balanceStatus;
+ int _cellCount;
+ uint8_t _errorCode;
  int _errorCount;
  uint8_t _hardwareVersion;
  uint8_t _softwareVersion;
- char *_manufacturer;
+ char _manufacturer[20];
+ char _chargeDischargeStatus[20];
  uint8_t _charge_current_limit;
  uint8_t _discharge_current_limit;
+ uint8_t _chargeState;
+ uint8_t _loadState;
 } BMSData;
-
-
-
-
-
-void _updateMinMaxCellVoltage(BMSData *bmsData);
-
-extern BMSData _bmsData;
-
-
-
-
 
 
 typedef struct {
  uint8_t _commandID;
  uint8_t _payload[8];
 } TXCommand;
+
+
+extern BMSData _bmsData;
 extern TXCommand _txBuffer[ 10 ];
-extern volatile uint8_t _txBufferHead;
-extern volatile uint8_t _txBufferTail;
-void TX_PushCommand(uint8_t _commandID, uint8_t * _payload);
-uint8_t TX_IsEmpty(void);
-TXCommand TX_PopCommand(void);
-
-
-
-
-
-extern uint8_t _rxBuffer[ 50 ];
-extern volatile uint8_t _rxBufferHead;
-extern volatile uint8_t _rxBufferTail;
-void RX_PushByte(uint8_t _data);
-int RX_PopBytes(uint8_t * _buffer, uint16_t _length);
-int RX_PeekBytes(uint8_t * _buffer, uint16_t _length);
-
-
-
-
-
-typedef struct {
- uint8_t _commandID;
- uint8_t _payload[7];
- uint8_t _value;
-} ImmediateCommand;
-extern ImmediateCommand _immediateQueue[ 10 ];
-extern volatile uint8_t _immediateQueueHead;
-extern volatile uint8_t _immediateQueueTail;
-void Immediate_PushCommand(uint8_t _commandID, uint8_t * _payload, uint8_t _value);
-uint8_t Immediate_IsEmpty(void);
-ImmediateCommand Immediate_PopCommand(void);
-
-
+extern uint8_t _rxFrameBuffer[ 10 ][ 13 ];
 
 
 void BMS_Init(void);
-void BMS_Update(void);
-
-
-void BMS_SendCommandImmediate(uint8_t _commandID, uint8_t * _payload, uint8_t _value);
-
-
-void BMS_PushCommand(uint8_t _commandID, uint8_t * _payload);
+uint8_t BMS_SendCommand(BMS_Command cmdID, uint8_t *payload);
+uint8_t BMS_ReceiveData(uint8_t expectedFrames);
+uint8_t BMS_ValidateChecksum(uint8_t *frame);
+void BMS_ProcessData(BMS_Command cmdID, uint8_t frameIndex);
+uint8_t BMS_Update(void);
+void BMS_ClearData(void);
+uint8_t BMS_GetState(void);
 #line 1 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/box.h"
 #line 1 "d:/mikroc pro for dspic/include/stdint.h"
 #line 11 "c:/users/asus/desktop/raybot/source/raybot_firmware/[03-07-2025]-op2-(fix-lms)/box.h"
@@ -910,7 +884,8 @@ void handle_get_bat_info(CommandHandler *handler) {
  sprintf(handler->response_buffer,
  ">{\"type\":0,\"state_type\":0,\"data\":{\"current\":%d,\"temp\":%d,\"voltage\":%d,\"cell_voltages\":[%d,%d,%d,%d],\"percent\":%d,\"fault\":%d,\"health\":%d,\"status\":%d}}\r\n",
  (int)_bmsData._sumCurrent,(int) _bmsData._temperature, (int)_bmsData._sumVoltage,
- (int)_bmsData._cellVoltages0, (int)_bmsData._cellVoltages1, (int)_bmsData._cellVoltages2, (int)_bmsData._cellVoltages3,
+ (int)_bmsData._cellVoltages[0], (int)_bmsData._cellVoltages[1],
+ (int)_bmsData._cellVoltages[2], (int)_bmsData._cellVoltages[3],
  (uint8_t)_bmsData._sumSOC, (int)_bmsData._errorCount, (int)1, (int)1);
 }
 void handle_get_bat_current(CommandHandler *handler) {
@@ -1055,7 +1030,7 @@ void handle_get_lifter_status(CommandHandler *handler) {
 
 
 void handle_get_motor_info(CommandHandler *handler){
-#line 405 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
+#line 406 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
  if (_MotorDC_GetStatus(&motorDC) == 0){
  sprintf(handler->response_buffer,
  ">{\"type\":0,\"state_type\":5,\"data\":{\"direction\":%d,\"speed\":%d,\"is_running\":%d,\"enabled\":%d}}\r\n",
@@ -1094,7 +1069,7 @@ void handle_get_motor_en(CommandHandler *handler) {
 
 void handle_set_motor_en(CommandHandler *handler) {
 sprintf(handler->response_buffer, "MOTOR_EN set to %d\r\n", handler->command_value);
-#line 453 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
+#line 454 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
 }
 
 void handle_get_motor_speed(CommandHandler *handler) {
@@ -1174,11 +1149,10 @@ void handle_set_update_status(CommandHandler *handler){
 }
 
 void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
-#line 548 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
  int current_limit, enable;
  if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
  JSON_GetInt(dataParser, "enable", &enable)) {
- _bmsData._charge_current_limit = current_limit;
+
  if (enable == 0)
  {
  LATB4_bit = 0;
@@ -1189,6 +1163,7 @@ void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char
  LATB4_bit = 1;
  LATA8_bit = 1;
  }
+
  else {
  sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
  return;
@@ -1197,27 +1172,11 @@ void handle_charge_config(CommandHandler *handler, JSON_Parser *dataParser, char
  } else {
  sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
  }
-
 }
 
 
 void handle_discharge_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
- int current_limit, enable;
- if (JSON_GetInt(dataParser, "current_limit", &current_limit) &&
- JSON_GetInt(dataParser, "enable", &enable)) {
- _bmsData._discharge_current_limit = current_limit;
- if (enable == 0)
- Immediate_PushCommand(0xD9, _defaultSetPayload, 0x00);
- else if (enable == 1)
- Immediate_PushCommand(0xD9, _defaultSetPayload, 0x01);
- else {
- sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
- return;
- }
- sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":1}\r\n", id);
- } else {
- sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
- }
+#line 576 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
 }
 
 void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char *id){
@@ -1226,7 +1185,7 @@ void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char
  if (JSON_GetInt(dataParser, "target_position", &target_position) &&
  JSON_GetInt(dataParser, "max_output", &max_output) &&
  JSON_GetInt(dataParser, "enable", &enable)) {
-#line 603 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
+#line 588 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
  _Lifter_SetTargetPosition(&lifter, target_position);
  if (max_output > 100 || max_output < 0)
  sprintf(handler->response_buffer, ">{\"type\":1,\"id\":\"%s\",\"status\":0}\r\n", id);
@@ -1246,7 +1205,7 @@ void handle_lifter_config(CommandHandler *handler, JSON_Parser *dataParser, char
  }
  else if (JSON_GetInt(dataParser, "target_position", &target_position) &&
  JSON_GetInt(dataParser, "enable", &enable)) {
-#line 626 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
+#line 611 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/command_handler.c"
  _Lifter_SetTargetPosition(&lifter, target_position);
  if (enable == 0)
  _Lifter_Disable(&lifter);

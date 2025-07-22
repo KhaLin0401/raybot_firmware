@@ -1,16 +1,15 @@
-0	1	mikroCdsPIC.exe -MSF -DBG -pP24FJ64GA004 -DL -SSA -O11111114 -fo16 -N"C:\Users\ASUS\Desktop\RAYBOT\SOURCE\raybot_firmware\[03-07-2025]-OP2-(fix-LMS)\Main.mcpds" -SP"D:\mikroC PRO for dsPIC\Defs\" -SP"D:\mikroC PRO for dsPIC\Uses\" -SP"C:\Users\ASUS\Desktop\RAYBOT\SOURCE\raybot_firmware\[03-07-2025]-OP2-(fix-LMS)\" -SP"D:\mikroC PRO for dsPIC\Packages\Utilities Scheduler\Uses\" -IP"D:\mikroC PRO for dsPIC\Uses\" -IP"C:\Users\ASUS\Desktop\RAYBOT\SOURCE\raybot_firmware\[03-07-2025]-OP2-(fix-LMS)\" -IP"D:\mikroC PRO for dsPIC\Packages\Utilities Scheduler\Uses\" "Main.c" "robot_system.c" "schedule_task.c" "distance_sensor.c" "command_handler.c" "Lifter.c" "MotorDC.c" "json_parser.c" "BMS.c" "uart2.c" "Lms.c" "Box.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_CType.mcl" "__Lib_CString.mcl" "__Lib_CStdlib.mcl" "__Lib_CMath.mcl" "__Lib_Conversions.mcl" "__Lib_Sprintf.mcl" "__Lib_Sprinti.mcl" "__Lib_Sprintl.mcl" "__Lib_Time.mcl" "__Lib_Button.mcl" "__Lib_SoftUART.mcl" "__Lib_ADC_1_p24FJ_p30.mcl" "__Lib_PWM_1.mcl" "__Lib_UART_12_p24_p33.mcl" "__Lib_PPS_p24FJ64GA004_DPC44.mcl" "scheduler.mcl"	 
+0	1	mikroCdsPIC.exe -MSF -DBG -pP24FJ64GA004 -DL -SSA -O11111114 -fo8 -N"C:\Users\ASUS\Desktop\RAYBOT\SOURCE\raybot_firmware\[03-07-2025]-OP2-(fix-LMS)\Main.mcpds" -SP"D:\mikroC PRO for dsPIC\Defs\" -SP"D:\mikroC PRO for dsPIC\Uses\" -SP"C:\Users\ASUS\Desktop\RAYBOT\SOURCE\raybot_firmware\[03-07-2025]-OP2-(fix-LMS)\" -SP"D:\mikroC PRO for dsPIC\Packages\Utilities Scheduler\Uses\" -IP"D:\mikroC PRO for dsPIC\Uses\" -IP"C:\Users\ASUS\Desktop\RAYBOT\SOURCE\raybot_firmware\[03-07-2025]-OP2-(fix-LMS)\" -IP"D:\mikroC PRO for dsPIC\Packages\Utilities Scheduler\Uses\" "Main.c" "robot_system.c" "schedule_task.c" "distance_sensor.c" "command_handler.c" "Lifter.c" "MotorDC.c" "json_parser.c" "BMS.c" "uart2.c" "Lms.c" "Box.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_CType.mcl" "__Lib_CString.mcl" "__Lib_CStdlib.mcl" "__Lib_CMath.mcl" "__Lib_Conversions.mcl" "__Lib_Sprintf.mcl" "__Lib_Sprinti.mcl" "__Lib_Sprintl.mcl" "__Lib_Time.mcl" "__Lib_Button.mcl" "__Lib_SoftUART.mcl" "__Lib_ADC_1_p24FJ_p30.mcl" "__Lib_PWM_1.mcl" "__Lib_UART_12_p24_p33.mcl" "__Lib_PPS_p24FJ64GA004_DPC44.mcl" "scheduler.mcl"	 
 diagnostics: 0	121	Loading...	 
-diagnostics: 0	122	Compilation Started	__Lib_Delays.c
-diagnostics: 695	123	Compiled Successfully	__Lib_Delays.c
 diagnostics: 0	122	Compilation Started	stdint.h
-diagnostics: 83	123	Compiled Successfully	Main.c
+diagnostics: 85	123	Compiled Successfully	Main.c
 diagnostics: 0	122	Compilation Started	stdint.h
 hint: 37	1163	Variable 'debug_msg' has been declared, but not used	robot_system.c
 diagnostics: 75	123	Compiled Successfully	robot_system.c
 diagnostics: 0	122	Compilation Started	stdint.h
 hint: 0	1004	interrupt handler (__attribute__ at 0x001A)	schedule_task.c
-hint: 50	1163	Variable '_command_available' has been declared, but not used	schedule_task.c
-diagnostics: 232	123	Compiled Successfully	schedule_task.c
+hint: 0	1004	interrupt handler (__attribute2__ at 0x0022)	schedule_task.c
+hint: 74	1163	Variable '_command_available' has been declared, but not used	schedule_task.c
+diagnostics: 251	123	Compiled Successfully	schedule_task.c
 diagnostics: 0	122	Compilation Started	stdint.h
 hint: 57	1163	Variable 'debug_buffer' has been declared, but not used	distance_sensor.c
 diagnostics: 87	123	Compiled Successfully	distance_sensor.c
@@ -19,21 +18,19 @@ hint: 46	1164	Variable 'voltage' has been eliminated by optimizer	distance_senso
 diagnostics: 0	122	Compilation Started	stddef.h
 warning: 120	1505	Suspicious pointer conversion	command_handler.c
 warning: 224	1505	Suspicious pointer conversion	command_handler.c
-hint: 429	1354	argument may be out of range [?T584]	command_handler.c
-hint: 594	1163	Variable 'strdata' has been declared, but not used	command_handler.c
-hint: 650	1354	argument may be out of range [direction]	command_handler.c
-diagnostics: 690	123	Compiled Successfully	command_handler.c
-warning: 549	1512	variable 'current_limit' might not have been initialized	command_handler.c
-warning: 550	1512	variable 'enable' might not have been initialized	command_handler.c
-warning: 576	1512	variable 'current_limit' might not have been initialized	command_handler.c
-warning: 577	1512	variable 'enable' might not have been initialized	command_handler.c
-warning: 596	1512	variable 'target_position' might not have been initialized	command_handler.c
-warning: 597	1512	variable 'max_output' might not have been initialized	command_handler.c
-warning: 598	1512	variable 'enable' might not have been initialized	command_handler.c
-warning: 646	1512	variable 'direction' might not have been initialized	command_handler.c
-warning: 647	1512	variable 'speed' might not have been initialized	command_handler.c
-warning: 648	1512	variable 'enable' might not have been initialized	command_handler.c
-warning: 679	1512	variable 'type' might not have been initialized	command_handler.c
+hint: 430	1354	argument may be out of range [?T588]	command_handler.c
+hint: 579	1163	Variable 'strdata' has been declared, but not used	command_handler.c
+hint: 635	1354	argument may be out of range [direction]	command_handler.c
+diagnostics: 675	123	Compiled Successfully	command_handler.c
+warning: 534	1512	variable 'current_limit' might not have been initialized	command_handler.c
+warning: 535	1512	variable 'enable' might not have been initialized	command_handler.c
+warning: 581	1512	variable 'target_position' might not have been initialized	command_handler.c
+warning: 582	1512	variable 'max_output' might not have been initialized	command_handler.c
+warning: 583	1512	variable 'enable' might not have been initialized	command_handler.c
+warning: 631	1512	variable 'direction' might not have been initialized	command_handler.c
+warning: 632	1512	variable 'speed' might not have been initialized	command_handler.c
+warning: 633	1512	variable 'enable' might not have been initialized	command_handler.c
+warning: 664	1512	variable 'type' might not have been initialized	command_handler.c
 hint: 113	1164	Variable '_param1' has been eliminated by optimizer	command_handler.c
 hint: 113	1164	Variable '_param2' has been eliminated by optimizer	command_handler.c
 hint: 113	1164	Variable '_param3' has been eliminated by optimizer	command_handler.c
@@ -64,32 +61,22 @@ diagnostics: 223	123	Compiled Successfully	json_parser.c
 hint: 33	1164	Variable 'key_len' has been eliminated by optimizer	json_parser.c
 hint: 80	1164	Variable 'key_len' has been eliminated by optimizer	json_parser.c
 diagnostics: 0	122	Compilation Started	stdint.h
-warning: 429	1508	Implicit conversion of int to ptr	BMS.c
 hint: 0	1004	interrupt handler (_UART1_Interrupt at 0x002A)	BMS.c
-hint: 624	1163	Variable '_dbgStr' has been declared, but not used	BMS.c
-hint: 625	1163	Variable '_packet' has been declared, but not used	BMS.c
-hint: 627	1163	Variable 'i' has been declared, but not used	BMS.c
-hint: 628	1163	Variable '_dummy' has been declared, but not used	BMS.c
-diagnostics: 643	123	Compiled Successfully	BMS.c
-warning: 476	1512	variable '_discard' might not have been initialized	BMS.c
-hint: 251	1164	Variable 'j' has been eliminated by optimizer	BMS.c
-hint: 252	1164	Variable 'raw_value' has been eliminated by optimizer	BMS.c
-hint: 253	1164	Variable 'raw_signed' has been eliminated by optimizer	BMS.c
-hint: 255	1164	Variable 'failCodeArr' has been eliminated by optimizer	BMS.c
+diagnostics: 407	123	Compiled Successfully	BMS.c
 diagnostics: 0	122	Compilation Started	stdint.h
 warning: 60	1505	Suspicious pointer conversion	uart2.c
-hint: 0	1004	interrupt handler (_UART2_Rx_Receive_ISR at 0x0050)	uart2.c
-diagnostics: 145	123	Compiled Successfully	uart2.c
+hint: 0	1004	interrupt handler (UART2Interrupt at 0x0050)	uart2.c
+diagnostics: 148	123	Compiled Successfully	uart2.c
 hint: 69	1164	Variable 'cmd' has been eliminated by optimizer	uart2.c
 diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 22	123	Compiled Successfully	Lms.c
 diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 181	123	Compiled Successfully	Box.c
-diagnostics: 0	127	All files Compiled in 1390 ms	 
+diagnostics: 0	127	All files Compiled in 2125 ms	 
 hint: 0	1144	Used RX (bytes): 32 (100%)   Free RX (bytes): 0 (0%)	Used RX (bytes): 32 (100%)   Free RX (bytes): 0 (0%)
-hint: 0	1144	Static RAM (bytes): 5705   Dynamic RAM (bytes): 2486	Static RAM (bytes): 5705   Dynamic RAM (bytes): 2486
-hint: 0	1144	Used ROM (bytes): 27123 (62%)  Free ROM (bytes): 16905 (38%)	Used ROM (bytes): 27123 (62%)  Free ROM (bytes): 16905 (38%)
+hint: 0	1144	Static RAM (bytes): 5891   Dynamic RAM (bytes): 2300	Static RAM (bytes): 5891   Dynamic RAM (bytes): 2300
+hint: 0	1144	Used ROM (bytes): 25799 (59%)  Free ROM (bytes): 18229 (41%)	Used ROM (bytes): 25799 (59%)  Free ROM (bytes): 18229 (41%)
 diagnostics: 0	125	Project Linked Successfully	Main.mcpds
-diagnostics: 0	128	Linked in 188 ms	 
-diagnostics: 0	129	Project 'Main.mcpds' completed: 1750 ms	 
-diagnostics: 0	103	Finished successfully: 22 Jul 2025, 09:31:44	Main.mcpds
+diagnostics: 0	128	Linked in 313 ms	 
+diagnostics: 0	129	Project 'Main.mcpds' completed: 2516 ms	 
+diagnostics: 0	103	Finished successfully: 22 Jul 2025, 13:12:08	Main.mcpds
