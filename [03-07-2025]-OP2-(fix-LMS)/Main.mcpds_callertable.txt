@@ -84,7 +84,6 @@ main
 			Soft_UART_Write
 				Delay_Cyc_Long
 		_F_timer1_init
-		_F_timer2_init
 		task_scheduler_init
 			_Long2Float
 			_Div_FP
@@ -316,6 +315,5 @@ UART2Interrupt
 _UART1_Interrupt
 	UART1_Data_Ready
 	UART1_Read
-__attribute2__
 __attribute__
 	task_scheduler_clock

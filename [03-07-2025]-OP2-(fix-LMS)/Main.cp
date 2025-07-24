@@ -672,7 +672,7 @@ void main() {
  _UART2_Init();
 
  DebugUART_Init();
- _MotorDC_Init(&motorDC, 2.5, 0.5, 1.0, 0);
+ _MotorDC_Init(&motorDC, 2.0, 0.5, 1.0, 0);
  _MotorDC_SetSafeDistance(&motorDC, 40);
  _Lifter_Init(&lifter, 1.0, 0.5, 0.1, 30);
  BMS_Init();

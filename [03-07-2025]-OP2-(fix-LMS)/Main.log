@@ -7,9 +7,8 @@ hint: 37	1163	Variable 'debug_msg' has been declared, but not used	robot_system.
 diagnostics: 75	123	Compiled Successfully	robot_system.c
 diagnostics: 0	122	Compilation Started	stdint.h
 hint: 0	1004	interrupt handler (__attribute__ at 0x001A)	schedule_task.c
-hint: 0	1004	interrupt handler (__attribute2__ at 0x0022)	schedule_task.c
-hint: 74	1163	Variable '_command_available' has been declared, but not used	schedule_task.c
-diagnostics: 251	123	Compiled Successfully	schedule_task.c
+hint: 75	1163	Variable '_command_available' has been declared, but not used	schedule_task.c
+diagnostics: 252	123	Compiled Successfully	schedule_task.c
 diagnostics: 0	122	Compilation Started	stdint.h
 hint: 57	1163	Variable 'debug_buffer' has been declared, but not used	distance_sensor.c
 diagnostics: 87	123	Compiled Successfully	distance_sensor.c
@@ -62,7 +61,7 @@ hint: 33	1164	Variable 'key_len' has been eliminated by optimizer	json_parser.c
 hint: 80	1164	Variable 'key_len' has been eliminated by optimizer	json_parser.c
 diagnostics: 0	122	Compilation Started	stdint.h
 hint: 0	1004	interrupt handler (_UART1_Interrupt at 0x002A)	BMS.c
-diagnostics: 840	123	Compiled Successfully	BMS.c
+diagnostics: 842	123	Compiled Successfully	BMS.c
 diagnostics: 0	122	Compilation Started	stdint.h
 warning: 60	1505	Suspicious pointer conversion	uart2.c
 hint: 0	1004	interrupt handler (UART2Interrupt at 0x0050)	uart2.c
@@ -72,11 +71,11 @@ diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 22	123	Compiled Successfully	Lms.c
 diagnostics: 0	122	Compilation Started	stdint.h
 diagnostics: 181	123	Compiled Successfully	Box.c
-diagnostics: 0	127	All files Compiled in 2531 ms	 
+diagnostics: 0	127	All files Compiled in 1953 ms	 
 hint: 0	1144	Used RX (bytes): 32 (100%)   Free RX (bytes): 0 (0%)	Used RX (bytes): 32 (100%)   Free RX (bytes): 0 (0%)
 hint: 0	1144	Static RAM (bytes): 5905   Dynamic RAM (bytes): 2286	Static RAM (bytes): 5905   Dynamic RAM (bytes): 2286
-hint: 0	1144	Used ROM (bytes): 25953 (59%)  Free ROM (bytes): 18075 (41%)	Used ROM (bytes): 25953 (59%)  Free ROM (bytes): 18075 (41%)
+hint: 0	1144	Used ROM (bytes): 25901 (59%)  Free ROM (bytes): 18127 (41%)	Used ROM (bytes): 25901 (59%)  Free ROM (bytes): 18127 (41%)
 diagnostics: 0	125	Project Linked Successfully	Main.mcpds
-diagnostics: 0	128	Linked in 281 ms	 
-diagnostics: 0	129	Project 'Main.mcpds' completed: 2890 ms	 
-diagnostics: 0	103	Finished successfully: 22 Jul 2025, 15:54:48	Main.mcpds
+diagnostics: 0	128	Linked in 359 ms	 
+diagnostics: 0	129	Project 'Main.mcpds' completed: 2421 ms	 
+diagnostics: 0	103	Finished successfully: 24 Jul 2025, 10:07:42	Main.mcpds

@@ -113,9 +113,9 @@ _BMS_SendCommand:
 L_BMS_SendCommand0:
 	CALL	_UART1_Data_Ready
 	CP0	W0
-	BRA NZ	L__BMS_SendCommand131
+	BRA NZ	L__BMS_SendCommand132
 	GOTO	L_BMS_SendCommand1
-L__BMS_SendCommand131:
+L__BMS_SendCommand132:
 ;BMS.c,500 :: 		UART1_Read();
 	CALL	_UART1_Read
 ;BMS.c,501 :: 		}
@@ -161,9 +161,9 @@ L_BMS_SendCommand1:
 	MOV.B	W0, [W1]
 ;BMS.c,517 :: 		if (payload != ((void *)0)) {
 	CP	W11, #0
-	BRA NZ	L__BMS_SendCommand132
+	BRA NZ	L__BMS_SendCommand133
 	GOTO	L_BMS_SendCommand2
-L__BMS_SendCommand132:
+L__BMS_SendCommand133:
 ;BMS.c,518 :: 		for (i = 0; i < 8; i++) {
 ; i start address is: 4 (W2)
 	CLR	W2
@@ -171,9 +171,9 @@ L__BMS_SendCommand132:
 L_BMS_SendCommand3:
 ; i start address is: 4 (W2)
 	CP.B	W2, #8
-	BRA LTU	L__BMS_SendCommand133
+	BRA LTU	L__BMS_SendCommand134
 	GOTO	L_BMS_SendCommand4
-L__BMS_SendCommand133:
+L__BMS_SendCommand134:
 ;BMS.c,519 :: 		packet[4 + i] = payload[i];
 	ZE	W2, W0
 	ADD	W0, #4, W1
@@ -198,9 +198,9 @@ L_BMS_SendCommand2:
 L_BMS_SendCommand7:
 ; i start address is: 4 (W2)
 	CP.B	W2, #8
-	BRA LTU	L__BMS_SendCommand134
+	BRA LTU	L__BMS_SendCommand135
 	GOTO	L_BMS_SendCommand8
-L__BMS_SendCommand134:
+L__BMS_SendCommand135:
 ;BMS.c,523 :: 		packet[4 + i] = 0x00;
 	ZE	W2, W0
 	ADD	W0, #4, W1
@@ -228,9 +228,9 @@ L_BMS_SendCommand10:
 ; i start address is: 4 (W2)
 ; checksum start address is: 6 (W3)
 	CP.B	W2, #12
-	BRA LTU	L__BMS_SendCommand135
+	BRA LTU	L__BMS_SendCommand136
 	GOTO	L_BMS_SendCommand11
-L__BMS_SendCommand135:
+L__BMS_SendCommand136:
 ;BMS.c,530 :: 		checksum += packet[i];
 	ADD	W14, #0, W1
 	ZE	W2, W0
@@ -259,9 +259,9 @@ L_BMS_SendCommand11:
 L_BMS_SendCommand13:
 ; i start address is: 4 (W2)
 	CP.B	W2, #13
-	BRA LTU	L__BMS_SendCommand136
+	BRA LTU	L__BMS_SendCommand137
 	GOTO	L_BMS_SendCommand14
-L__BMS_SendCommand136:
+L__BMS_SendCommand137:
 ;BMS.c,536 :: 		UART1_Write(packet[i]);
 	ADD	W14, #0, W1
 	ZE	W2, W0
@@ -292,9 +292,9 @@ _BMS_ValidateChecksum:
 ;BMS.c,542 :: 		uint8_t BMS_ValidateChecksum(uint8_t frameIndex) {
 ;BMS.c,546 :: 		if (frameIndex >= _RX_FRAME_COUNT) {
 	CP.B	W10, #10
-	BRA GEU	L__BMS_ValidateChecksum138
+	BRA GEU	L__BMS_ValidateChecksum139
 	GOTO	L_BMS_ValidateChecksum16
-L__BMS_ValidateChecksum138:
+L__BMS_ValidateChecksum139:
 ;BMS.c,547 :: 		_bmsData._errorCount++;
 	MOV	__bmsData+196, W0
 	INC	W0
@@ -313,9 +313,9 @@ L_BMS_ValidateChecksum16:
 	MOV.B	[W0], W1
 	MOV.B	#165, W0
 	CP.B	W1, W0
-	BRA NZ	L__BMS_ValidateChecksum139
+	BRA NZ	L__BMS_ValidateChecksum140
 	GOTO	L_BMS_ValidateChecksum17
-L__BMS_ValidateChecksum139:
+L__BMS_ValidateChecksum140:
 ;BMS.c,552 :: 		_bmsData._errorCount++;
 	MOV	__bmsData+196, W0
 	INC	W0
@@ -334,9 +334,9 @@ L_BMS_ValidateChecksum17:
 	INC	W0
 	MOV.B	[W0], W0
 	CP.B	W0, #1
-	BRA NZ	L__BMS_ValidateChecksum140
+	BRA NZ	L__BMS_ValidateChecksum141
 	GOTO	L_BMS_ValidateChecksum18
-L__BMS_ValidateChecksum140:
+L__BMS_ValidateChecksum141:
 ;BMS.c,557 :: 		if (_rxFrameBuffer[frameIndex][1] >= 0x20) {
 	ZE	W10, W1
 	MOV	#13, W0
@@ -347,9 +347,9 @@ L__BMS_ValidateChecksum140:
 	MOV.B	[W0], W1
 	MOV.B	#32, W0
 	CP.B	W1, W0
-	BRA GEU	L__BMS_ValidateChecksum141
+	BRA GEU	L__BMS_ValidateChecksum142
 	GOTO	L_BMS_ValidateChecksum19
-L__BMS_ValidateChecksum141:
+L__BMS_ValidateChecksum142:
 ;BMS.c,558 :: 		_bmsData._errorCount++;
 	MOV	__bmsData+196, W0
 	INC	W0
@@ -378,9 +378,9 @@ L_BMS_ValidateChecksum20:
 ; checksum start address is: 10 (W5)
 	ZE	W4, W0
 	CP	W0, #12
-	BRA LT	L__BMS_ValidateChecksum142
+	BRA LT	L__BMS_ValidateChecksum143
 	GOTO	L_BMS_ValidateChecksum21
-L__BMS_ValidateChecksum142:
+L__BMS_ValidateChecksum143:
 ;BMS.c,566 :: 		checksum += _rxFrameBuffer[frameIndex][i];
 	ZE	W10, W1
 	MOV	#13, W0
@@ -409,9 +409,9 @@ L_BMS_ValidateChecksum21:
 	ADD	W0, W2, W0
 	ADD	W0, #12, W0
 	CP.B	W5, [W0]
-	BRA NZ	L__BMS_ValidateChecksum143
+	BRA NZ	L__BMS_ValidateChecksum144
 	GOTO	L_BMS_ValidateChecksum23
-L__BMS_ValidateChecksum143:
+L__BMS_ValidateChecksum144:
 ; checksum end address is: 10 (W5)
 ;BMS.c,570 :: 		_bmsData._errorCount++;
 	MOV	__bmsData+196, W0
@@ -429,9 +429,9 @@ L_BMS_ValidateChecksum23:
 ;BMS.c,575 :: 		if (checksum == 0) {
 ; checksum start address is: 10 (W5)
 	CP.B	W5, #0
-	BRA Z	L__BMS_ValidateChecksum144
+	BRA Z	L__BMS_ValidateChecksum145
 	GOTO	L_BMS_ValidateChecksum24
-L__BMS_ValidateChecksum144:
+L__BMS_ValidateChecksum145:
 ; checksum end address is: 10 (W5)
 ;BMS.c,576 :: 		_bmsData._errorCount++;
 	MOV	__bmsData+196, W0
@@ -460,9 +460,9 @@ _BMS_ProcessData:
 ;BMS.c,588 :: 		if (frameIndex >= _RX_FRAME_COUNT) {
 	PUSH	W10
 	CP.B	W11, #10
-	BRA GEU	L__BMS_ProcessData146
+	BRA GEU	L__BMS_ProcessData147
 	GOTO	L_BMS_ProcessData25
-L__BMS_ProcessData146:
+L__BMS_ProcessData147:
 ;BMS.c,589 :: 		_bmsData._errorCount++;
 	MOV	__bmsData+196, W0
 	INC	W0
@@ -516,9 +516,9 @@ L_BMS_ProcessData28:
 	MOV	W0, [W14+0]
 ;BMS.c,600 :: 		if (tempValue == 0) break;
 	CP	W0, #0
-	BRA Z	L__BMS_ProcessData147
+	BRA Z	L__BMS_ProcessData148
 	GOTO	L_BMS_ProcessData29
-L__BMS_ProcessData147:
+L__BMS_ProcessData148:
 	GOTO	L_BMS_ProcessData27
 L_BMS_ProcessData29:
 ;BMS.c,601 :: 		_bmsData._sumCurrent = ((float)(tempValue - 30000)) / 10.0;
@@ -551,9 +551,9 @@ L_BMS_ProcessData29:
 ;BMS.c,604 :: 		if (tempValue > 1000) break;
 	MOV	#1000, W0
 	CP	W1, W0
-	BRA GTU	L__BMS_ProcessData148
+	BRA GTU	L__BMS_ProcessData149
 	GOTO	L_BMS_ProcessData30
-L__BMS_ProcessData148:
+L__BMS_ProcessData149:
 	GOTO	L_BMS_ProcessData27
 L_BMS_ProcessData30:
 ;BMS.c,605 :: 		_bmsData._sumSOC = (float)tempValue / 10.0;
@@ -694,19 +694,19 @@ L_BMS_ProcessData34:
 	MOV	[W14+2], W1
 	MOV.B	[W1], W0
 	CP.B	W0, #0
-	BRA NZ	L__BMS_ProcessData149
-	GOTO	L_BMS_ProcessData36
-L__BMS_ProcessData149:
-	MOV.B	[W1], W0
-	CP.B	W0, #1
 	BRA NZ	L__BMS_ProcessData150
-	GOTO	L_BMS_ProcessData37
+	GOTO	L_BMS_ProcessData36
 L__BMS_ProcessData150:
 	MOV.B	[W1], W0
-	CP.B	W0, #2
+	CP.B	W0, #1
 	BRA NZ	L__BMS_ProcessData151
-	GOTO	L_BMS_ProcessData38
+	GOTO	L_BMS_ProcessData37
 L__BMS_ProcessData151:
+	MOV.B	[W1], W0
+	CP.B	W0, #2
+	BRA NZ	L__BMS_ProcessData152
+	GOTO	L_BMS_ProcessData38
+L__BMS_ProcessData152:
 	GOTO	L_BMS_ProcessData39
 L_BMS_ProcessData35:
 ;BMS.c,636 :: 		_bmsData._chargeMOS = _rxFrameBuffer[frameIndex][5];
@@ -809,9 +809,9 @@ L_BMS_ProcessData41:
 L_BMS_ProcessData42:
 ; i start address is: 8 (W4)
 	CP.B	W4, #3
-	BRA LTU	L__BMS_ProcessData152
+	BRA LTU	L__BMS_ProcessData153
 	GOTO	L_BMS_ProcessData43
-L__BMS_ProcessData152:
+L__BMS_ProcessData153:
 ;BMS.c,656 :: 		cellIndex = frameIndex * 3 + i;
 	ZE	W11, W1
 	MOV	#3, W0
@@ -823,14 +823,14 @@ L__BMS_ProcessData152:
 ;BMS.c,657 :: 		if (cellIndex < _bmsData._cellCount && cellIndex < MAX_CELL_COUNT) {
 	MOV	#lo_addr(__bmsData+192), W0
 	CP	W1, [W0]
-	BRA LT	L__BMS_ProcessData153
-	GOTO	L__BMS_ProcessData116
-L__BMS_ProcessData153:
-	CP.B	W5, #16
-	BRA LTU	L__BMS_ProcessData154
-	GOTO	L__BMS_ProcessData115
+	BRA LT	L__BMS_ProcessData154
+	GOTO	L__BMS_ProcessData117
 L__BMS_ProcessData154:
-L__BMS_ProcessData114:
+	CP.B	W5, #16
+	BRA LTU	L__BMS_ProcessData155
+	GOTO	L__BMS_ProcessData116
+L__BMS_ProcessData155:
+L__BMS_ProcessData115:
 ;BMS.c,658 :: 		tempValue = (_rxFrameBuffer[frameIndex][5 + i * 2] << 8) | _rxFrameBuffer[frameIndex][6 + i * 2];
 	ZE	W11, W1
 	MOV	#13, W0
@@ -866,8 +866,8 @@ L__BMS_ProcessData114:
 	MOV	[W14+2], W2
 	MOV.D	W0, [W2]
 ;BMS.c,657 :: 		if (cellIndex < _bmsData._cellCount && cellIndex < MAX_CELL_COUNT) {
+L__BMS_ProcessData117:
 L__BMS_ProcessData116:
-L__BMS_ProcessData115:
 ;BMS.c,654 :: 		for (i = 0; i < 3; i++) {
 	INC.B	W4
 ;BMS.c,661 :: 		}
@@ -885,9 +885,9 @@ L_BMS_ProcessData48:
 L_BMS_ProcessData49:
 ; i start address is: 8 (W4)
 	CP.B	W4, #7
-	BRA LTU	L__BMS_ProcessData155
+	BRA LTU	L__BMS_ProcessData156
 	GOTO	L_BMS_ProcessData50
-L__BMS_ProcessData155:
+L__BMS_ProcessData156:
 ;BMS.c,667 :: 		sensorIndex = frameIndex * 7 + i;
 	ZE	W11, W1
 	MOV	#7, W0
@@ -899,14 +899,14 @@ L__BMS_ProcessData155:
 ;BMS.c,668 :: 		if (sensorIndex < _bmsData._ntcCount && sensorIndex < MAX_CELL_COUNT) {
 	MOV	#lo_addr(__bmsData+108), W0
 	CP	W1, [W0]
-	BRA LT	L__BMS_ProcessData156
-	GOTO	L__BMS_ProcessData118
-L__BMS_ProcessData156:
-	CP.B	W2, #16
-	BRA LTU	L__BMS_ProcessData157
-	GOTO	L__BMS_ProcessData117
+	BRA LT	L__BMS_ProcessData157
+	GOTO	L__BMS_ProcessData119
 L__BMS_ProcessData157:
-L__BMS_ProcessData113:
+	CP.B	W2, #16
+	BRA LTU	L__BMS_ProcessData158
+	GOTO	L__BMS_ProcessData118
+L__BMS_ProcessData158:
+L__BMS_ProcessData114:
 ;BMS.c,669 :: 		_bmsData._ntcTemperatures[sensorIndex] = (float)(_rxFrameBuffer[frameIndex][5 + i] - 40);
 	ZE	W2, W0
 ; sensorIndex end address is: 4 (W2)
@@ -935,8 +935,8 @@ L__BMS_ProcessData113:
 	MOV	[W14+2], W2
 	MOV.D	W0, [W2]
 ;BMS.c,668 :: 		if (sensorIndex < _bmsData._ntcCount && sensorIndex < MAX_CELL_COUNT) {
+L__BMS_ProcessData119:
 L__BMS_ProcessData118:
-L__BMS_ProcessData117:
 ;BMS.c,665 :: 		for (i = 0; i < 7; i++) {
 	INC.B	W4
 ;BMS.c,671 :: 		}
@@ -954,9 +954,9 @@ L_BMS_ProcessData55:
 L_BMS_ProcessData56:
 ; i start address is: 14 (W7)
 	CP.B	W7, #6
-	BRA LTU	L__BMS_ProcessData158
+	BRA LTU	L__BMS_ProcessData159
 	GOTO	L_BMS_ProcessData57
-L__BMS_ProcessData158:
+L__BMS_ProcessData159:
 ;BMS.c,678 :: 		cellIndex = i * 8;
 	ZE	W7, W0
 	SL	W0, #3, W0
@@ -973,9 +973,9 @@ L_BMS_ProcessData59:
 ; cellIndex end address is: 10 (W5)
 ; i start address is: 14 (W7)
 	CP.B	W6, #8
-	BRA LTU	L__BMS_ProcessData159
+	BRA LTU	L__BMS_ProcessData160
 	GOTO	L_BMS_ProcessData60
-L__BMS_ProcessData159:
+L__BMS_ProcessData160:
 ; cellIndex end address is: 10 (W5)
 ;BMS.c,680 :: 		if (cellIndex + j < _bmsData._cellCount && cellIndex + j < MAX_CELL_COUNT) {
 ; cellIndex start address is: 10 (W5)
@@ -984,17 +984,17 @@ L__BMS_ProcessData159:
 	ADD	W1, W0, W1
 	MOV	#lo_addr(__bmsData+192), W0
 	CP	W1, [W0]
-	BRA LTU	L__BMS_ProcessData160
-	GOTO	L__BMS_ProcessData120
-L__BMS_ProcessData160:
+	BRA LTU	L__BMS_ProcessData161
+	GOTO	L__BMS_ProcessData121
+L__BMS_ProcessData161:
 	ZE	W5, W1
 	ZE	W6, W0
 	ADD	W1, W0, W0
 	CP	W0, #16
-	BRA LTU	L__BMS_ProcessData161
-	GOTO	L__BMS_ProcessData119
-L__BMS_ProcessData161:
-L__BMS_ProcessData112:
+	BRA LTU	L__BMS_ProcessData162
+	GOTO	L__BMS_ProcessData120
+L__BMS_ProcessData162:
+L__BMS_ProcessData113:
 ;BMS.c,681 :: 		_bmsData._balanceStatus[cellIndex + j] = (_rxFrameBuffer[frameIndex][4 + i] >> j) & 0x01;
 	ZE	W5, W1
 	ZE	W6, W0
@@ -1017,8 +1017,8 @@ L__BMS_ProcessData112:
 	AND	W0, #1, W0
 	MOV.B	W0, [W4]
 ;BMS.c,680 :: 		if (cellIndex + j < _bmsData._cellCount && cellIndex + j < MAX_CELL_COUNT) {
+L__BMS_ProcessData121:
 L__BMS_ProcessData120:
-L__BMS_ProcessData119:
 ;BMS.c,679 :: 		for (j = 0; j < 8; j++) {
 	INC.B	W6
 ;BMS.c,683 :: 		}
@@ -1064,49 +1064,49 @@ L_BMS_ProcessData66:
 L_BMS_ProcessData26:
 	MOV.B	#144, W0
 	CP.B	W10, W0
-	BRA NZ	L__BMS_ProcessData162
+	BRA NZ	L__BMS_ProcessData163
 	GOTO	L_BMS_ProcessData28
-L__BMS_ProcessData162:
+L__BMS_ProcessData163:
 	MOV.B	#145, W0
 	CP.B	W10, W0
-	BRA NZ	L__BMS_ProcessData163
+	BRA NZ	L__BMS_ProcessData164
 	GOTO	L_BMS_ProcessData31
-L__BMS_ProcessData163:
+L__BMS_ProcessData164:
 	MOV.B	#146, W0
 	CP.B	W10, W0
-	BRA NZ	L__BMS_ProcessData164
+	BRA NZ	L__BMS_ProcessData165
 	GOTO	L_BMS_ProcessData32
-L__BMS_ProcessData164:
+L__BMS_ProcessData165:
 	MOV.B	#147, W0
 	CP.B	W10, W0
-	BRA NZ	L__BMS_ProcessData165
+	BRA NZ	L__BMS_ProcessData166
 	GOTO	L_BMS_ProcessData33
-L__BMS_ProcessData165:
+L__BMS_ProcessData166:
 	MOV.B	#148, W0
 	CP.B	W10, W0
-	BRA NZ	L__BMS_ProcessData166
+	BRA NZ	L__BMS_ProcessData167
 	GOTO	L_BMS_ProcessData40
-L__BMS_ProcessData166:
+L__BMS_ProcessData167:
 	MOV.B	#149, W0
 	CP.B	W10, W0
-	BRA NZ	L__BMS_ProcessData167
+	BRA NZ	L__BMS_ProcessData168
 	GOTO	L_BMS_ProcessData41
-L__BMS_ProcessData167:
+L__BMS_ProcessData168:
 	MOV.B	#150, W0
 	CP.B	W10, W0
-	BRA NZ	L__BMS_ProcessData168
+	BRA NZ	L__BMS_ProcessData169
 	GOTO	L_BMS_ProcessData48
-L__BMS_ProcessData168:
+L__BMS_ProcessData169:
 	MOV.B	#151, W0
 	CP.B	W10, W0
-	BRA NZ	L__BMS_ProcessData169
+	BRA NZ	L__BMS_ProcessData170
 	GOTO	L_BMS_ProcessData55
-L__BMS_ProcessData169:
+L__BMS_ProcessData170:
 	MOV.B	#152, W0
 	CP.B	W10, W0
-	BRA NZ	L__BMS_ProcessData170
+	BRA NZ	L__BMS_ProcessData171
 	GOTO	L_BMS_ProcessData65
-L__BMS_ProcessData170:
+L__BMS_ProcessData171:
 	GOTO	L_BMS_ProcessData66
 L_BMS_ProcessData27:
 ;BMS.c,696 :: 		}
@@ -1120,44 +1120,55 @@ _BMS_Update:
 	LNK	#10
 
 ;BMS.c,698 :: 		uint8_t BMS_Update(void) {
-;BMS.c,705 :: 		for (i = 0; i < 8; i++) {
+;BMS.c,704 :: 		if (_bmsData._errorCount > 200)
 	PUSH	W10
 	PUSH	W11
+	MOV	#200, W1
+	MOV	#lo_addr(__bmsData+196), W0
+	CP	W1, [W0]
+	BRA LT	L__BMS_Update173
+	GOTO	L_BMS_Update67
+L__BMS_Update173:
+;BMS.c,705 :: 		_bmsData._errorCount = 1;
+	MOV	#1, W0
+	MOV	W0, __bmsData+196
+L_BMS_Update67:
+;BMS.c,707 :: 		for (i = 0; i < 8; i++) {
 ; i start address is: 4 (W2)
 	CLR	W2
 ; i end address is: 4 (W2)
-L_BMS_Update67:
+L_BMS_Update68:
 ; i start address is: 4 (W2)
 	CP.B	W2, #8
-	BRA LTU	L__BMS_Update172
-	GOTO	L_BMS_Update68
-L__BMS_Update172:
-;BMS.c,706 :: 		payload[i] = 0;
+	BRA LTU	L__BMS_Update174
+	GOTO	L_BMS_Update69
+L__BMS_Update174:
+;BMS.c,708 :: 		payload[i] = 0;
 	ADD	W14, #0, W1
 	ZE	W2, W0
 	ADD	W1, W0, W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,705 :: 		for (i = 0; i < 8; i++) {
+;BMS.c,707 :: 		for (i = 0; i < 8; i++) {
 	INC.B	W2
-;BMS.c,707 :: 		}
+;BMS.c,709 :: 		}
 ; i end address is: 4 (W2)
-	GOTO	L_BMS_Update67
-L_BMS_Update68:
-;BMS.c,709 :: 		switch (_bmsState) {
-	GOTO	L_BMS_Update70
-;BMS.c,710 :: 		case BMS_STATE_IDLE:
-L_BMS_Update72:
-;BMS.c,712 :: 		switch (commands[_currentCommandIndex]) {
+	GOTO	L_BMS_Update68
+L_BMS_Update69:
+;BMS.c,711 :: 		switch (_bmsState) {
+	GOTO	L_BMS_Update71
+;BMS.c,712 :: 		case BMS_STATE_IDLE:
+L_BMS_Update73:
+;BMS.c,714 :: 		switch (commands[_currentCommandIndex]) {
 	MOV	#lo_addr(BMS__currentCommandIndex), W0
 	ZE	[W0], W1
 	MOV	#lo_addr(BMS_commands), W0
 	ADD	W0, W1, W0
 	MOV	W0, [W14+8]
-	GOTO	L_BMS_Update73
-;BMS.c,713 :: 		case CELL_VOLTAGES:
-L_BMS_Update75:
-;BMS.c,714 :: 		_expectedFrames = (_bmsData._cellCount + 2) / 3;
+	GOTO	L_BMS_Update74
+;BMS.c,715 :: 		case CELL_VOLTAGES:
+L_BMS_Update76:
+;BMS.c,716 :: 		_expectedFrames = (_bmsData._cellCount + 2) / 3;
 	MOV	__bmsData+192, W0
 	INC2	W0
 	MOV	#3, W2
@@ -1166,11 +1177,11 @@ L_BMS_Update75:
 	MOV	W0, W1
 	MOV	#lo_addr(BMS__expectedFrames), W0
 	MOV.B	W1, [W0]
-;BMS.c,715 :: 		break;
-	GOTO	L_BMS_Update74
-;BMS.c,716 :: 		case CELL_TEMPERATURE:
-L_BMS_Update76:
-;BMS.c,717 :: 		_expectedFrames = (_bmsData._ntcCount + 6) / 7;
+;BMS.c,717 :: 		break;
+	GOTO	L_BMS_Update75
+;BMS.c,718 :: 		case CELL_TEMPERATURE:
+L_BMS_Update77:
+;BMS.c,719 :: 		_expectedFrames = (_bmsData._ntcCount + 6) / 7;
 	MOV	__bmsData+108, W0
 	ADD	W0, #6, W0
 	MOV	#7, W2
@@ -1179,11 +1190,11 @@ L_BMS_Update76:
 	MOV	W0, W1
 	MOV	#lo_addr(BMS__expectedFrames), W0
 	MOV.B	W1, [W0]
-;BMS.c,718 :: 		break;
-	GOTO	L_BMS_Update74
-;BMS.c,719 :: 		case CELL_BALANCE_STATE:
-L_BMS_Update77:
-;BMS.c,720 :: 		_expectedFrames = (_bmsData._cellCount + 47) / 48;
+;BMS.c,720 :: 		break;
+	GOTO	L_BMS_Update75
+;BMS.c,721 :: 		case CELL_BALANCE_STATE:
+L_BMS_Update78:
+;BMS.c,722 :: 		_expectedFrames = (_bmsData._cellCount + 47) / 48;
 	MOV	#47, W1
 	MOV	#lo_addr(__bmsData+192), W0
 	ADD	W1, [W0], W0
@@ -1193,49 +1204,49 @@ L_BMS_Update77:
 	MOV	W0, W1
 	MOV	#lo_addr(BMS__expectedFrames), W0
 	MOV.B	W1, [W0]
-;BMS.c,721 :: 		break;
-	GOTO	L_BMS_Update74
-;BMS.c,722 :: 		default:
-L_BMS_Update78:
-;BMS.c,723 :: 		_expectedFrames = 1;
+;BMS.c,723 :: 		break;
+	GOTO	L_BMS_Update75
+;BMS.c,724 :: 		default:
+L_BMS_Update79:
+;BMS.c,725 :: 		_expectedFrames = 1;
 	MOV	#lo_addr(BMS__expectedFrames), W1
 	MOV.B	#1, W0
 	MOV.B	W0, [W1]
-;BMS.c,724 :: 		break;
-	GOTO	L_BMS_Update74
-;BMS.c,725 :: 		}
-L_BMS_Update73:
+;BMS.c,726 :: 		break;
+	GOTO	L_BMS_Update75
+;BMS.c,727 :: 		}
+L_BMS_Update74:
 	MOV	[W14+8], W2
 	MOV.B	[W2], W1
 	MOV.B	#149, W0
 	CP.B	W1, W0
-	BRA NZ	L__BMS_Update173
-	GOTO	L_BMS_Update75
-L__BMS_Update173:
+	BRA NZ	L__BMS_Update175
+	GOTO	L_BMS_Update76
+L__BMS_Update175:
 	MOV.B	[W2], W1
 	MOV.B	#150, W0
 	CP.B	W1, W0
-	BRA NZ	L__BMS_Update174
-	GOTO	L_BMS_Update76
-L__BMS_Update174:
+	BRA NZ	L__BMS_Update176
+	GOTO	L_BMS_Update77
+L__BMS_Update176:
 	MOV.B	[W2], W1
 	MOV.B	#151, W0
 	CP.B	W1, W0
-	BRA NZ	L__BMS_Update175
-	GOTO	L_BMS_Update77
-L__BMS_Update175:
+	BRA NZ	L__BMS_Update177
 	GOTO	L_BMS_Update78
-L_BMS_Update74:
-;BMS.c,726 :: 		_bmsState = BMS_STATE_SEND_COMMAND;
+L__BMS_Update177:
+	GOTO	L_BMS_Update79
+L_BMS_Update75:
+;BMS.c,728 :: 		_bmsState = BMS_STATE_SEND_COMMAND;
 	MOV	#lo_addr(BMS__bmsState), W1
 	MOV.B	#1, W0
 	MOV.B	W0, [W1]
-;BMS.c,727 :: 		return 0; /* Chưa hoàn thành, tiếp tục gọi */
+;BMS.c,729 :: 		return 0; /* Chưa hoàn thành, tiếp tục gọi */
 	CLR	W0
 	GOTO	L_end_BMS_Update
-;BMS.c,729 :: 		case BMS_STATE_SEND_COMMAND:
-L_BMS_Update79:
-;BMS.c,731 :: 		if (BMS_SendCommand(commands[_currentCommandIndex], payload)) {
+;BMS.c,731 :: 		case BMS_STATE_SEND_COMMAND:
+L_BMS_Update80:
+;BMS.c,733 :: 		if (BMS_SendCommand(commands[_currentCommandIndex], payload)) {
 	ADD	W14, #0, W2
 	MOV	#lo_addr(BMS__currentCommandIndex), W0
 	ZE	[W0], W1
@@ -1245,32 +1256,32 @@ L_BMS_Update79:
 	MOV.B	[W0], W10
 	CALL	_BMS_SendCommand
 	CP0.B	W0
-	BRA NZ	L__BMS_Update176
-	GOTO	L_BMS_Update80
-L__BMS_Update176:
-;BMS.c,732 :: 		_startTime = GetMillis();
+	BRA NZ	L__BMS_Update178
+	GOTO	L_BMS_Update81
+L__BMS_Update178:
+;BMS.c,734 :: 		_startTime = GetMillis();
 	CALL	_GetMillis
 	MOV	W0, BMS__startTime
 	MOV	W1, BMS__startTime+2
-;BMS.c,733 :: 		_bmsState = BMS_STATE_WAIT_RESPONSE;
+;BMS.c,735 :: 		_bmsState = BMS_STATE_WAIT_RESPONSE;
 	MOV	#lo_addr(BMS__bmsState), W1
 	MOV.B	#2, W0
 	MOV.B	W0, [W1]
-;BMS.c,734 :: 		} else {
-	GOTO	L_BMS_Update81
-L_BMS_Update80:
-;BMS.c,735 :: 		_bmsState = BMS_STATE_ERROR;
+;BMS.c,736 :: 		} else {
+	GOTO	L_BMS_Update82
+L_BMS_Update81:
+;BMS.c,737 :: 		_bmsState = BMS_STATE_ERROR;
 	MOV	#lo_addr(BMS__bmsState), W1
 	MOV.B	#4, W0
 	MOV.B	W0, [W1]
-;BMS.c,736 :: 		}
-L_BMS_Update81:
-;BMS.c,737 :: 		return 0; /* Chưa hoàn thành, tiếp tục gọi */
+;BMS.c,738 :: 		}
+L_BMS_Update82:
+;BMS.c,739 :: 		return 0; /* Chưa hoàn thành, tiếp tục gọi */
 	CLR	W0
 	GOTO	L_end_BMS_Update
-;BMS.c,739 :: 		case BMS_STATE_WAIT_RESPONSE:
-L_BMS_Update82:
-;BMS.c,741 :: 		if (GetMillis() - _startTime >= 150) {
+;BMS.c,741 :: 		case BMS_STATE_WAIT_RESPONSE:
+L_BMS_Update83:
+;BMS.c,743 :: 		if (GetMillis() - _startTime >= 150) {
 	CALL	_GetMillis
 	MOV	#lo_addr(BMS__startTime), W4
 	SUB	W0, [W4++], W2
@@ -1279,76 +1290,76 @@ L_BMS_Update82:
 	MOV	#0, W1
 	CP	W2, W0
 	CPB	W3, W1
-	BRA GEU	L__BMS_Update177
-	GOTO	L_BMS_Update83
-L__BMS_Update177:
-;BMS.c,742 :: 		_bmsData._errorCount++;
+	BRA GEU	L__BMS_Update179
+	GOTO	L_BMS_Update84
+L__BMS_Update179:
+;BMS.c,744 :: 		_bmsData._errorCount++;
 	MOV	__bmsData+196, W0
 	INC	W0
 	MOV	W0, __bmsData+196
-;BMS.c,743 :: 		_bmsData._errorCode = 6;
+;BMS.c,745 :: 		_bmsData._errorCode = 6;
 	MOV	#lo_addr(__bmsData+194), W1
 	MOV.B	#6, W0
 	MOV.B	W0, [W1]
-;BMS.c,744 :: 		_bmsState = BMS_STATE_ERROR;
+;BMS.c,746 :: 		_bmsState = BMS_STATE_ERROR;
 	MOV	#lo_addr(BMS__bmsState), W1
 	MOV.B	#4, W0
 	MOV.B	W0, [W1]
-;BMS.c,745 :: 		} else if (_framesReceived >= _expectedFrames) {
-	GOTO	L_BMS_Update84
-L_BMS_Update83:
+;BMS.c,747 :: 		} else if (_framesReceived >= _expectedFrames) {
+	GOTO	L_BMS_Update85
+L_BMS_Update84:
 	MOV	#lo_addr(BMS__framesReceived), W0
 	MOV.B	[W0], W1
 	MOV	#lo_addr(BMS__expectedFrames), W0
 	CP.B	W1, [W0]
-	BRA GEU	L__BMS_Update178
-	GOTO	L_BMS_Update85
-L__BMS_Update178:
-;BMS.c,746 :: 		_bmsState = BMS_STATE_PROCESS_DATA;
+	BRA GEU	L__BMS_Update180
+	GOTO	L_BMS_Update86
+L__BMS_Update180:
+;BMS.c,748 :: 		_bmsState = BMS_STATE_PROCESS_DATA;
 	MOV	#lo_addr(BMS__bmsState), W1
 	MOV.B	#3, W0
 	MOV.B	W0, [W1]
-;BMS.c,747 :: 		}
+;BMS.c,749 :: 		}
+L_BMS_Update86:
 L_BMS_Update85:
-L_BMS_Update84:
-;BMS.c,748 :: 		return 0; /* Chưa hoàn thành, tiếp tục gọi */
+;BMS.c,750 :: 		return 0; /* Chưa hoàn thành, tiếp tục gọi */
 	CLR	W0
 	GOTO	L_end_BMS_Update
-;BMS.c,750 :: 		case BMS_STATE_PROCESS_DATA:
-L_BMS_Update86:
-;BMS.c,752 :: 		if (_framesReceived > 0) {
+;BMS.c,752 :: 		case BMS_STATE_PROCESS_DATA:
+L_BMS_Update87:
+;BMS.c,754 :: 		if (_framesReceived > 0) {
 	MOV	#lo_addr(BMS__framesReceived), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #0
-	BRA GTU	L__BMS_Update179
-	GOTO	L_BMS_Update87
-L__BMS_Update179:
-;BMS.c,753 :: 		success = 1;
+	BRA GTU	L__BMS_Update181
+	GOTO	L_BMS_Update88
+L__BMS_Update181:
+;BMS.c,755 :: 		success = 1;
 ; success start address is: 4 (W2)
 	MOV.B	#1, W2
-;BMS.c,754 :: 		for (i = 0; i < _framesReceived; i++) {
+;BMS.c,756 :: 		for (i = 0; i < _framesReceived; i++) {
 ; i start address is: 6 (W3)
 	CLR	W3
 ; success end address is: 4 (W2)
 ; i end address is: 6 (W3)
-L_BMS_Update88:
+L_BMS_Update89:
 ; i start address is: 6 (W3)
 ; success start address is: 4 (W2)
 	MOV	#lo_addr(BMS__framesReceived), W0
 	CP.B	W3, [W0]
-	BRA LTU	L__BMS_Update180
-	GOTO	L__BMS_Update121
-L__BMS_Update180:
-;BMS.c,755 :: 		if (BMS_ValidateChecksum(i)) {
+	BRA LTU	L__BMS_Update182
+	GOTO	L__BMS_Update122
+L__BMS_Update182:
+;BMS.c,757 :: 		if (BMS_ValidateChecksum(i)) {
 	PUSH.D	W2
 	MOV.B	W3, W10
 	CALL	_BMS_ValidateChecksum
 	POP.D	W2
 	CP0.B	W0
-	BRA NZ	L__BMS_Update181
-	GOTO	L_BMS_Update91
-L__BMS_Update181:
-;BMS.c,756 :: 		BMS_ProcessData(commands[_currentCommandIndex], i);
+	BRA NZ	L__BMS_Update183
+	GOTO	L_BMS_Update92
+L__BMS_Update183:
+;BMS.c,758 :: 		BMS_ProcessData(commands[_currentCommandIndex], i);
 	MOV	#lo_addr(BMS__currentCommandIndex), W0
 	ZE	[W0], W1
 	MOV	#lo_addr(BMS_commands), W0
@@ -1358,116 +1369,116 @@ L__BMS_Update181:
 	MOV.B	[W0], W10
 	CALL	_BMS_ProcessData
 	POP.D	W2
-;BMS.c,757 :: 		} else {
-	GOTO	L_BMS_Update92
+;BMS.c,759 :: 		} else {
+	GOTO	L_BMS_Update93
 ; success end address is: 4 (W2)
 ; i end address is: 6 (W3)
-L_BMS_Update91:
-;BMS.c,758 :: 		success = 0;
+L_BMS_Update92:
+;BMS.c,760 :: 		success = 0;
 ; success start address is: 0 (W0)
 	CLR	W0
-;BMS.c,759 :: 		break;
+;BMS.c,761 :: 		break;
 	MOV.B	W0, W4
 ; success end address is: 0 (W0)
-	GOTO	L_BMS_Update89
-;BMS.c,760 :: 		}
-L_BMS_Update92:
-;BMS.c,754 :: 		for (i = 0; i < _framesReceived; i++) {
+	GOTO	L_BMS_Update90
+;BMS.c,762 :: 		}
+L_BMS_Update93:
+;BMS.c,756 :: 		for (i = 0; i < _framesReceived; i++) {
 ; i start address is: 6 (W3)
 ; success start address is: 4 (W2)
 	INC.B	W3
-;BMS.c,761 :: 		}
+;BMS.c,763 :: 		}
 ; success end address is: 4 (W2)
 ; i end address is: 6 (W3)
-	GOTO	L_BMS_Update88
-L__BMS_Update121:
-;BMS.c,754 :: 		for (i = 0; i < _framesReceived; i++) {
+	GOTO	L_BMS_Update89
+L__BMS_Update122:
+;BMS.c,756 :: 		for (i = 0; i < _framesReceived; i++) {
 	MOV.B	W2, W4
-;BMS.c,761 :: 		}
-L_BMS_Update89:
-;BMS.c,762 :: 		} else {
+;BMS.c,763 :: 		}
+L_BMS_Update90:
+;BMS.c,764 :: 		} else {
 ; success start address is: 8 (W4)
 ; success end address is: 8 (W4)
-	GOTO	L_BMS_Update93
-L_BMS_Update87:
-;BMS.c,763 :: 		success = 0;
+	GOTO	L_BMS_Update94
+L_BMS_Update88:
+;BMS.c,765 :: 		success = 0;
 ; success start address is: 8 (W4)
 	CLR	W4
 ; success end address is: 8 (W4)
-;BMS.c,764 :: 		}
-L_BMS_Update93:
-;BMS.c,767 :: 		_currentFrameIndex = 0;
+;BMS.c,766 :: 		}
+L_BMS_Update94:
+;BMS.c,769 :: 		_currentFrameIndex = 0;
 ; success start address is: 8 (W4)
 	MOV	#lo_addr(BMS__currentFrameIndex), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,768 :: 		_currentByteIndex = 0;
+;BMS.c,770 :: 		_currentByteIndex = 0;
 	MOV	#lo_addr(BMS__currentByteIndex), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,769 :: 		_frameStarted = 0;
+;BMS.c,771 :: 		_frameStarted = 0;
 	MOV	#lo_addr(BMS__frameStarted), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,770 :: 		_framesReceived = 0;
+;BMS.c,772 :: 		_framesReceived = 0;
 	MOV	#lo_addr(BMS__framesReceived), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,773 :: 		if (!success) {
+;BMS.c,775 :: 		if (!success) {
 	CP0.B	W4
-	BRA Z	L__BMS_Update182
-	GOTO	L_BMS_Update94
-L__BMS_Update182:
-;BMS.c,774 :: 		_errorCounter++;
+	BRA Z	L__BMS_Update184
+	GOTO	L_BMS_Update95
+L__BMS_Update184:
+;BMS.c,776 :: 		_errorCounter++;
 	MOV.B	#1, W1
 	MOV	#lo_addr(BMS__errorCounter), W0
 	ADD.B	W1, [W0], [W0]
-;BMS.c,775 :: 		if (_errorCounter >= 10) {
+;BMS.c,777 :: 		if (_errorCounter >= 10) {
 	MOV	#lo_addr(BMS__errorCounter), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #10
-	BRA GEU	L__BMS_Update183
-	GOTO	L_BMS_Update95
-L__BMS_Update183:
+	BRA GEU	L__BMS_Update185
+	GOTO	L_BMS_Update96
+L__BMS_Update185:
 ; success end address is: 8 (W4)
-;BMS.c,776 :: 		BMS_ClearData();
+;BMS.c,778 :: 		BMS_ClearData();
 	CALL	_BMS_ClearData
-;BMS.c,777 :: 		_currentCommandIndex = 0;
+;BMS.c,779 :: 		_currentCommandIndex = 0;
 	MOV	#lo_addr(BMS__currentCommandIndex), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,778 :: 		_errorCounter = 0;
+;BMS.c,780 :: 		_errorCounter = 0;
 	MOV	#lo_addr(BMS__errorCounter), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,779 :: 		strcpy(_bmsData._chargeDischargeStatus, "offline");
+;BMS.c,781 :: 		strcpy(_bmsData._chargeDischargeStatus, "offline");
 	MOV	#lo_addr(?lstr7_BMS), W11
 	MOV	#lo_addr(__bmsData+222), W10
 	CALL	_strcpy
-;BMS.c,780 :: 		_bmsState = BMS_STATE_IDLE;
+;BMS.c,782 :: 		_bmsState = BMS_STATE_IDLE;
 	MOV	#lo_addr(BMS__bmsState), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,781 :: 		return 0;
+;BMS.c,783 :: 		return 0;
 	CLR	W0
 	GOTO	L_end_BMS_Update
-;BMS.c,782 :: 		}
-L_BMS_Update95:
-;BMS.c,783 :: 		} else {
+;BMS.c,784 :: 		}
+L_BMS_Update96:
+;BMS.c,785 :: 		} else {
 ; success start address is: 8 (W4)
-	GOTO	L_BMS_Update96
-L_BMS_Update94:
-;BMS.c,784 :: 		_errorCounter = 0;
+	GOTO	L_BMS_Update97
+L_BMS_Update95:
+;BMS.c,786 :: 		_errorCounter = 0;
 	MOV	#lo_addr(BMS__errorCounter), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,785 :: 		strcpy(_bmsData._chargeDischargeStatus, "online");
+;BMS.c,787 :: 		strcpy(_bmsData._chargeDischargeStatus, "online");
 	MOV	#lo_addr(?lstr8_BMS), W11
 	MOV	#lo_addr(__bmsData+222), W10
 	CALL	_strcpy
-;BMS.c,786 :: 		}
-L_BMS_Update96:
-;BMS.c,789 :: 		_currentCommandIndex = (_currentCommandIndex + 1) % commandCount;
+;BMS.c,788 :: 		}
+L_BMS_Update97:
+;BMS.c,791 :: 		_currentCommandIndex = (_currentCommandIndex + 1) % commandCount;
 	MOV	#lo_addr(BMS__currentCommandIndex), W0
 	ZE	[W0], W0
 	INC	W0
@@ -1476,87 +1487,87 @@ L_BMS_Update96:
 	DIV.S	W0, W2
 	MOV	#lo_addr(BMS__currentCommandIndex), W0
 	MOV.B	W1, [W0]
-;BMS.c,790 :: 		_bmsState = BMS_STATE_IDLE;
+;BMS.c,792 :: 		_bmsState = BMS_STATE_IDLE;
 	MOV	#lo_addr(BMS__bmsState), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,791 :: 		return success; /* Hoàn thành lệnh hiện tại */
+;BMS.c,793 :: 		return success; /* Hoàn thành lệnh hiện tại */
 	MOV.B	W4, W0
 ; success end address is: 8 (W4)
 	GOTO	L_end_BMS_Update
-;BMS.c,793 :: 		case BMS_STATE_ERROR:
-L_BMS_Update97:
-;BMS.c,794 :: 		_errorCounter++;
+;BMS.c,795 :: 		case BMS_STATE_ERROR:
+L_BMS_Update98:
+;BMS.c,796 :: 		_errorCounter++;
 	MOV.B	#1, W1
 	MOV	#lo_addr(BMS__errorCounter), W0
 	ADD.B	W1, [W0], [W0]
-;BMS.c,795 :: 		if (_errorCounter >= 10) {
+;BMS.c,797 :: 		if (_errorCounter >= 10) {
 	MOV	#lo_addr(BMS__errorCounter), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #10
-	BRA GEU	L__BMS_Update184
-	GOTO	L_BMS_Update98
-L__BMS_Update184:
-;BMS.c,796 :: 		BMS_ClearData();
+	BRA GEU	L__BMS_Update186
+	GOTO	L_BMS_Update99
+L__BMS_Update186:
+;BMS.c,798 :: 		BMS_ClearData();
 	CALL	_BMS_ClearData
-;BMS.c,797 :: 		_currentCommandIndex = 0;
+;BMS.c,799 :: 		_currentCommandIndex = 0;
 	MOV	#lo_addr(BMS__currentCommandIndex), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,798 :: 		_errorCounter = 0;
+;BMS.c,800 :: 		_errorCounter = 0;
 	MOV	#lo_addr(BMS__errorCounter), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,799 :: 		strcpy(_bmsData._chargeDischargeStatus, "offline");
+;BMS.c,801 :: 		strcpy(_bmsData._chargeDischargeStatus, "offline");
 	MOV	#lo_addr(?lstr9_BMS), W11
 	MOV	#lo_addr(__bmsData+222), W10
 	CALL	_strcpy
-;BMS.c,800 :: 		}
-L_BMS_Update98:
-;BMS.c,801 :: 		_bmsState = BMS_STATE_IDLE;
+;BMS.c,802 :: 		}
+L_BMS_Update99:
+;BMS.c,803 :: 		_bmsState = BMS_STATE_IDLE;
 	MOV	#lo_addr(BMS__bmsState), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,802 :: 		return 0; /* Lỗi, tiếp tục gọi */
+;BMS.c,804 :: 		return 0; /* Lỗi, tiếp tục gọi */
 	CLR	W0
 	GOTO	L_end_BMS_Update
-;BMS.c,803 :: 		}
-L_BMS_Update70:
+;BMS.c,805 :: 		}
+L_BMS_Update71:
 	MOV	#lo_addr(BMS__bmsState), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #0
-	BRA NZ	L__BMS_Update185
-	GOTO	L_BMS_Update72
-L__BMS_Update185:
-	MOV	#lo_addr(BMS__bmsState), W0
-	MOV.B	[W0], W0
-	CP.B	W0, #1
-	BRA NZ	L__BMS_Update186
-	GOTO	L_BMS_Update79
-L__BMS_Update186:
-	MOV	#lo_addr(BMS__bmsState), W0
-	MOV.B	[W0], W0
-	CP.B	W0, #2
 	BRA NZ	L__BMS_Update187
-	GOTO	L_BMS_Update82
+	GOTO	L_BMS_Update73
 L__BMS_Update187:
 	MOV	#lo_addr(BMS__bmsState), W0
 	MOV.B	[W0], W0
-	CP.B	W0, #3
+	CP.B	W0, #1
 	BRA NZ	L__BMS_Update188
-	GOTO	L_BMS_Update86
+	GOTO	L_BMS_Update80
 L__BMS_Update188:
 	MOV	#lo_addr(BMS__bmsState), W0
 	MOV.B	[W0], W0
-	CP.B	W0, #4
+	CP.B	W0, #2
 	BRA NZ	L__BMS_Update189
-	GOTO	L_BMS_Update97
+	GOTO	L_BMS_Update83
 L__BMS_Update189:
-;BMS.c,805 :: 		return 0; /* Mặc định: chưa hoàn thành */
+	MOV	#lo_addr(BMS__bmsState), W0
+	MOV.B	[W0], W0
+	CP.B	W0, #3
+	BRA NZ	L__BMS_Update190
+	GOTO	L_BMS_Update87
+L__BMS_Update190:
+	MOV	#lo_addr(BMS__bmsState), W0
+	MOV.B	[W0], W0
+	CP.B	W0, #4
+	BRA NZ	L__BMS_Update191
+	GOTO	L_BMS_Update98
+L__BMS_Update191:
+;BMS.c,807 :: 		return 0; /* Mặc định: chưa hoàn thành */
 	CLR	W0
-;BMS.c,806 :: 		}
-;BMS.c,805 :: 		return 0; /* Mặc định: chưa hoàn thành */
-;BMS.c,806 :: 		}
+;BMS.c,808 :: 		}
+;BMS.c,807 :: 		return 0; /* Mặc định: chưa hoàn thành */
+;BMS.c,808 :: 		}
 L_end_BMS_Update:
 	POP	W11
 	POP	W10
@@ -1572,92 +1583,46 @@ __UART1_Interrupt:
 	REPEAT	#12
 	PUSH	[W0++]
 
-;BMS.c,808 :: 		void _UART1_Interrupt() iv IVT_ADDR_U1RXINTERRUPT ics ICS_AUTO {
-;BMS.c,811 :: 		while (UART1_Data_Ready()) {
-L__UART1_Interrupt99:
+;BMS.c,810 :: 		void _UART1_Interrupt() iv IVT_ADDR_U1RXINTERRUPT ics ICS_AUTO {
+;BMS.c,813 :: 		while (UART1_Data_Ready()) {
+L__UART1_Interrupt100:
 	CALL	_UART1_Data_Ready
 	CP0	W0
-	BRA NZ	L___UART1_Interrupt191
-	GOTO	L__UART1_Interrupt100
-L___UART1_Interrupt191:
-;BMS.c,812 :: 		byte = UART1_Read();
+	BRA NZ	L___UART1_Interrupt193
+	GOTO	L__UART1_Interrupt101
+L___UART1_Interrupt193:
+;BMS.c,814 :: 		byte = UART1_Read();
 	CALL	_UART1_Read
 ; byte start address is: 8 (W4)
 	MOV.B	W0, W4
-;BMS.c,814 :: 		if (!_frameStarted && byte == START_BYTE) {
+;BMS.c,816 :: 		if (!_frameStarted && byte == START_BYTE) {
 	MOV	#lo_addr(BMS__frameStarted), W0
 	CP0.B	[W0]
-	BRA Z	L___UART1_Interrupt192
-	GOTO	L___UART1_Interrupt125
-L___UART1_Interrupt192:
+	BRA Z	L___UART1_Interrupt194
+	GOTO	L___UART1_Interrupt126
+L___UART1_Interrupt194:
 	MOV.B	#165, W0
 	CP.B	W4, W0
-	BRA Z	L___UART1_Interrupt193
-	GOTO	L___UART1_Interrupt124
-L___UART1_Interrupt193:
-L___UART1_Interrupt123:
-;BMS.c,815 :: 		_frameStarted = 1;
+	BRA Z	L___UART1_Interrupt195
+	GOTO	L___UART1_Interrupt125
+L___UART1_Interrupt195:
+L___UART1_Interrupt124:
+;BMS.c,817 :: 		_frameStarted = 1;
 	MOV	#lo_addr(BMS__frameStarted), W1
 	MOV.B	#1, W0
 	MOV.B	W0, [W1]
-;BMS.c,816 :: 		_currentByteIndex = 0;
+;BMS.c,818 :: 		_currentByteIndex = 0;
 	MOV	#lo_addr(BMS__currentByteIndex), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,817 :: 		if (_currentFrameIndex < _RX_FRAME_COUNT) {
-	MOV	#lo_addr(BMS__currentFrameIndex), W0
-	MOV.B	[W0], W0
-	CP.B	W0, #10
-	BRA LTU	L___UART1_Interrupt194
-	GOTO	L__UART1_Interrupt104
-L___UART1_Interrupt194:
-;BMS.c,818 :: 		_rxFrameBuffer[_currentFrameIndex][_currentByteIndex] = byte;
-	MOV	#lo_addr(BMS__currentFrameIndex), W0
-	ZE	[W0], W1
-	MOV	#13, W0
-	MUL.UU	W0, W1, W2
-	MOV	#lo_addr(__rxFrameBuffer), W0
-	ADD	W0, W2, W1
-	MOV	#lo_addr(BMS__currentByteIndex), W0
-	ZE	[W0], W0
-	ADD	W1, W0, W0
-	MOV.B	W4, [W0]
-; byte end address is: 8 (W4)
-;BMS.c,819 :: 		_currentByteIndex++;
-	MOV	#lo_addr(BMS__currentByteIndex), W0
-	MOV.B	[W0], W0
-	ADD.B	W0, #1, W1
-	MOV	#lo_addr(BMS__currentByteIndex), W0
-	MOV.B	W1, [W0]
-;BMS.c,820 :: 		}
-L__UART1_Interrupt104:
-;BMS.c,821 :: 		} else if (_frameStarted) {
-	GOTO	L__UART1_Interrupt105
-;BMS.c,814 :: 		if (!_frameStarted && byte == START_BYTE) {
-L___UART1_Interrupt125:
-; byte start address is: 8 (W4)
-L___UART1_Interrupt124:
-;BMS.c,821 :: 		} else if (_frameStarted) {
-	MOV	#lo_addr(BMS__frameStarted), W0
-	CP0.B	[W0]
-	BRA NZ	L___UART1_Interrupt195
-	GOTO	L__UART1_Interrupt106
-L___UART1_Interrupt195:
-;BMS.c,822 :: 		if (_currentFrameIndex < _RX_FRAME_COUNT && _currentByteIndex < _RX_FRAME_SIZE) {
+;BMS.c,819 :: 		if (_currentFrameIndex < _RX_FRAME_COUNT) {
 	MOV	#lo_addr(BMS__currentFrameIndex), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #10
 	BRA LTU	L___UART1_Interrupt196
-	GOTO	L___UART1_Interrupt127
+	GOTO	L__UART1_Interrupt105
 L___UART1_Interrupt196:
-	MOV	#lo_addr(BMS__currentByteIndex), W0
-	MOV.B	[W0], W0
-	CP.B	W0, #13
-	BRA LTU	L___UART1_Interrupt197
-	GOTO	L___UART1_Interrupt126
-L___UART1_Interrupt197:
-L___UART1_Interrupt122:
-;BMS.c,823 :: 		_rxFrameBuffer[_currentFrameIndex][_currentByteIndex] = byte;
+;BMS.c,820 :: 		_rxFrameBuffer[_currentFrameIndex][_currentByteIndex] = byte;
 	MOV	#lo_addr(BMS__currentFrameIndex), W0
 	ZE	[W0], W1
 	MOV	#13, W0
@@ -1669,65 +1634,111 @@ L___UART1_Interrupt122:
 	ADD	W1, W0, W0
 	MOV.B	W4, [W0]
 ; byte end address is: 8 (W4)
-;BMS.c,824 :: 		_currentByteIndex++;
+;BMS.c,821 :: 		_currentByteIndex++;
 	MOV	#lo_addr(BMS__currentByteIndex), W0
 	MOV.B	[W0], W0
 	ADD.B	W0, #1, W1
 	MOV	#lo_addr(BMS__currentByteIndex), W0
 	MOV.B	W1, [W0]
-;BMS.c,826 :: 		if (_currentByteIndex >= _RX_FRAME_SIZE) {
+;BMS.c,822 :: 		}
+L__UART1_Interrupt105:
+;BMS.c,823 :: 		} else if (_frameStarted) {
+	GOTO	L__UART1_Interrupt106
+;BMS.c,816 :: 		if (!_frameStarted && byte == START_BYTE) {
+L___UART1_Interrupt126:
+; byte start address is: 8 (W4)
+L___UART1_Interrupt125:
+;BMS.c,823 :: 		} else if (_frameStarted) {
+	MOV	#lo_addr(BMS__frameStarted), W0
+	CP0.B	[W0]
+	BRA NZ	L___UART1_Interrupt197
+	GOTO	L__UART1_Interrupt107
+L___UART1_Interrupt197:
+;BMS.c,824 :: 		if (_currentFrameIndex < _RX_FRAME_COUNT && _currentByteIndex < _RX_FRAME_SIZE) {
+	MOV	#lo_addr(BMS__currentFrameIndex), W0
+	MOV.B	[W0], W0
+	CP.B	W0, #10
+	BRA LTU	L___UART1_Interrupt198
+	GOTO	L___UART1_Interrupt128
+L___UART1_Interrupt198:
 	MOV	#lo_addr(BMS__currentByteIndex), W0
 	MOV.B	[W0], W0
 	CP.B	W0, #13
-	BRA GEU	L___UART1_Interrupt198
-	GOTO	L__UART1_Interrupt110
-L___UART1_Interrupt198:
-;BMS.c,827 :: 		_framesReceived++;
-	MOV	#lo_addr(BMS__framesReceived), W0
+	BRA LTU	L___UART1_Interrupt199
+	GOTO	L___UART1_Interrupt127
+L___UART1_Interrupt199:
+L___UART1_Interrupt123:
+;BMS.c,825 :: 		_rxFrameBuffer[_currentFrameIndex][_currentByteIndex] = byte;
+	MOV	#lo_addr(BMS__currentFrameIndex), W0
+	ZE	[W0], W1
+	MOV	#13, W0
+	MUL.UU	W0, W1, W2
+	MOV	#lo_addr(__rxFrameBuffer), W0
+	ADD	W0, W2, W1
+	MOV	#lo_addr(BMS__currentByteIndex), W0
+	ZE	[W0], W0
+	ADD	W1, W0, W0
+	MOV.B	W4, [W0]
+; byte end address is: 8 (W4)
+;BMS.c,826 :: 		_currentByteIndex++;
+	MOV	#lo_addr(BMS__currentByteIndex), W0
 	MOV.B	[W0], W0
 	ADD.B	W0, #1, W1
-	MOV	#lo_addr(BMS__framesReceived), W0
+	MOV	#lo_addr(BMS__currentByteIndex), W0
 	MOV.B	W1, [W0]
-;BMS.c,828 :: 		_currentFrameIndex++;
-	MOV	#lo_addr(BMS__currentFrameIndex), W0
+;BMS.c,828 :: 		if (_currentByteIndex >= _RX_FRAME_SIZE) {
+	MOV	#lo_addr(BMS__currentByteIndex), W0
 	MOV.B	[W0], W0
-	ADD.B	W0, #1, W1
-	MOV	#lo_addr(BMS__currentFrameIndex), W0
-	MOV.B	W1, [W0]
-;BMS.c,829 :: 		_frameStarted = 0;
-	MOV	#lo_addr(BMS__frameStarted), W1
-	CLR	W0
-	MOV.B	W0, [W1]
-;BMS.c,830 :: 		}
-L__UART1_Interrupt110:
-;BMS.c,831 :: 		} else {
+	CP.B	W0, #13
+	BRA GEU	L___UART1_Interrupt200
 	GOTO	L__UART1_Interrupt111
-;BMS.c,822 :: 		if (_currentFrameIndex < _RX_FRAME_COUNT && _currentByteIndex < _RX_FRAME_SIZE) {
-L___UART1_Interrupt127:
-L___UART1_Interrupt126:
-;BMS.c,832 :: 		_frameStarted = 0;
+L___UART1_Interrupt200:
+;BMS.c,829 :: 		_framesReceived++;
+	MOV	#lo_addr(BMS__framesReceived), W0
+	MOV.B	[W0], W0
+	ADD.B	W0, #1, W1
+	MOV	#lo_addr(BMS__framesReceived), W0
+	MOV.B	W1, [W0]
+;BMS.c,830 :: 		_currentFrameIndex++;
+	MOV	#lo_addr(BMS__currentFrameIndex), W0
+	MOV.B	[W0], W0
+	ADD.B	W0, #1, W1
+	MOV	#lo_addr(BMS__currentFrameIndex), W0
+	MOV.B	W1, [W0]
+;BMS.c,831 :: 		_frameStarted = 0;
 	MOV	#lo_addr(BMS__frameStarted), W1
 	CLR	W0
 	MOV.B	W0, [W1]
-;BMS.c,833 :: 		_bmsData._errorCount++;
+;BMS.c,832 :: 		}
+L__UART1_Interrupt111:
+;BMS.c,833 :: 		} else {
+	GOTO	L__UART1_Interrupt112
+;BMS.c,824 :: 		if (_currentFrameIndex < _RX_FRAME_COUNT && _currentByteIndex < _RX_FRAME_SIZE) {
+L___UART1_Interrupt128:
+L___UART1_Interrupt127:
+;BMS.c,834 :: 		_frameStarted = 0;
+	MOV	#lo_addr(BMS__frameStarted), W1
+	CLR	W0
+	MOV.B	W0, [W1]
+;BMS.c,835 :: 		_bmsData._errorCount++;
 	MOV	__bmsData+196, W0
 	INC	W0
 	MOV	W0, __bmsData+196
-;BMS.c,834 :: 		_bmsData._errorCode = 7;
+;BMS.c,836 :: 		_bmsData._errorCode = 7;
 	MOV	#lo_addr(__bmsData+194), W1
 	MOV.B	#7, W0
 	MOV.B	W0, [W1]
-;BMS.c,835 :: 		}
-L__UART1_Interrupt111:
-;BMS.c,836 :: 		}
-L__UART1_Interrupt106:
-L__UART1_Interrupt105:
 ;BMS.c,837 :: 		}
-	GOTO	L__UART1_Interrupt99
-L__UART1_Interrupt100:
-;BMS.c,839 :: 		IFS0bits.U1RXIF = 0;
+L__UART1_Interrupt112:
+;BMS.c,838 :: 		}
+L__UART1_Interrupt107:
+L__UART1_Interrupt106:
+;BMS.c,839 :: 		}
+	GOTO	L__UART1_Interrupt100
+L__UART1_Interrupt101:
+;BMS.c,841 :: 		IFS0bits.U1RXIF = 0;
 	BCLR	IFS0bits, #11
-;BMS.c,840 :: 		}
+;BMS.c,842 :: 		}
 L_end__UART1_Interrupt:
 	MOV	#26, W0
 	REPEAT	#12

@@ -451,6 +451,8 @@ uint8_t BMS_Update(void) {
  uint8_t success;
 
 
+ if (_bmsData._errorCount > 200)
+ _bmsData._errorCount = 1;
  success = 0;
  for (i = 0; i < 8; i++) {
  payload[i] = 0;

@@ -689,26 +689,13 @@ void _F_timer1_init(void) {
  IFS0bits.T1IF = 0;
  IEC0bits.T1IE = 1;
 }
-#line 45 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
-void _F_timer2_init(void) {
- T2CON = 0x8030;
- PR2 = 6200;
- TMR2 = 0;
- IPC1bits.T2IP = 3;
- IFS0bits.T2IF = 0;
- IEC0bits.T2IE = 1;
-}
 #line 57 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void __attribute__() iv IVT_ADDR_T1INTERRUPT ics ICS_AUTO {
  task_scheduler_clock();
+ _millis++;
  IFS0bits.T1IF = 0;
 }
-
-void __attribute2__() iv IVT_ADDR_T2INTERRUPT ics ICS_AUTO {
- _millis++;
- IFS0bits.T2IF = 0;
-}
-#line 72 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 73 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void _F_process_uart_command(void) {
  char _command[ 180 ];
  uint8_t _command_available;
@@ -758,7 +745,7 @@ void _F_process_uart_command(void) {
  BMS_Update();
 
 }
-#line 126 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 127 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void _F_update_system_status(void) {
 
 
@@ -767,7 +754,7 @@ void _F_update_system_status(void) {
 
 
 }
-#line 138 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 139 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void _SC_update_motor(void) {
 
  if(motorDC._direction == 0)
@@ -789,7 +776,7 @@ void _SC_update_motor(void) {
  {
 
  _Lifter_Update(&lifter);
-#line 165 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 166 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
  }
 
  if (lifter._currentPosition <= 25 || Lms_isPressed()){
@@ -803,7 +790,7 @@ void _SC_update_motor(void) {
  LATB4_bit = 0;
  LATA8_bit = 0;
  }
-#line 184 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 185 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 }
 
 
@@ -853,11 +840,11 @@ void _F_update_to_server(void){
  }
 
 }
-#line 239 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
+#line 240 "C:/Users/ASUS/Desktop/RAYBOT/SOURCE/raybot_firmware/[03-07-2025]-OP2-(fix-LMS)/schedule_task.c"
 void _F_schedule_init(void) {
  DebugUART_Send_Text("Initializing Task Scheduler...\n");
  _F_timer1_init();
- _F_timer2_init();
+
  task_scheduler_init(1000);
  _task_uart = task_add(_F_process_uart_command, 50);
  _task_update_to_server = task_add(_F_update_to_server, 950);

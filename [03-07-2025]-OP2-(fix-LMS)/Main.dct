@@ -1,6 +1,5 @@
 __addtofarpointer
 __attribute__
-__attribute2__
 __cfar2far
 __cfar2fars
 __cfar2farswz
@@ -60,7 +59,6 @@ _errorcount
 _f_process_uart_command
 _f_schedule_init
 _f_timer1_init
-_f_timer2_init
 _f_update_system_status
 _f_update_to_server
 _float2longint

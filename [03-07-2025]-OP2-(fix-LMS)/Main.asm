@@ -138,9 +138,9 @@ _main:
 	CALL	__UART2_Init
 ;Main.c,71 :: 		DebugUART_Init();
 	CALL	_DebugUART_Init
-;Main.c,72 :: 		_MotorDC_Init(&motorDC, 2.5, 0.5, 1.0, 0);
+;Main.c,72 :: 		_MotorDC_Init(&motorDC, 2.0, 0.5, 1.0, 0);
 	MOV	#0, W11
-	MOV	#16416, W12
+	MOV	#16384, W12
 	MOV	#lo_addr(_motorDC), W10
 	CLR	W0
 	CLR	W1

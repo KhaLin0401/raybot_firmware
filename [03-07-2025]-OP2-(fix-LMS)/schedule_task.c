@@ -42,27 +42,28 @@ void _F_timer1_init(void) {
 /**
  * @brief Khởi tạo Timer2 cho GetMillis (tick 1ms)
  */
-void _F_timer2_init(void) {
-    T2CON = 0x8030;
-    PR2 = 6200;
-    TMR2 = 0;
-    IPC1bits.T2IP = 3; // Priority thấp hơn UART
-    IFS0bits.T2IF = 0;
-    IEC0bits.T2IE = 1;
-}
+// void _F_timer3_init(void) {
+//     T3CON = 0x8030;
+//     PR3 = 6200;
+//     TMR3 = 0;
+//     IPC1bits.T3IP = 3; // Priority thấp hơn UART
+//     IFS0bits.T3IF = 0;
+//     IEC0bits.T3IE = 1;
+// }
 
 /**
  * @brief ISR Timer1: chỉ gọi scheduler
  */
 void __attribute__() iv IVT_ADDR_T1INTERRUPT ics ICS_AUTO {
     task_scheduler_clock();
+    _millis++;
     IFS0bits.T1IF = 0;
 }
 
-void __attribute2__() iv IVT_ADDR_T2INTERRUPT ics ICS_AUTO {
-    _millis++;
-    IFS0bits.T2IF = 0;
-}
+// void __attribute2__() iv IVT_ADDR_T2INTERRUPT ics ICS_AUTO {
+//     _millis++;
+//     IFS0bits.T3IF = 0;
+// }
 
 /**
  * @brief Task x? l? l?nh UART t? h?ng d?i (kh?ng blocking).
@@ -239,7 +240,7 @@ void _F_update_to_server(void){
 void _F_schedule_init(void) {
     DebugUART_Send_Text("Initializing Task Scheduler...\n");
     _F_timer1_init();
-    _F_timer2_init();
+    //_F_timer2_init();
     task_scheduler_init(1000);
     _task_uart = task_add(_F_process_uart_command, 50);
     _task_update_to_server = task_add(_F_update_to_server, 950);
